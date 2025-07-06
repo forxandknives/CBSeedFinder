@@ -18,4 +18,6 @@ __device__ static uint32_t MapTemp[MapWidth+1][MapHeight+1];
 
 const static uint32_t ZONEAMOUNT = 3;
 
+__device__ char* MapRoom[ROOM4 + 1][180] = { "" };
+
 #endif
