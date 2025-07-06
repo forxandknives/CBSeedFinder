@@ -14,12 +14,13 @@ __device__ inline bool SetRoom(char* room_name, uint32_t room_type, uint32_t pos
 	uint32_t looped = false; 
 	uint32_t can_place = true;
 
-	while (MapRoom[room_type][pos] != "") {
+	while (MapRoom[room_type][pos] != '\0') {
 		pos++;
 		if (pos > max_pos) {
-			looped = false;
-			pos = min_pos + 1;
-			looped = true;
+			if (!looped) {
+				pos = min_pos + 1;
+				looped = true;
+			}
 		}
 		else {
 			can_place = false;

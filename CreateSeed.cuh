@@ -13,11 +13,15 @@ __device__ inline void InitNewGame(bbRandom bb, rnd_state rnd_state);
 __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state);
 
 __device__ inline void InitNewGame(bbRandom bb, rnd_state rnd_state) {
+	/*float tempFloat = bb.bbRnd(rnd_state, 0, 100);
+	printf("tempFloat: %f\n", tempFloat);
 	//4 Rand(1,9) for the access code
 	for (uint8_t i = 0; i < 4; i++) {
-		bb.bbRand(&rnd_state, 1, 9);
+		bb.bbRand(rnd_state, 1, 9);
 	}
-
+	tempFloat = bb.bbRnd(rnd_state, 0, 100);
+	printf("tempFloat: %f\n", tempFloat);
+	*/
 	CreateMap(bb, rnd_state);
 }
 
@@ -34,9 +38,15 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	x = floorf(MapWidth / 2);
 	y = MapHeight - 2;
 
-	for (i = y; i <= MapHeight; i++) {
+	for (i = y; i <= MapHeight - 1; i++) {
 		MapTemp[x][i] = true;
 	}
+
+	float tempFloat = bb.bbRnd(&rnd_state, 0, 100);
+	printf("tempFloat: %f\n", tempFloat);
+
+	uint32_t tempheight;
+	uint32_t yhallways;
 
 	do {
 		width = bb.bbRand(&rnd_state, 10, 15);
@@ -66,7 +76,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 			height = y - 1;
 		}
 
-		uint32_t yhallways = bb.bbRand(&rnd_state, 4, 5);
+		yhallways = bb.bbRand(&rnd_state, 4, 5);
 
 		if (GetZone(y - height) != GetZone(y - height + 1)) {
 			height = height + 1;
@@ -75,10 +85,8 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 		for (i = 1; i <= yhallways; i++) {
 			x2 = max(min(bb.bbRand(&rnd_state, x, x + width - 1), MapWidth - 2), 2);
 			while (MapTemp[x2][y - 1] || MapTemp[x2 - 1][y - 1] || MapTemp[x2 + 1][y - 1]) {
-				x2 += 1;
-			}
-
-			uint32_t tempheight;
+				x2++;
+			}			
 
 			if (x2 < x + width) {
 				if (i == 1) {
@@ -111,7 +119,10 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 		x = temp;
 		y = y - height;
 
-	} while (y < 2);
+	} while (y >= 2);
+
+	tempFloat = bb.bbRnd(&rnd_state, 0, 100);
+	printf("tempFloat: %f\n", tempFloat);
 
 	uint32_t ZoneAmount = 3;
 	uint32_t Room1Amount[3] = { 0 };
@@ -361,6 +372,9 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	min_pos = 1;
 	max_pos = Room2Amount[0] - 1;
 
+	tempFloat = bb.bbRnd(&rnd_state, 0, 100);
+	printf("tempFloat here: %f\n", tempFloat);
+
 	MapRoom[ROOM2][0] = "room2closets\0";
 	SetRoom("room2testroom2", ROOM2, floorf(0.1 * float(Room2Amount[0])), min_pos, max_pos);
 	SetRoom("room2scps", ROOM2, floorf(0.2 * float(Room2Amount[0])), min_pos, max_pos);
@@ -382,7 +396,39 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	MapRoom[ROOM4][tempIndex] = "room4info";
 
 	//zone 2 --------------------------------------------------------------------------------------
+	
+	min_pos = Room1Amount[0];
+	max_pos = Room1Amount[0] + Room1Amount[1] - 1;
+
+	SetRoom("room079", ROOM1, Room1Amount[0] + floorf(0.15 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom("room106", ROOM1, Room1Amount[0] + floorf(0.3 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom("008", ROOM1, Room1Amount[0] + floorf(0.4 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom("room035", ROOM1, Room1Amount[0] + floorf(0.5 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom("coffin", ROOM1, Room1Amount[0] + floorf(0.7 * float(Room1Amount[1])), min_pos, max_pos);
+
+	min_pos = Room2Amount[0];
+	max_pos = Room2Amount[0] + Room2Amount[1] - 1;
 
 
+	tempIndex = Room2Amount[0] + floorf(0.1 * float(Room2Amount[1]));
+	MapRoom[ROOM2][tempIndex] = "room2nuke";
+	SetRoom("room2tunnel", ROOM2, Room2Amount[0] + floorf(0.25 * float(Room2Amount[1])), min_pos, max_pos);
+	SetRoom("room049", ROOM2, Room2Amount[0] + floorf(0.4 * float(Room2Amount[1])), min_pos, max_pos);
+	SetRoom("room2shaft", ROOM2, Room2Amount[0] + floorf(0.6 * float(Room2Amount[1])), min_pos, max_pos);
+	SetRoom("testroom", ROOM2, Room2Amount[0] + floorf(0.7 * float(Room2Amount[1])), min_pos, max_pos);
+	SetRoom("room2servers", ROOM2, Room2Amount[0] + floorf(0.9 * Room2Amount[1]), min_pos, max_pos);
+
+	tempIndex = Room3Amount[0] + floorf(0.3 * float(Room3Amount[1]));
+	MapRoom[ROOM3][tempIndex] = "room513";
+	tempIndex = Room3Amount[0] + floorf(0.6 * float(Room3Amount[1]));
+	MapRoom[ROOM3][tempIndex] = "room966";
+
+	tempIndex = Room2CAmount[0] + floorf(0.5 * float(Room2CAmount[1]));
+	MapRoom[ROOM2C][tempIndex] = "room2cpit";
+	tempIndex = Room2CAmount[0] + floorf(0.5 * float(Room2CAmount[1]));
+	MapRoom[ROOM2C][tempIndex] = "room2cpit";
+
+	tempFloat = bb.bbRnd(&rnd_state, 0, 100);
+	printf("tempFloat: %f\n", tempFloat);
 }
 #endif

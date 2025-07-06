@@ -33,7 +33,7 @@ int main()
         exit(1);
     }
 
-    testFunction <<<1, arraySize>>> (cudaOutput);
+    testFunction <<<1, 1>>> (cudaOutput);
 
     c = cudaGetLastError();
     if (c != cudaSuccess) {
@@ -65,12 +65,12 @@ __global__ void testFunction(int* outputArray) {
     //god help me
     rnd_state rnd_state;    
     bbRandom bb = bbRandom();
-    bb.bbSeedRnd(&rnd_state, threadNumber);
-
-    //printf("thread: %d rnd_state: %d\n", threadNumber, bb.bbRndSeed());
+    bb.bbSeedRnd(&rnd_state, 100);    
 
     int a = threadNumber;
     
+    printf("rnd: %f\n", bb.bbRnd(&rnd_state, 0, 100));
+
     InitNewGame(bb, rnd_state);
 
     outputArray[threadNumber] = a;
