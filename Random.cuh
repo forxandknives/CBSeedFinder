@@ -1,0 +1,52 @@
+
+#ifndef RANDOM_CUH
+#define RANDOM_CUH
+
+#include "cuda_runtime.h"
+#include "stdio.h"
+
+typedef struct rnd_state rnd_state;
+static struct rnd_state {
+	int rnd_state;
+};
+
+class bbRandom {
+
+public:	
+	static const int RND_A = 48271;
+	static const int RND_M = 2147483647;
+	static const int RND_Q = 44488;
+	static const int RND_R = 3399;
+
+	__host__ __device__ bbRandom() { }
+
+	__device__ static inline float rnd(rnd_state* rnd_state) {
+		rnd_state->rnd_state = RND_A * (rnd_state->rnd_state % RND_Q) - RND_R * (rnd_state->rnd_state / RND_Q);
+		if (rnd_state->rnd_state < 0) rnd_state->rnd_state += RND_M;
+		return (rnd_state->rnd_state & 65535) / 65536.0f + (.5f / 65536.0f);
+	}
+
+	__device__ inline float bbRnd(rnd_state* rnd_state, int from, int to) {
+		return rnd(rnd_state) * (to - from) + from;
+	}
+
+	__device__ inline int bbRand(rnd_state* rnd_state, int from, int to) {
+		if (to < from) {
+			int temp = to;
+			from = to;
+			to = temp;
+		}
+
+		return int(rnd(rnd_state) * (to - from + 1)) + from;
+	}
+
+	__device__ inline void bbSeedRnd(rnd_state* rnd_state, int seed) {
+		if (seed <= 0) {
+			rnd_state->rnd_state = 1;
+		} else {
+			rnd_state->rnd_state = seed;
+		}
+	}
+};
+
+#endif
