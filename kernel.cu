@@ -1,4 +1,6 @@
 ﻿#include "Random.cuh"
+#include "CreateSeed.cuh"
+
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include "float.h"
@@ -21,7 +23,7 @@ int main()
 
     //_control87();
 
-    const int arraySize = 20;    
+    const int arraySize = 5;    
     int* cudaOutput = 0;
     int* output = (int*)malloc(sizeof(int) * arraySize);   
 
@@ -31,7 +33,7 @@ int main()
         exit(1);
     }
 
-    testFunction << < 1, arraySize >> > (cudaOutput);
+    testFunction <<<1, arraySize>>> (cudaOutput);
 
     c = cudaGetLastError();
     if (c != cudaSuccess) {
@@ -67,8 +69,10 @@ __global__ void testFunction(int* outputArray) {
 
     //printf("thread: %d rnd_state: %d\n", threadNumber, bb.bbRndSeed());
 
-    int a = bb.bbRand(&rnd_state, 0, 100);      
+    int a = threadNumber;
     
+    InitNewGame(bb, rnd_state);
+
     outputArray[threadNumber] = a;
 }
 __device__ void dummy() {};
