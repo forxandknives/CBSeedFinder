@@ -26,35 +26,32 @@ __device__ inline void InitNewGame(bbRandom bb, rnd_state rnd_state) {
 }
 
 __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
-	uint32_t x, y, temp;
-	uint32_t i, x2, y2;
-	uint32_t width, height;
+	int32_t x, y, temp;
+	int32_t i, x2, y2;
+	int32_t width, height;
 
-	uint32_t zone;
+	int32_t zone;
 	
 	char* MapName[MapWidth][MapHeight];	
-	uint32_t MapRoomID[ROOM4 + 1] = { 0 };
+	int32_t MapRoomID[ROOM4 + 1] = { 0 };
 	
-	x = floorf(MapWidth / 2);
+	x = floorf(float(MapWidth / 2));
 	y = MapHeight - 2;
 
 	for (i = y; i <= MapHeight - 1; i++) {
 		MapTemp[x][i] = true;
 	}
 
-	float tempFloat = bb.bbRnd(&rnd_state, 0, 100);
-	printf("tempFloat: %f\n", tempFloat);
+	int32_t tempheight;
+	int32_t yhallways;	
 
-	uint32_t tempheight;
-	uint32_t yhallways;
-
-	do {
+	do {		
 		width = bb.bbRand(&rnd_state, 10, 15);
 
-		if (x > MapWidth * 0.6) {
+		if ((float)x > float(MapWidth * 0.6)) {
 			width = -width;
 		}
-		else if (x > MapWidth * 0.4) {
+		else if ((float)x > float(MapWidth * 0.4)) {
 			x = x - (width / 2);
 		}
 		if (x + width > MapWidth - 3) {
@@ -79,7 +76,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 		yhallways = bb.bbRand(&rnd_state, 4, 5);
 
 		if (GetZone(y - height) != GetZone(y - height + 1)) {
-			height = height + 1;
+			height = height - 1;
 		}
 
 		for (i = 1; i <= yhallways; i++) {
@@ -121,15 +118,12 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 
 	} while (y >= 2);
 
-	tempFloat = bb.bbRnd(&rnd_state, 0, 100);
-	printf("tempFloat: %f\n", tempFloat);
-
-	uint32_t ZoneAmount = 3;
-	uint32_t Room1Amount[3] = { 0 };
-	uint32_t Room2Amount[3] = { 0 };
-	uint32_t Room2CAmount[3] = { 0 };
-	uint32_t Room3Amount[3] = { 0 };
-	uint32_t Room4Amount[3] = { 0 };
+	int32_t ZoneAmount = 3;
+	int32_t Room1Amount[3] = { 0 };
+	int32_t Room2Amount[3] = { 0 };
+	int32_t Room2CAmount[3] = { 0 };
+	int32_t Room3Amount[3] = { 0 };
+	int32_t Room4Amount[3] = { 0 };
 
 	//count the amount of rooms
 	//might be problems with adding 1 to end number
@@ -372,9 +366,6 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	min_pos = 1;
 	max_pos = Room2Amount[0] - 1;
 
-	tempFloat = bb.bbRnd(&rnd_state, 0, 100);
-	printf("tempFloat here: %f\n", tempFloat);
-
 	MapRoom[ROOM2][0] = "room2closets\0";
 	SetRoom("room2testroom2", ROOM2, floorf(0.1 * float(Room2Amount[0])), min_pos, max_pos);
 	SetRoom("room2scps", ROOM2, floorf(0.2 * float(Room2Amount[0])), min_pos, max_pos);
@@ -428,7 +419,5 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	tempIndex = Room2CAmount[0] + floorf(0.5 * float(Room2CAmount[1]));
 	MapRoom[ROOM2C][tempIndex] = "room2cpit";
 
-	tempFloat = bb.bbRnd(&rnd_state, 0, 100);
-	printf("tempFloat: %f\n", tempFloat);
 }
 #endif

@@ -7,16 +7,16 @@
 
 typedef struct rnd_state rnd_state;
 static struct rnd_state {
-	int rnd_state;
+	int32_t rnd_state;
 };
 
 class bbRandom {
 
 public:	
-	static const int RND_A = 48271;
-	static const int RND_M = 2147483647;
-	static const int RND_Q = 44488;
-	static const int RND_R = 3399;
+	static const int32_t RND_A = 48271;
+	static const int32_t RND_M = 2147483647;
+	static const int32_t RND_Q = 44488;
+	static const int32_t RND_R = 3399;
 
 	__host__ __device__ bbRandom() { }
 
