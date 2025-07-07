@@ -31,10 +31,10 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	int32_t width, height;
 
 	int32_t zone;
-	
-	char* MapName[MapWidth][MapHeight];	
+
+	char* MapName[MapWidth][MapHeight];
 	int32_t MapRoomID[ROOM4 + 1] = { 0 };
-	
+
 	x = floorf(float(MapWidth / 2));
 	y = MapHeight - 2;
 
@@ -43,9 +43,9 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	}
 
 	int32_t tempheight;
-	int32_t yhallways;	
+	int32_t yhallways;
 
-	do {		
+	do {
 		width = bb.bbRand(&rnd_state, 10, 15);
 
 		if ((float)x > float(MapWidth * 0.6)) {
@@ -83,7 +83,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 			x2 = max(min(bb.bbRand(&rnd_state, x, x + width - 1), MapWidth - 2), 2);
 			while (MapTemp[x2][y - 1] || MapTemp[x2 - 1][y - 1] || MapTemp[x2 + 1][y - 1]) {
 				x2++;
-			}			
+			}
 
 			if (x2 < x + width) {
 				if (i == 1) {
@@ -164,7 +164,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 		if (temp > 0) {
 			for (y = (MapHeight / ZoneAmount) * (2 - i) + 1; y <= ((MapHeight / ZoneAmount) * ((2 - 1) + 1.0)) - 2; y++) {
 				for (x = 2; x <= MapWidth - 2; x++) {
-					if (MapTemp[x][y] = 0) {
+					if (MapTemp[x][y] == 0) {
 						if (min(MapTemp[x + 1][y], 1) + min(MapTemp[x - 1][y], 1) + min(MapTemp[x][y + 1], 1) + min(MapTemp[x][y - 1], 1) == 1) {
 							if (MapTemp[x + 1][y]) {
 								x2 = x;
@@ -173,8 +173,8 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 							else if (MapTemp[x - 1][y]) {
 								x2 = x - 1;
 								y2 = y;
-							} 
-							else if (MapTemp[x][y+1]) {
+							}
+							else if (MapTemp[x][y + 1]) {
 								x2 = 2;
 								y2 = y + 1;
 							}
@@ -182,7 +182,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 								x2 = x;
 								y2 = y - 1;
 							}
-							uint32_t placed = false;
+							int32_t placed = false;
 							if (MapTemp[x2][y2] > 1 && MapTemp[x2][y2] < 4) {
 								switch (MapTemp[x2][y2]) {
 								case 2:
@@ -217,7 +217,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 		}
 	}
 
-	uint32_t temp2;
+	int32_t temp2;
 
 	//force more room4s and room2cs
 	for (i = 0; i <= 2; i++) {
@@ -340,7 +340,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 		}
 	}
 
-	uint32_t MaxRooms = 55 * MapWidth / 20;
+	int32_t MaxRooms = 55 * MapWidth / 20;
 	MaxRooms = max(MaxRooms, Room1Amount[0] + Room1Amount[1] + Room1Amount[2] + 1);
 	MaxRooms = max(MaxRooms, Room2Amount[0] + Room2Amount[1] + Room2Amount[2] + 1);
 	MaxRooms = max(MaxRooms, Room2CAmount[0] + Room2CAmount[1] + Room2CAmount[2] + 1);
@@ -352,8 +352,8 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	//char* MapRoom[ROOM4 + 1][180] = { "" };
 
 	//zone 1 --------------------------------------------------------------------------------------
-	uint32_t min_pos = 1;
-	uint32_t max_pos = Room1Amount[0] - 1;
+	int32_t min_pos = 1;
+	int32_t max_pos = Room1Amount[0] - 1;
 
 	MapRoom[ROOM1][0] = "start\0";
 	SetRoom("roompj", ROOM1, floorf(0.1 * float(Room1Amount[0])), min_pos, max_pos);
@@ -377,7 +377,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	SetRoom("room1123", ROOM2, floorf(0.7 * float(Room2Amount[0])), min_pos, max_pos);
 	SetRoom("room2elevator", ROOM2, floorf(0.85 * float(Room2Amount[0])), min_pos, max_pos);
 
-	uint32_t tempIndex = floorf(bb.bbRnd(&rnd_state, 0.2, 0.8) * float(Room3Amount[0]));
+	int32_t tempIndex = floorf(bb.bbRnd(&rnd_state, 0.2, 0.8) * float(Room3Amount[0]));
 	MapRoom[ROOM3][tempIndex] = "room3storage";
 
 	tempIndex = floorf(0.5 * float(Room2CAmount[0]));
@@ -387,7 +387,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	MapRoom[ROOM4][tempIndex] = "room4info";
 
 	//zone 2 --------------------------------------------------------------------------------------
-	
+
 	min_pos = Room1Amount[0];
 	max_pos = Room1Amount[0] + Room1Amount[1] - 1;
 
@@ -418,6 +418,222 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	MapRoom[ROOM2C][tempIndex] = "room2cpit";
 	tempIndex = Room2CAmount[0] + floorf(0.5 * float(Room2CAmount[1]));
 	MapRoom[ROOM2C][tempIndex] = "room2cpit";
+
+	//zone 3 --------------------------------------------------------------------------------------
+
+	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1] + Room1Amount[2] - 2] = "exit1";
+	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1] + Room1Amount[2] - 1] = "gateaentrance";
+	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1]] = "room1lifts";
+
+	min_pos = Room2Amount[0] + Room2Amount[1];
+	max_pos = Room2Amount[0] + Room2Amount[1] + Room2Amount[2] - 1;
+
+	tempIndex = min_pos + floorf(0.1 * float(Room2Amount[2]));
+	MapRoom[ROOM2][tempIndex] = "room2poffices";
+	SetRoom("room2cafeteria", ROOM2, min_pos + floorf(0.2 * float(Room2Amount[2])), min_pos, max_pos);
+	SetRoom("room2sroom", ROOM2, min_pos + floorf(0.3 * float(Room2Amount[2])), min_pos, max_pos);
+	SetRoom("room2servers2", ROOM2, min_pos + floorf(0.4 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom("room2offices", ROOM2, min_pos + floorf(0.45 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom("room2offices4", ROOM2, min_pos + floorf(0.5 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom("room860", ROOM2, min_pos + floorf(0.6 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom("medibay", ROOM2, min_pos + floorf(0.7 * float(Room2Amount[2])), min_pos, max_pos);
+	SetRoom("room2poffices2", ROOM2, min_pos + floorf(0.8 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom("room2offices2", ROOM2, min_pos + floorf(0.9 * float(Room2Amount[2])), min_pos, max_pos);
+
+	MapRoom[ROOM2C][Room2CAmount[0] + Room2CAmount[1]] = "room2ccont";
+	MapRoom[ROOM2C][Room2CAmount[0] + Room2CAmount[1] + 1] = "lockroom2";
+
+	tempIndex = Room3Amount[0] + Room3Amount[1] + floorf(0.3 * float(Room3Amount[2]));
+	MapRoom[ROOM3][tempIndex] = "room3servers";
+	tempIndex = Room3Amount[0] + Room3Amount[1] + floorf(0.7 * float(Room3Amount[2]));
+	MapRoom[ROOM3][tempIndex] = "room3servers2";
+	tempIndex = Room3Amount[0] + Room3Amount[1] + floorf(0.5 * float(Room3Amount[2]));
+	MapRoom[ROOM3][tempIndex] = "room3offices";
+
+	//-----------------------------------------------------------------------------------------
+	temp = 0;
+	Rooms r;
+	float spacing = 8.0;
+
+	//we are going to attempt to use an array of Rooms to store the created rooms.
+	//Guessing that we never go past 180 rooms
+	Rooms rooms[MapHeight*MapWidth] = { NULL };
+	int32_t roomsIndex = 0; //we must increment this after creating each room;		
+
+	for (y = MapHeight-1; y >= 1; y--) {
+		if (y < MapHeight / 3 + 1) {
+			zone = 3;
+		}
+		else if (y < MapHeight * (2.0 / 3.0)) {
+			zone = 2;
+		}
+		else {
+			zone = 1;
+		}
+
+		for (x = 1; x <= MapWidth - 2; x++) {
+			if (MapTemp[x][y] == 255) {
+				if (y > MapHeight / 2) {
+					rooms[roomsIndex++] = CreateRoom(zone, ROOM2, x * 8, 0, y * 8, "checkpoint1\0");
+				}
+				else {
+					rooms[roomsIndex++] = CreateRoom(zone, ROOM2, x * 8, 0, y * 8, "checkpoint2\0");
+				}
+			}
+			else if (MapTemp[x][y] > 0) {
+				temp = min(MapTemp[x + 1][y], 1) + min(MapTemp[x - 1][y], 1) + min(MapTemp[x][y + 1], 1) + min(MapTemp[x][y - 1], 1);
+
+				switch (temp) {
+				case 1:
+					if (MapRoomID[ROOM1] < MaxRooms && MapName[x][y] == '\0') {
+						if (MapRoom[ROOM1][MapRoomID[ROOM1]] != '\0') {
+							MapName[x][y] = MapRoom[ROOM1][MapRoomID[ROOM1]];
+						}
+					}
+
+					//we do not increment roomsIndex here because we need to edit the room at this index
+					rooms[roomsIndex] = CreateRoom(zone, ROOM1, x * 8, 0, y * 8, MapName[x][y]);
+					if (MapTemp[x][y + 1]) {
+						rooms[roomsIndex].angle = 180;
+					}
+					else if (MapTemp[x][y - 1]) {
+						rooms[roomsIndex].angle = 270;
+					}
+					else if (MapTemp[x + 1][y]) {
+						rooms[roomsIndex].angle = 90;
+					}
+					else {
+						rooms[roomsIndex].angle = 0;
+					}
+					//Increment here since we didnt do it earlier.
+					roomsIndex++;
+					MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
+
+				case 2:
+					//we gotta do more not incrementing roomsIndex here so might be wrong.
+					if (MapTemp[x - 1][y] > 0 && MapTemp[x + 1][y] > 0) {
+						if (MapRoomID[ROOM2] < MaxRooms && MapName[x][y] == '\0') {
+							if (MapRoom[ROOM2][MapRoomID[ROOM2]] != '\0') {
+								MapName[x][y] = MapRoom[ROOM2][MapRoomID[ROOM2]];
+							}
+						}
+						rooms[roomsIndex] = CreateRoom(zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
+						if (bb.bbRand(&rnd_state, 0, 2) == 1) {
+							rooms[roomsIndex].angle = 90;
+						}
+						else {
+							rooms[roomsIndex].angle = 270;
+						}
+						roomsIndex++;
+						MapRoomID[ROOM2] = MapRoomID[ROOM2] + 1;
+
+					}
+					else if (MapTemp[x][y - 1] > 0 && MapTemp[x][y + 1] > 0) {
+						if (MapRoomID[ROOM2] < MaxRooms && MapName[x][y] == '\0') {
+							if (MapRoom[ROOM2][MapRoomID[ROOM2]] != '\0') {
+								MapName[x][y] = MapRoom[ROOM2][MapRoomID[ROOM2]];
+							}
+						}
+						rooms[roomsIndex] = CreateRoom(zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
+						if (bb.bbRand(&rnd_state, 0, 2) == 1) {
+							rooms[roomsIndex].angle = 180;
+						}
+						else {
+							rooms[roomsIndex].angle = 0;
+						}
+						roomsIndex++;
+						MapRoomID[ROOM2] = MapRoomID[ROOM2] + 1;
+
+					}
+					else {
+						if (MapRoomID[ROOM2C] < MaxRooms && MapName[x][y] == '\0') {
+							if (MapRoom[ROOM2C][MapRoomID[ROOM2C]] != '\0') {
+								MapName[x][y] = MapRoom[ROOM2C][MapRoomID[ROOM2C]];
+							}
+						}
+
+						if (MapTemp[x - 1][y] > 0 && MapTemp[x][y + 1] > 0) {
+							rooms[roomsIndex] = CreateRoom(zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex].angle = 180;
+							roomsIndex++;
+						}
+						else if (MapTemp[x + 1][y] > 0 && MapTemp[x][y + 1] > 0) {
+							rooms[roomsIndex] = CreateRoom(zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex].angle = 90;
+							roomsIndex++;
+						}
+						else if (MapTemp[x - 1][y] > 0 && MapTemp[x][y - 1] > 0) {
+							rooms[roomsIndex] = CreateRoom(zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex].angle = 270;
+							roomsIndex++;
+						}
+						else {
+							rooms[roomsIndex] = CreateRoom(zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							roomsIndex++;
+						}						
+						MapRoomID[ROOM2C] = MapRoomID[ROOM2C] + 1;
+					}
+
+				case 3:
+					if (MapRoomID[ROOM3] < MaxRooms && MapName[x][y] == '\0') {
+						if (MapRoom[ROOM3][MapRoomID[ROOM3]] != '\0') {
+							MapName[x][y] = MapRoom[ROOM3][MapRoomID[ROOM3]];
+						}
+					}
+					rooms[roomsIndex] = CreateRoom(zone, ROOM3, x * 8, 0, y * 8, MapName[x][y]);
+					if (!MapTemp[x][y - 1]) {
+						rooms[roomsIndex].angle = 180;
+						roomsIndex++;
+					}
+					else if (!MapTemp[x - 1][y]) {
+						rooms[roomsIndex].angle = 90;
+						roomsIndex++;
+					}
+					else if (!MapTemp[x + 1][y]) {
+						rooms[roomsIndex].angle = 270;
+						roomsIndex++;
+					}
+					else {
+						roomsIndex++;
+					}
+					MapRoomID[ROOM3] = MapRoomID[ROOM3] + 1;
+
+				case 4:
+					if (MapRoomID[ROOM4] < MaxRooms && MapName[x][y] == '\0') {
+						if (MapRoom[ROOM4][MapRoomID[ROOM4]] != '\0') {
+							MapName[x][y] = MapRoom[ROOM4][MapRoomID[ROOM4]];
+						}
+					}
+					rooms[roomsIndex++] = CreateRoom(zone, ROOM4, x * 8, 0, y * 8, MapName[x][y]);
+					MapRoomID[ROOM4] = MapRoomID[ROOM4] + 1;
+				}
+			}
+		}
+	}
+
+	rooms[roomsIndex++] = CreateRoom(0, ROOM1, (MapWidth - 1) * 8, 500, 8, "gatea\0");
+	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
+
+	rooms[roomsIndex++] = CreateRoom(0, ROOM1, (MapWidth - 1) * 8, 0, (MapHeight - 1) * 8, "pocketdimension\0");
+	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
+
+	//If introenabled
+	//dont need bc intro never on
+
+	rooms[roomsIndex++] = CreateRoom(0, ROOM1, 8, 800, 0, "dimension1499\0");
+	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
+	
+	//180 because that is length of rooms array
+	for (i = 0; i < 180; i++) {
+		//idk if theres a good way of checking if there is nothing
+		//at the index of the rooms array.
+		//if (rooms[i].rt.id == NULL) break;
+
+		//PreventRoomOverlap(rooms[i]);
+	}
+
+
+
 
 }
 #endif

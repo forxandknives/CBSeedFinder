@@ -33,7 +33,11 @@ int main()
         exit(1);
     }
 
-    testFunction <<<1, 1>>> (cudaOutput);
+    printf("starting!\n");
+
+    testFunction <<<1, arraySize>>> (cudaOutput);
+
+    printf("ended!\n");
 
     c = cudaGetLastError();
     if (c != cudaSuccess) {
@@ -44,6 +48,7 @@ int main()
     c = cudaMemcpy(output, cudaOutput, arraySize * sizeof(int), cudaMemcpyDeviceToHost);
     if (c != cudaSuccess) {
         printf("failed to copy!\n");
+        printf("%s\n", cudaGetErrorString(c));
         exit(1);
     }
 
@@ -65,14 +70,18 @@ __global__ void testFunction(int* outputArray) {
     //god help me
     rnd_state rnd_state;    
     bbRandom bb = bbRandom();
-    bb.bbSeedRnd(&rnd_state, 100);    
+    bb.bbSeedRnd(&rnd_state, 100/*threadNumber*/);
 
-    int a = threadNumber;
-    
-    printf("rnd: %f\n", bb.bbRnd(&rnd_state, 0, 100));
+    int a = threadNumber;        
 
     InitNewGame(bb, rnd_state);
 
     outputArray[threadNumber] = a;
+
+    //TODO:
+    //It might be a good idea to have the room names in an array
+    //and copy that memory to the device and label it __shared__.
+    //Same thing for roomtemplates.
+
 }
 __device__ void dummy() {};
