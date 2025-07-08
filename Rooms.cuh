@@ -66,7 +66,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].zone[0] = 1;
 	rt[counter].zone[1] = 3;
 	rt[counter].commonness = 30;
-	counter++; 
+	counter++;
 
 	//173
 	rt[counter].id = counter;
@@ -184,7 +184,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 35;
 	rt[counter].zone[0] = 1;
-	counter++; 
+	counter++;
 
 	//room2_5
 	rt[counter].id = counter;
@@ -208,7 +208,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 30;
 	rt[counter].zone[0] = 1;
-	counter++; 
+	counter++;
 
 	//room2closets
 	rt[counter].id = counter;
@@ -218,7 +218,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].zone[0] = 1;
 	rt[counter].disableDecals = true;
 	rt[counter].large = true;
-	counter++; 
+	counter++;
 
 	//room2elevator
 	rt[counter].id = counter;
@@ -282,14 +282,14 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 100;
 	rt[counter].zone[0] = 1;
 	counter++;
-	
+
 	//room4_2
 	rt[counter].id = counter;
 	rt[counter].name = "room4_2";
 	rt[counter].shape = ROOM4;
 	rt[counter].commonness = 80;
 	rt[counter].zone[0] = 1;
-	counter++; 
+	counter++;
 
 	//roompj
 	rt[counter].id = counter;
@@ -307,7 +307,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 1;
-	counter++; 
+	counter++;
 
 	//room2gw
 	rt[counter].id = counter;
@@ -315,8 +315,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 10;
 	rt[counter].zone[0] = 1;
-	counter++; 
-	
+	counter++;
+
 	//room2gw_b
 	rt[counter].id = counter;
 	rt[counter].name = "room2gw_b";
@@ -331,7 +331,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 0;
 	rt[counter].zone[0] = 1;
-	counter++; 
+	counter++;
 
 	//room2scps2
 	rt[counter].id = counter;
@@ -349,7 +349,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].zone[0] = 1;
 	rt[counter].large = true;
 	counter++;
-	
+
 	//lockroom3
 	rt[counter].id = counter;
 	rt[counter].name = "lockroom3";
@@ -365,7 +365,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].zone[0] = 1;
 	counter++;
-	
+
 	//room3_3
 	rt[counter].id = counter;
 	rt[counter].name = "room3_3";
@@ -379,7 +379,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = "checkpoint1";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
-	counter++; 
+	counter++;
 
 	//HEAVY CONTAINMENT
 
@@ -494,7 +494,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].zone[0] = 2;
 	rt[counter].large = true;
 	counter++;
-	 
+
 	//room2pipes
 	rt[counter].id = counter;
 	rt[counter].name = "room2pipes";
@@ -614,18 +614,251 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
 	//ENTRANCE ZONE
 
+	//room079 yea he's in the entrance zone mhm
+	rt[counter].id = counter;
+	rt[counter].name = "room079";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 3;
+	rt[counter].large = true;
+	counter++;
 
+	//lockroom2
+	rt[counter].id = counter;
+	rt[counter].name = "lockroom2";
+	rt[counter].shape = ROOM2C;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
 
+	//exit1 
+	rt[counter].id = counter;
+	rt[counter].name = "exit1";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	rt[counter].disableOverlapCheck = true;
+	counter++;
 
+	//gateaentrance
+	rt[counter].id = counter;
+	rt[counter].name = "gateaentrance";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
 
+	//gatea
+	rt[counter].id = counter;
+	rt[counter].name = "gatea";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableOverlapCheck = true;
+	counter++;
 
+	//medibay
+	rt[counter].id = counter;
+	rt[counter].name = "medibay";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
 
+	//room2z3
+	rt[counter].id = counter;
+	rt[counter].name = "room2z3";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 75;
+	rt[counter].zone[0] = 3;
+	counter++;
 
+	//room2cafeteria
+	rt[counter].id = counter;
+	rt[counter].name = "room2cafeteria";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	rt[counter].large = true;
+	rt[counter].disableOverlapCheck = true;
+	counter++;
 
+	//room2cz3
+	rt[counter].id = counter;
+	rt[counter].name = "room2cz3";
+	rt[counter].shape = ROOM2C;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 3;
+	counter++;
 
+	//room2ccont
+	rt[counter].id = counter;
+	rt[counter].name = "room2ccont";
+	rt[counter].shape = ROOM2C;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	rt[counter].large = true;
 
+	//room2offices
+	rt[counter].id = counter;
+	rt[counter].name = "room2offices";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 30;
+	rt[counter].zone[0] = 3;
+	counter++;
 
+	//room2offices2
+	rt[counter].id = counter;
+	rt[counter].name = "room2offices2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 20;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 3;
+	counter++;
 
+	//room2offices3
+	rt[counter].id = counter;
+	rt[counter].name = "room2offices3";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 20;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room2offices4
+	rt[counter].id = counter;
+	rt[counter].name = "room2offices4";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room2poffices
+	rt[counter].id = counter;
+	rt[counter].name = "room2poffices";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room2poffices2
+	rt[counter].id = counter;
+	rt[counter].name = "room2poffices2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room2sroom
+	rt[counter].id = counter;
+	rt[counter].name = "room2sroom";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room2toilets
+	rt[counter].id = counter;
+	rt[counter].name = "room2toilets";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 30;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room2tesla
+	rt[counter].id = counter;
+	rt[counter].name = "room2tesla";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room3servers
+	rt[counter].id = counter;
+	rt[counter].name = "room3servers";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room3servers2
+	rt[counter].id = counter;
+	rt[counter].name = "room3servers2";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room3z3
+	rt[counter].id = counter;
+	rt[counter].name = "room3z3";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room4z3
+	rt[counter].id = counter;
+	rt[counter].name = "room4z3";
+	rt[counter].shape = ROOM4;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room1lifts
+	rt[counter].id = counter;
+	rt[counter].name = "room1lifts";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room3gw
+	rt[counter].id = counter;
+	rt[counter].name = "room3gw";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 10;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room2servers2
+	rt[counter].id = counter;
+	rt[counter].name = "room2servers2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room3offices
+	rt[counter].id = counter;
+	rt[counter].name = "room3offices";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//room2z3_2
+	rt[counter].id = counter;
+	rt[counter].name = "room2z3_2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 25;
+	rt[counter].zone[0] = 3;
+	counter++;
+
+	//pocketdimension
+	rt[counter].id = counter;
+	rt[counter].name = "pocketdimension";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	counter++;
+
+	//dimension1499
+	rt[counter].id = counter;
+	rt[counter].name = "dimension1499";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
 
 }
 

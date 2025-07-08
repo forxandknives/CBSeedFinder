@@ -74,7 +74,7 @@ __global__ void testFunction(int* outputArray) {
 
     int a = threadNumber;        
 
-    extern __shared__ RoomTemplates rts[100];
+    extern __shared__ RoomTemplates rts[94];
 
     //we want the first thread of each block to spawn the room templates;
     if (threadIdx.x == 0) {
