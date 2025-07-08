@@ -8,14 +8,17 @@
 
 typedef struct RoomTemplates RoomTemplates;
 static struct RoomTemplates {
-	int32_t obj, id;
+	int32_t obj;
+	int32_t id = -1;
 	//dont need objPath i think
 	int32_t zone[5] = { 0 };
 	int32_t shape;
 	char* name;
-	int32_t commonness, large;
+	int32_t commonness;
+	bool large;
 	int32_t useLightCones;
 	bool disableOverlapCheck = true;
+	bool disableDecals;
 
 	float MinX, MinY, MinZ;
 	float MaxX, MaxY, MaxZ;
@@ -23,6 +26,7 @@ static struct RoomTemplates {
 
 typedef struct Rooms Rooms;
 static struct Rooms {
+	int32_t id = -1;
 	int32_t zone;
 	int32_t found;
 	
@@ -38,9 +42,353 @@ static struct Rooms {
 	float MinX, MinY, MinZ;
 	float MaxX, MaxY, MaxZ;
 
-};
+};	
 
+__device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(char* room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos);
+__device__ inline Rooms CreateRoom(int32_t zone, int32_t roomshape, float x, float y, float z, char* name);
+__device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index);
+__device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
+__device__ inline void CalculateRoomExtents(Rooms* r);
+
+__device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
+
+	int32_t counter = 0;
+
+	//All commonness is defined as max(min(commonness, 100), 0);
+
+	//LIGHT CONTAINMENT
+
+	//lockroom
+	rt[counter].id = counter;
+	rt[counter].name = "lockroom";
+	rt[counter].shape = ROOM2C;
+	rt[counter].zone[0] = 1;
+	rt[counter].zone[1] = 3;
+	rt[counter].commonness = 30;
+	counter++; 
+
+	//173
+	rt[counter].id = counter;
+	rt[counter].name = "173";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	counter++;
+
+	//start
+	rt[counter].id = counter;
+	rt[counter].name = "start";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	counter++;
+
+	//room1123
+	rt[counter].id = counter;
+	rt[counter].name = "room1123";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	rt[counter].disableDecals = true;
+	counter++;
+
+	//room1archive
+	rt[counter].id = counter;
+	rt[counter].name = "room1archive";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 80;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2storage
+	rt[counter].id = counter;
+	rt[counter].name = "room2storage";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	rt[counter].disableDecals = true;
+	counter++;
+
+	//room3storage
+	rt[counter].id = counter;
+	rt[counter].name = "room3storage";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	rt[counter].disableOverlapCheck = true;
+	counter++;
+
+	//room2tesla_lcz
+	rt[counter].id = counter;
+	rt[counter].name = "room2tesla_lcz";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//endroom
+	rt[counter].id = counter;
+	rt[counter].name = "endroom";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 1;
+	rt[counter].zone[2] = 3;
+	counter++;
+
+	//room012
+	rt[counter].id = counter;
+	rt[counter].name = "room012";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	rt[counter].disableDecals = true;
+	counter++;
+
+	//room205
+	rt[counter].id = counter;
+	rt[counter].name = "room205";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	rt[counter].large = true;
+	counter++;
+
+	//room2
+	rt[counter].id = counter;
+	rt[counter].name = "room2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 45;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2_2
+	rt[counter].id = counter;
+	rt[counter].name = "room2_2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 40;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2_3
+	rt[counter].id = counter;
+	rt[counter].name = "room2_3";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 35;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2_4
+	rt[counter].id = counter;
+	rt[counter].name = "room2_4";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 35;
+	rt[counter].zone[0] = 1;
+	counter++; 
+
+	//room2_5
+	rt[counter].id = counter;
+	rt[counter].name = "room2_5";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 35;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2c
+	rt[counter].id = counter;
+	rt[counter].name = "room2c";
+	rt[counter].shape = ROOM2C;
+	rt[counter].commonness = 30;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2c2
+	rt[counter].id = counter;
+	rt[counter].name = "room2c2";
+	rt[counter].shape = ROOM2C;
+	rt[counter].commonness = 30;
+	rt[counter].zone[0] = 1;
+	counter++; 
+
+	//room2closets
+	rt[counter].id = counter;
+	rt[counter].name = "room2closets";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	rt[counter].disableDecals = true;
+	rt[counter].large = true;
+	counter++; 
+
+	//room2elevator
+	rt[counter].id = counter;
+	rt[counter].name = "room2elevator";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 20;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2doors
+	rt[counter].id = counter;
+	rt[counter].name = "room2doors";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 30;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2scps
+	rt[counter].id = counter;
+	rt[counter].name = "room2scps";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room860
+	rt[counter].id = counter;
+	rt[counter].name = "room860";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	counter++;
+
+	//room2testroom2
+	rt[counter].id = counter;
+	rt[counter].name = "room2testroom2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room3
+	rt[counter].id = counter;
+	rt[counter].name = "room3";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room3_2
+	rt[counter].id = counter;
+	rt[counter].name = "room3_2";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room4
+	rt[counter].id = counter;
+	rt[counter].name = "room4";
+	rt[counter].shape = ROOM4;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 1;
+	counter++;
+	
+	//room4_2
+	rt[counter].id = counter;
+	rt[counter].name = "room4_2";
+	rt[counter].shape = ROOM4;
+	rt[counter].commonness = 80;
+	rt[counter].zone[0] = 1;
+	counter++; 
+
+	//roompj
+	rt[counter].id = counter;
+	rt[counter].name = "roompj";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//914
+	rt[counter].id = counter;
+	rt[counter].name = "914";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 1;
+	counter++; 
+
+	//room2gw
+	rt[counter].id = counter;
+	rt[counter].name = "room2gw";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 10;
+	rt[counter].zone[0] = 1;
+	counter++; 
+	
+	//room2gw_b
+	rt[counter].id = counter;
+	rt[counter].name = "room2gw_b";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room1162
+	rt[counter].id = counter;
+	rt[counter].name = "room1162";
+	rt[counter].shape = ROOM2C;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	counter++; 
+
+	//room2scps2
+	rt[counter].id = counter;
+	rt[counter].name = "room2scps2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room2sl
+	rt[counter].id = counter;
+	rt[counter].name = "room2sl";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	rt[counter].large = true;
+	counter++;
+	
+	//lockroom3
+	rt[counter].id = counter;
+	rt[counter].name = "lockroom3";
+	rt[counter].shape = ROOM2C;
+	rt[counter].commonness = 15;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room4info
+	rt[counter].id = counter;
+	rt[counter].name = "room4info";
+	rt[counter].shape = ROOM4;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 1;
+	counter++;
+	
+	//room3_3
+	rt[counter].id = counter;
+	rt[counter].name = "room3_3";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 20;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//checkpoint1
+	rt[counter].id = counter;
+	rt[counter].name = "checkpoint1";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	counter++; 
+
+	//HEAVY CONTAINMENT
+
+
+
+
+
+
+}
 
 __device__ inline bool SetRoom(char* room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos) {
 	if (max_pos < min_pos) return false;
@@ -86,6 +434,51 @@ __device__ inline Rooms CreateRoom(int32_t zone, int32_t roomshape, float x, flo
 		
 	}
 	return r;
+}
+
+__device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
+	if (rooms[index].rt.disableOverlapCheck) return true;
+
+	Rooms r = rooms[index];
+
+	Rooms* r2 = NULL;
+	Rooms* r3 = NULL;
+
+	bool isIntersecting = false;
+
+	if (r.rt.name == "checkpoint1\0" || r.rt.name == "checkpoint2\0" || r.rt.name == "start\0") return true;
+
+	for (int32_t i = 0; i < 324; i++) {
+		*r2 = rooms[i];
+		if (r2->id != r.id && !r2->rt.disableOverlapCheck) {
+			if (CheckRoomOverlap(&rooms[i], r2)) {
+				isIntersecting = true;
+				break;
+			}
+		}
+	}
+
+	if (!isIntersecting) return true;
+
+	isIntersecting = false;
+
+	int32_t x = r.x / 8.0;
+	int32_t y = r.y / 8.0;
+
+	if (r.rt.shape == ROOM2) {
+		r.angle += 180;
+		CalculateRoomExtents(&r);
+	}
+
+
+}
+
+__device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2) {
+
+}
+
+__device__ inline void CalculateRoomExtents(Rooms* r) {
+
 }
 
 

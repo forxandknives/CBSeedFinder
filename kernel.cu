@@ -74,6 +74,15 @@ __global__ void testFunction(int* outputArray) {
 
     int a = threadNumber;        
 
+    extern __shared__ RoomTemplates rts[100];
+
+    //we want the first thread of each block to spawn the room templates;
+    if (threadIdx.x == 0) {
+        CreateRoomTemplates(rts);       
+    }   
+
+    __syncthreads();
+
     InitNewGame(bb, rnd_state);
 
     outputArray[threadNumber] = a;
@@ -82,6 +91,10 @@ __global__ void testFunction(int* outputArray) {
     //It might be a good idea to have the room names in an array
     //and copy that memory to the device and label it __shared__.
     //Same thing for roomtemplates.
+
+    //Make a host-side RoomTemplate class.
+    //Create a RT object for each item in rooms.ini
+    //Add them to an array and maye it __shared__ memory.
 
 }
 __device__ void dummy() {};

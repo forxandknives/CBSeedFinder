@@ -623,15 +623,21 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state) {
 	rooms[roomsIndex++] = CreateRoom(0, ROOM1, 8, 800, 0, "dimension1499\0");
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 	
-	//180 because that is length of rooms array
-	for (i = 0; i < 180; i++) {
+	//18*18 because that is length of rooms array
+	for (i = 0; i < 18*18; i++) {
 		//idk if theres a good way of checking if there is nothing
 		//at the index of the rooms array.
-		//if (rooms[i].rt.id == NULL) break;
+		//if the id is -1 that means
+		//if (rooms[i].rt.id == -1) break;
 
-		//PreventRoomOverlap(rooms[i]);
+		PreventRoomOverlap(rooms, i);
 	}
 
+	for (y = 0; y <= MapHeight; y++) {
+		for (x = 0; x <= MapWidth; x++) {
+			MapTemp[x][y] = min(MapTemp[x][y], 1);
+		}
+	}
 
 
 
