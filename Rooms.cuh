@@ -383,6 +383,245 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
 	//HEAVY CONTAINMENT
 
+	//008
+	rt[counter].id = counter;
+	rt[counter].name = "008";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room035
+	rt[counter].id = counter;
+	rt[counter].name = "room035";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room049
+	rt[counter].id = counter;
+	rt[counter].name = "room049";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	rt[counter].disableOverlapCheck = true;
+	counter++;
+
+	//room106;
+	rt[counter].id = counter;
+	rt[counter].name = "room106";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	rt[counter].large = true;
+	counter++;
+
+	//rom513
+	rt[counter].id = counter;
+	rt[counter].name = "room513";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//coffin
+	rt[counter].id = counter;
+	rt[counter].name = "coffin";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 1;
+	counter++;
+
+	//room966
+	rt[counter].id = counter;
+	rt[counter].name = "room966";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 0;
+	rt[counter].disableOverlapCheck = true;
+	counter++;
+
+	//endroom2
+	rt[counter].id = counter;
+	rt[counter].name = "endroom2";
+	rt[counter].shape = ROOM1;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//testroom
+	rt[counter].id = counter;
+	rt[counter].name = "testroom";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//tunnel
+	rt[counter].id = counter;
+	rt[counter].name = "tunnel";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//tunnel2
+	rt[counter].id = counter;
+	rt[counter].name = "tunnel2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 70;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room2ctunnel
+	rt[counter].id = counter;
+	rt[counter].name = "room2ctunnel";
+	rt[counter].shape = ROOM2C;
+	rt[counter].commonness = 40;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room2nuke
+	rt[counter].id = counter;
+	rt[counter].name = "room2nuke";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 2;
+	rt[counter].large = true;
+	counter++;
+	 
+	//room2pipes
+	rt[counter].id = counter;
+	rt[counter].name = "room2pipes";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 50;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room2pit
+	rt[counter].id = counter;
+	rt[counter].name = "room2pit";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 75;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room3pit
+	rt[counter].id = counter;
+	rt[counter].name = "room3pit";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 100;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room4pit
+	rt[counter].id = counter;
+	rt[counter].name = "room4pit";
+	rt[counter].shape = ROOM4;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room2servers
+	rt[counter].id = counter;
+	rt[counter].name = "room2servers";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].zone[0] = 2;
+	rt[counter].large = true;
+	counter++;
+
+	//room2shaft
+	rt[counter].id = counter;
+	rt[counter].name = "room2shaft";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	counter++;
+
+	//room2tunnel
+	rt[counter].id = counter;
+	rt[counter].name = "room2tunnel";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room3tunnel
+	rt[counter].id = counter;
+	rt[counter].name = "room3tunnel";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room4tunnel
+	rt[counter].id = counter;
+	rt[counter].name = "room4tunnel";
+	rt[counter].shape = ROOM4;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room2tesla_hcz
+	rt[counter].id = counter;
+	rt[counter].name = "room2tesla_hcz";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room3z2
+	rt[counter].id = counter;
+	rt[counter].name = "room3z2";
+	rt[counter].shape = ROOM3;
+	rt[counter].commonness = 100;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room2cpit
+	rt[counter].id = counter;
+	rt[counter].name = "room2cpit";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//room2pipes2
+	rt[counter].id = counter;
+	rt[counter].name = "room2pipes2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 70;
+	rt[counter].disableDecals = true;
+	rt[counter].zone[0] = 2;
+	counter++;
+
+	//checkpoint2
+	rt[counter].id = counter;
+	rt[counter].name = "checkpoint2";
+	rt[counter].shape = ROOM2;
+	rt[counter].commonness = 0;
+	counter++;
+
+	//ENTRANCE ZONE
+
+
+
+
+
+
+
+
+
 
 
 
