@@ -79,11 +79,17 @@ __global__ void testFunction(int* outputArray) {
     //we want the first thread of each block to spawn the room templates;
     if (threadIdx.x == 0) {
         CreateRoomTemplates(rts);       
-    }   
+    }       
 
     __syncthreads();
 
-    InitNewGame(bb, rnd_state);
+    InitNewGame(bb, rnd_state, rts);
+
+    if (threadIdx.x == 0) {
+        for (int32_t i = 0; i < 95; i++) {
+            printf("ID: %d\n", rts[i].id);
+        }
+    }
 
     outputArray[threadNumber] = a;
 
