@@ -87,12 +87,6 @@ __global__ void testFunction(int* outputArray) {
 
     InitNewGame(bb, rnd_state, rts);
 
-    if (threadIdx.x == 0) {
-        for (int32_t i = 0; i < roomTemplateAmount; i++) {
-            //printf("ID: %d\n", rts[i].id);
-        }
-    }
-
     outputArray[threadNumber] = a;   
 
     //TODO:

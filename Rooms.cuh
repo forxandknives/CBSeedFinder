@@ -27,7 +27,7 @@ static struct RoomTemplates {
 
 typedef struct Rooms Rooms;
 static struct Rooms {
-	int32_t id;
+	int32_t id = -1;
 	int32_t zone;
 	int32_t found;
 	
@@ -1440,11 +1440,11 @@ __device__ inline bool SetRoom(char* room_name, uint32_t room_type, uint32_t pos
 
 __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, char* name) {
 
-	Rooms r;
+	Rooms r = Rooms();
 	//RoomTemplates* rt;
 
 	//TEMPORARY
-	r.id = 1;
+	r.id = roomIdCounter++;
 
 	r.zone = zone;
 

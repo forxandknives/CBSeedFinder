@@ -612,7 +612,7 @@ C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(443): warning #2464-D: conver
     	                          ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(469): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");
+    					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");					
     					                                                                                   ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(472): warning #2464-D: conversion from a string literal to "char *" is deprecated
@@ -1258,7 +1258,7 @@ C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(443): warning #2464-D: conver
     	                          ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(469): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");
+    					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");					
     					                                                                                   ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(472): warning #2464-D: conversion from a string literal to "char *" is deprecated
@@ -1291,7 +1291,5 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00007034_00000000-7_kernel.cudafe1.cpp
-     Creating library C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.lib and object C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exp
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  tmpxft_000042dc_00000000-7_kernel.cudafe1.cpp
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe

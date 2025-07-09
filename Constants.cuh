@@ -22,4 +22,6 @@ __device__ char* MapRoom[ROOM4 + 1][180] = {};
 
 const static int32_t roomTemplateAmount = 95;
 
+__device__ static int32_t roomIdCounter = 0;
+
 #endif

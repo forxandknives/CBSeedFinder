@@ -466,7 +466,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		for (x = 1; x <= MapWidth - 2; x++) {
 			if (MapTemp[x][y] == 255) {
 				if (y > MapHeight / 2) {
-					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");
+					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");					
 				}
 				else {
 					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint2");
@@ -631,6 +631,25 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		}
 	}
 
+	/*
+	if (threadIdx.x == 0) {
+		uint32_t tempCounter = 0;
+		for (int32_t i = 0; i < 18 * 18; i++) {				
+			Rooms* r = &rooms[i];
+
+			if (r->id == -2) tempCounter++;
+
+			printf("THREAD: %d\n", threadIdx.x);
+			printf("NAME: %s\n", r->rt.name);
+			printf("ID: %d\n", r->id);
+			printf("RT ID: %d\n", r->rt.id);
+			printf("X: %f\n", r->x / 8);
+			printf("Z: %f\n", r->z / 8);
+			printf("\n");
+		}		
+		printf("Found %d null rooms.\n", tempCounter);
+	}
+	*/
 
 
 }
