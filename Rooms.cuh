@@ -5,6 +5,7 @@
 #include "cuda_runtime.h";
 #include "Helpers.cuh";
 #include "Constants.cuh";
+#include "Random.cuh";
 
 typedef struct RoomTemplates RoomTemplates;
 static struct RoomTemplates {
@@ -39,8 +40,8 @@ static struct Rooms {
 
 	//a bunch of stuff that i might need
 
-	float MinX, MinY, MinZ;
-	float MaxX, MaxY, MaxZ;
+	float minX, minY, minZ;
+	float maxX, maxY, maxZ;
 
 };	
 
@@ -1520,19 +1521,22 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rn
 __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
 	if (rooms[index].rt.disableOverlapCheck) return true;
 
-	Rooms r = rooms[index];
 
-	Rooms r2;
-	Rooms r3;
+	//CLEANUP
+	//We should probably make this a pointer instead of a copy.
+	Rooms* r = &rooms[index];
+
+	Rooms* r2;
+	Rooms* r3;
 
 	bool isIntersecting = false;
 
-	if (r.rt.name == "checkpoint1" || r.rt.name == "checkpoint2" || r.rt.name == "start") return true;
+	if (r->rt.name == "checkpoint1" || r->rt.name == "checkpoint2" || r->rt.name == "start") return true;
 
 	for (int32_t i = 0; i < 324; i++) {
-		r2 = rooms[i];
-		if (r2.id != r.id && !r2.rt.disableOverlapCheck) {
-			if (CheckRoomOverlap(&rooms[i], &r2)) {
+		r2 = &rooms[i];
+		if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
+			if (CheckRoomOverlap(r, r2)) {
 				isIntersecting = true;
 				break;
 			}
@@ -1543,19 +1547,118 @@ __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
 
 	isIntersecting = false;
 
-	int32_t x = r.x / 8.0;
-	int32_t y = r.y / 8.0;
+	int32_t x = r->x / 8.0;
+	int32_t y = r->y / 8.0;
 
-	if (r.rt.shape == ROOM2) {
-		r.angle += 180;
-		CalculateRoomExtents(&r);
+	if (r->rt.shape == ROOM2) {
+		r->angle += 180;
+		CalculateRoomExtents(r);
+
+		for (int32_t i = 0; i < 18 * 18; i++) {
+			if (rooms[i].id == -1) break; //Id should only be -1 after all other rooms.
+			r2 = &rooms[i];
+
+			if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
+				if (CheckRoomOverlap(r, r2)) {
+					isIntersecting = true;
+					r->angle = r->angle - 180;
+					CalculateRoomExtents(r);
+					break;
+				}
+			}
+		}
+
+	}
+	else {
+		isIntersecting = true;
 	}
 
+	if (!isIntersecting) {
+		return true;
+	}
 
+	//Room is either not a ROOM2 or the ROOM2 is still intersecting, now trying to swap the room with another of the same type
+	isIntersecting = true;
+	int32_t temp2, x2, y2, rot, rot2;	
+	for (int32_t i = 0; i < 18 * 18; i++) {
+		if (rooms[i].id == -1) break;
+		r2 = &rooms[i];
+
+		if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
+			if (r->rt.shape == r2->rt.shape && r->zone == r2->zone && (r2->rt.name != "checkpoint1" && r2->rt.name != "checkpoint2" && r2->rt.name != "start")) {
+				x = r->x / 8.0;
+				y = r->z / 8.0;
+				rot = r->angle;
+
+				x2 = r2->x / 8.0;
+				y2 = r2->z / 8.0;
+				rot2 = r2->angle;
+
+				isIntersecting = false;
+
+				r->x = x2 * 8.0;
+				r->z = y2 * 8.0;
+				r->angle = rot2;
+				CalculateRoomExtents(r);
+
+				r2->x = x * 8.0;
+				r2->z = y * 8.0;
+				r2->angle = rot;
+				CalculateRoomExtents(r2);
+
+				//make sure neither room overlaps with anything after the swap
+				for (int32_t i = 0; i < 18 * 18; i++) {
+					if (rooms[i].id == -1) break;
+					r3 = &rooms[i];
+
+					if (!r3->rt.disableOverlapCheck) {
+						if (r3->id != r->id) {
+							if (CheckRoomOverlap(r, r3)) {
+								isIntersecting = true;
+								break;
+							}
+						}
+
+						if (r3->id != r2->id) {
+							if (CheckRoomOverlap(r2, r3)) {
+								isIntersecting = true;
+								break;
+							}
+						}
+					}
+				}
+				//Either the original room or the "reposition" room is intersecting, reset the position of each room to their original one
+				if (isIntersecting) {
+					r->x = x * 8.0;
+					r->z = y * 8.0;
+					r->angle = rot;
+					CalculateRoomExtents(r);
+
+					r2->x = x2 * 8.0;
+					r2->z = y2 * 8.0;
+					r2->angle = rot2;
+					CalculateRoomExtents(r2);
+
+					isIntersecting = false;
+				}
+			}
+		}
+	}
+
+	if (!isIntersecting) {
+		return true;
+	}
+
+	return false;
 }
 
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2) {
 
+	if (r->maxX <= r2->minX || r->maxY <= r2->minY || r->maxZ <= r2->minZ) return false;
+
+	if (r->minX >= r2->maxX || r->minY >= r2->maxY || r->minZ >= r2->maxZ) return false;
+
+	return true;
 }
 
 __device__ inline void CalculateRoomExtents(Rooms* r) {

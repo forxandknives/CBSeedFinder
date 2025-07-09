@@ -84,7 +84,11 @@
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.cuh" />
+    <ClInclude Include="CreateSeed.cuh" />
+    <ClInclude Include="Helpers.cuh" />
     <ClInclude Include="Random.cuh" />
+    <ClInclude Include="Rooms.cuh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
