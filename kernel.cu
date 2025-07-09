@@ -35,7 +35,7 @@ int main()
 
     printf("starting!\n");
 
-    testFunction <<<1, arraySize>>> (cudaOutput);
+    testFunction <<<1, arraySize>>> (cudaOutput);    
 
     printf("ended!\n");
 
@@ -58,6 +58,8 @@ int main()
         printf("Thread %d: Output: %d\n", i, output[i]);
     }
 
+    printf("at end\n");
+
     free(output);
     cudaFree(cudaOutput);
 
@@ -74,7 +76,7 @@ __global__ void testFunction(int* outputArray) {
 
     int a = threadNumber;        
 
-    extern __shared__ RoomTemplates rts[94];
+    extern __shared__ RoomTemplates rts[roomTemplateAmount];
 
     //we want the first thread of each block to spawn the room templates;
     if (threadIdx.x == 0) {
@@ -86,12 +88,12 @@ __global__ void testFunction(int* outputArray) {
     InitNewGame(bb, rnd_state, rts);
 
     if (threadIdx.x == 0) {
-        for (int32_t i = 0; i < 95; i++) {
-            printf("ID: %d\n", rts[i].id);
+        for (int32_t i = 0; i < roomTemplateAmount; i++) {
+            //printf("ID: %d\n", rts[i].id);
         }
     }
 
-    outputArray[threadNumber] = a;
+    outputArray[threadNumber] = a;   
 
     //TODO:
     //It might be a good idea to have the room names in an array

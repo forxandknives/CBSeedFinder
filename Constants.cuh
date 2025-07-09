@@ -20,4 +20,6 @@ const static int32_t ZONEAMOUNT = 3;
 
 __device__ char* MapRoom[ROOM4 + 1][180] = {};	
 
+const static int32_t roomTemplateAmount = 95;
+
 #endif

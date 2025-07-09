@@ -26,7 +26,7 @@ static struct RoomTemplates {
 
 typedef struct Rooms Rooms;
 static struct Rooms {
-	int32_t id = -1;
+	int32_t id;
 	int32_t zone;
 	int32_t found;
 	
@@ -35,7 +35,7 @@ static struct Rooms {
 	int32_t angle;
 	RoomTemplates rt;
 
-	float dist;
+	float dist;	
 
 	//a bunch of stuff that i might need
 
@@ -46,7 +46,7 @@ static struct Rooms {
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(char* room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos);
-__device__ inline Rooms CreateRoom(RoomTemplates* rts, int32_t zone, int32_t roomshape, float x, float y, float z, char* name);
+__device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, char* name);
 __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
@@ -1407,7 +1407,6 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 7509.2817;
 	rt[counter].maxY = 8928.0;
 	rt[counter].maxZ = 4207.0;
-
 }
 
 __device__ inline bool SetRoom(char* room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos) {
@@ -1438,10 +1437,13 @@ __device__ inline bool SetRoom(char* room_name, uint32_t room_type, uint32_t pos
 	}
 }
 
-__device__ inline Rooms CreateRoom(RoomTemplates* rts, int32_t zone, int32_t roomshape, float x, float y, float z, char* name) {
+__device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, char* name) {
 
 	Rooms r;
-	RoomTemplates* rt;
+	//RoomTemplates* rt;
+
+	//TEMPORARY
+	r.id = 1;
 
 	r.zone = zone;
 
@@ -1450,18 +1452,69 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, int32_t zone, int32_t roo
 	r.z = z;
 
 	if (name != "") {
-		//94 because there are 94 room templates
-		for (int32_t i = 0; i < 94; i++) {
+		for (int32_t i = 0; i < roomTemplateAmount; i++) {
 			if (rts[i].name == name) {
 				r.rt = rts[i];
 				if (r.obj == 0) {
-					LoadRoomMesh(rts[i]);
+					//INCOMPLETE
+					//LoadRoomMesh(rts[i]);				
+				}
+				//INCOMPLETE
+				//FillRoom(r);
+
+				//Don't think we need light cone stuff.
+
+				CalculateRoomExtents(&r);
+				return r;
+			}
+		}
+	}
+	
+	cudaError c;
+
+
+	int32_t t = 0;
+	for (int32_t i = 0; i < roomTemplateAmount; i++) {
+		//5 because that is the len of the rt.zone[] array;
+		for (int32_t j = 0; j < 5; j++) {
+			if (rts[i].zone[j] == zone) {
+				if (rts[i].shape == roomshape) {
+					t = t + rts[i].commonness;
+					break;
 				}
 			}
 		}
-		
 	}
-	return r;
+	
+
+	int32_t RandomRoom = bb.bbRand(&rnd_state, 0, t);
+	t = 0;
+	for (int32_t i = 0; i < roomTemplateAmount; i++) {
+		RoomTemplates rt = rts[i];
+		for (int32_t j = 0; j <= 4; j++) {
+			if (rt.zone[j] == zone && rt.shape == roomshape) {
+				t = t + rt.commonness;
+				if (RandomRoom > t - rt.commonness && RandomRoom <= t) {
+					r.rt = rt;
+
+					if (rt.obj == 0) {
+						//INCOMPLETE
+						//LoadRoomMesh(rt);
+					}
+
+					//INCOMPLETE
+					//FillRoom(r);
+
+					//Skil light cone stuff
+
+					CalculateRoomExtents(&r);
+					return r;
+				}
+			}
+		}
+	}	
+	//It seems like there is supposed to be a return r at the bottom here,
+	//but it isn't there in the blitz code so idk.
 }
 
 __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
@@ -1469,17 +1522,17 @@ __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
 
 	Rooms r = rooms[index];
 
-	Rooms* r2 = NULL;
-	Rooms* r3 = NULL;
+	Rooms r2;
+	Rooms r3;
 
 	bool isIntersecting = false;
 
-	if (r.rt.name == "checkpoint1\0" || r.rt.name == "checkpoint2\0" || r.rt.name == "start\0") return true;
+	if (r.rt.name == "checkpoint1" || r.rt.name == "checkpoint2" || r.rt.name == "start") return true;
 
 	for (int32_t i = 0; i < 324; i++) {
-		*r2 = rooms[i];
-		if (r2->id != r.id && !r2->rt.disableOverlapCheck) {
-			if (CheckRoomOverlap(&rooms[i], r2)) {
+		r2 = rooms[i];
+		if (r2.id != r.id && !r2.rt.disableOverlapCheck) {
+			if (CheckRoomOverlap(&rooms[i], &r2)) {
 				isIntersecting = true;
 				break;
 			}
@@ -1506,7 +1559,12 @@ __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2) {
 }
 
 __device__ inline void CalculateRoomExtents(Rooms* r) {
+	if (r->rt.disableOverlapCheck) return;
 
+	static const float shrinkAmount = 0.05;
+
+	//We must convert TFormVector() in blitz to c++ code.
+	return;
 }
 
 

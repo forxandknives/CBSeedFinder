@@ -347,18 +347,18 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 	int32_t min_pos = 1;
 	int32_t max_pos = Room1Amount[0] - 1;
 
-	MapRoom[ROOM1][0] = "start\0";
+	MapRoom[ROOM1][0] = "start";
 	SetRoom("roompj", ROOM1, floorf(0.1 * float(Room1Amount[0])), min_pos, max_pos);
 	SetRoom("914", ROOM1, floorf(0.3 * float(Room1Amount[0])), min_pos, max_pos);
 	SetRoom("room1archive", ROOM1, floorf(0.5 * float(Room1Amount[0])), min_pos, max_pos);
 	SetRoom("room205", ROOM1, floorf(0.6 * float(Room1Amount[0])), min_pos, max_pos);
 
-	MapRoom[ROOM2C][0] = "lockroom\0";
+	MapRoom[ROOM2C][0] = "lockroom";
 
 	min_pos = 1;
 	max_pos = Room2Amount[0] - 1;
 
-	MapRoom[ROOM2][0] = "room2closets\0";
+	MapRoom[ROOM2][0] = "room2closets";
 	SetRoom("room2testroom2", ROOM2, floorf(0.1 * float(Room2Amount[0])), min_pos, max_pos);
 	SetRoom("room2scps", ROOM2, floorf(0.2 * float(Room2Amount[0])), min_pos, max_pos);
 	SetRoom("room2storage", ROOM2, floorf(0.3 * float(Room2Amount[0])), min_pos, max_pos);
@@ -466,10 +466,10 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		for (x = 1; x <= MapWidth - 2; x++) {
 			if (MapTemp[x][y] == 255) {
 				if (y > MapHeight / 2) {
-					rooms[roomsIndex++] = CreateRoom(rts,  zone, ROOM2, x * 8, 0, y * 8, "checkpoint1\0");
+					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");
 				}
 				else {
-					rooms[roomsIndex++] = CreateRoom(rts,  zone, ROOM2, x * 8, 0, y * 8, "checkpoint2\0");
+					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint2");
 				}
 			}
 			else if (MapTemp[x][y] > 0) {
@@ -477,14 +477,14 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 
 				switch (temp) {
 				case 1:
-					if (MapRoomID[ROOM1] < MaxRooms && MapName[x][y] == '\0') {
-						if (MapRoom[ROOM1][MapRoomID[ROOM1]] != '\0') {
+					if (MapRoomID[ROOM1] < MaxRooms && MapName[x][y] == "") {
+						if (MapRoom[ROOM1][MapRoomID[ROOM1]] != "") {
 							MapName[x][y] = MapRoom[ROOM1][MapRoomID[ROOM1]];
 						}
 					}
 
 					//we do not increment roomsIndex here because we need to edit the room at this index
-					rooms[roomsIndex] = CreateRoom(rts, zone, ROOM1, x * 8, 0, y * 8, MapName[x][y]);
+					rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state, zone, ROOM1, x * 8, 0, y * 8, MapName[x][y]);
 					if (MapTemp[x][y + 1]) {
 						rooms[roomsIndex].angle = 180;
 					}
@@ -504,12 +504,12 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 				case 2:
 					//we gotta do more not incrementing roomsIndex here so might be wrong.
 					if (MapTemp[x - 1][y] > 0 && MapTemp[x + 1][y] > 0) {
-						if (MapRoomID[ROOM2] < MaxRooms && MapName[x][y] == '\0') {
-							if (MapRoom[ROOM2][MapRoomID[ROOM2]] != '\0') {
+						if (MapRoomID[ROOM2] < MaxRooms && MapName[x][y] == "") {
+							if (MapRoom[ROOM2][MapRoomID[ROOM2]] != "") {
 								MapName[x][y] = MapRoom[ROOM2][MapRoomID[ROOM2]];
 							}
 						}
-						rooms[roomsIndex] = CreateRoom(rts, zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
+						rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
 						if (bb.bbRand(&rnd_state, 0, 2) == 1) {
 							rooms[roomsIndex].angle = 90;
 						}
@@ -521,12 +521,12 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 
 					}
 					else if (MapTemp[x][y - 1] > 0 && MapTemp[x][y + 1] > 0) {
-						if (MapRoomID[ROOM2] < MaxRooms && MapName[x][y] == '\0') {
-							if (MapRoom[ROOM2][MapRoomID[ROOM2]] != '\0') {
+						if (MapRoomID[ROOM2] < MaxRooms && MapName[x][y] == "") {
+							if (MapRoom[ROOM2][MapRoomID[ROOM2]] != "") {
 								MapName[x][y] = MapRoom[ROOM2][MapRoomID[ROOM2]];
 							}
 						}
-						rooms[roomsIndex] = CreateRoom(rts,zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
+						rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state,zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
 						if (bb.bbRand(&rnd_state, 0, 2) == 1) {
 							rooms[roomsIndex].angle = 180;
 						}
@@ -538,41 +538,41 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 
 					}
 					else {
-						if (MapRoomID[ROOM2C] < MaxRooms && MapName[x][y] == '\0') {
-							if (MapRoom[ROOM2C][MapRoomID[ROOM2C]] != '\0') {
+						if (MapRoomID[ROOM2C] < MaxRooms && MapName[x][y] == "") {
+							if (MapRoom[ROOM2C][MapRoomID[ROOM2C]] != "") {
 								MapName[x][y] = MapRoom[ROOM2C][MapRoomID[ROOM2C]];
 							}
 						}
 
 						if (MapTemp[x - 1][y] > 0 && MapTemp[x][y + 1] > 0) {
-							rooms[roomsIndex] = CreateRoom(rts, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
 							rooms[roomsIndex].angle = 180;
 							roomsIndex++;
 						}
 						else if (MapTemp[x + 1][y] > 0 && MapTemp[x][y + 1] > 0) {
-							rooms[roomsIndex] = CreateRoom(rts, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
 							rooms[roomsIndex].angle = 90;
 							roomsIndex++;
 						}
 						else if (MapTemp[x - 1][y] > 0 && MapTemp[x][y - 1] > 0) {
-							rooms[roomsIndex] = CreateRoom(rts, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
 							rooms[roomsIndex].angle = 270;
 							roomsIndex++;
 						}
 						else {
-							rooms[roomsIndex] = CreateRoom(rts, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
 							roomsIndex++;
 						}						
 						MapRoomID[ROOM2C] = MapRoomID[ROOM2C] + 1;
 					}
 
 				case 3:
-					if (MapRoomID[ROOM3] < MaxRooms && MapName[x][y] == '\0') {
-						if (MapRoom[ROOM3][MapRoomID[ROOM3]] != '\0') {
+					if (MapRoomID[ROOM3] < MaxRooms && MapName[x][y] == "") {
+						if (MapRoom[ROOM3][MapRoomID[ROOM3]] != "") {
 							MapName[x][y] = MapRoom[ROOM3][MapRoomID[ROOM3]];
 						}
 					}
-					rooms[roomsIndex] = CreateRoom(rts, zone, ROOM3, x * 8, 0, y * 8, MapName[x][y]);
+					rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state, zone, ROOM3, x * 8, 0, y * 8, MapName[x][y]);
 					if (!MapTemp[x][y - 1]) {
 						rooms[roomsIndex].angle = 180;
 						roomsIndex++;
@@ -591,28 +591,28 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 					MapRoomID[ROOM3] = MapRoomID[ROOM3] + 1;
 
 				case 4:
-					if (MapRoomID[ROOM4] < MaxRooms && MapName[x][y] == '\0') {
-						if (MapRoom[ROOM4][MapRoomID[ROOM4]] != '\0') {
+					if (MapRoomID[ROOM4] < MaxRooms && MapName[x][y] == "") {
+						if (MapRoom[ROOM4][MapRoomID[ROOM4]] != "") {
 							MapName[x][y] = MapRoom[ROOM4][MapRoomID[ROOM4]];
 						}
 					}
-					rooms[roomsIndex++] = CreateRoom(rts, zone, ROOM4, x * 8, 0, y * 8, MapName[x][y]);
+					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM4, x * 8, 0, y * 8, MapName[x][y]);
 					MapRoomID[ROOM4] = MapRoomID[ROOM4] + 1;
 				}
 			}
 		}
 	}
 
-	rooms[roomsIndex++] = CreateRoom(rts, 0, ROOM1, (MapWidth - 1) * 8, 500, 8, "gatea\0");
+	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 500, 8, "gatea");
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 
-	rooms[roomsIndex++] = CreateRoom(rts, 0, ROOM1, (MapWidth - 1) * 8, 0, (MapHeight - 1) * 8, "pocketdimension\0");
+	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 0, (MapHeight - 1) * 8, "pocketdimension");
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 
 	//If introenabled
 	//dont need bc intro never on
 
-	rooms[roomsIndex++] = CreateRoom(rts, 0, ROOM1, 8, 800, 0, "dimension1499\0");
+	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, 8, 800, 0, "dimension1499");
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 	
 	//18*18 because that is length of rooms array
