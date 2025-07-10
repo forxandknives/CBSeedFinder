@@ -1473,8 +1473,6 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rn
 			}
 		}
 	}
-	
-	cudaError c;
 
 
 	int32_t t = 0;

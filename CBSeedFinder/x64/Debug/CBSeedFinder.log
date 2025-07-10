@@ -1049,19 +1049,15 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1404): warning #2464-D: conversion
     	rt[counter].name = "dimension1499";
     	                 ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1522): warning #940-D: missing return statement at end of non-void function "CreateRoom"
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1520): warning #940-D: missing return statement at end of non-void function "CreateRoom"
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1477): warning #177-D: variable "c" was declared but never referenced
-    	cudaError c;
-    	          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1585): warning #177-D: variable "temp2" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1583): warning #177-D: variable "temp2" was declared but never referenced
     	int32_t temp2, x2, y2, rot, rot2;	
     	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1670): warning #177-D: variable "shrinkAmount" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1668): warning #177-D: variable "shrinkAmount" was declared but never referenced
     	static const float shrinkAmount = 0.05;
     	                   ^
   
@@ -1307,5 +1303,8 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_0000a5e8_00000000-7_kernel.cudafe1.cpp
+  tmpxft_00000a54_00000000-7_kernel.cudafe1.cpp
+  LINK : C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe not found or not built by the last incremental link; performing full link
+     Creating library C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.lib and object C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe

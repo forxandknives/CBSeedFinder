@@ -631,13 +631,13 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		}
 	}
 
-	/*
+	
 	if (threadIdx.x == 0) {
 		uint32_t tempCounter = 0;
 		for (int32_t i = 0; i < 18 * 18; i++) {				
 			Rooms* r = &rooms[i];
 
-			if (r->id == -2) tempCounter++;
+			if (r->id == -1) tempCounter++;
 
 			printf("THREAD: %d\n", threadIdx.x);
 			printf("NAME: %s\n", r->rt.name);
@@ -649,7 +649,6 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		}		
 		printf("Found %d null rooms.\n", tempCounter);
 	}
-	*/
 
 
 }

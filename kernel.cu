@@ -23,7 +23,7 @@ int main()
 
     //_control87();
 
-    const int arraySize = 5;    
+    const int arraySize = 1;    
     int* cudaOutput = 0;
     int* output = (int*)malloc(sizeof(int) * arraySize);   
 
