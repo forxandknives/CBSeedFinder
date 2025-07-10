@@ -1,1297 +1,861 @@
 ﻿  Compiling CUDA source file kernel.cu...
   
   C:\Users\forxa\Desktop\CBSeedFinder>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\bin\nvcc.exe" -gencode=arch=compute_52,code=\"sm_52,compute_52\" --use-local-env -ccbin "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64" -x cu   -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\include"  -G -lineinfo  --keep-dir CBSeedFinder\x64\Debug  -maxrregcount=0    --machine 64 --compile -cudart static  -g  -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -Xcompiler "/FdCBSeedFinder\x64\Debug\vc143.pdb" -o C:\Users\forxa\Desktop\CBSeedFinder\CBSeedFinder\x64\Debug\kernel.cu.obj "C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu" 
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(9): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(10): warning #1000-D: a storage class may not be specified here
     static struct rnd_state {
     ^
   
   Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
   
-C:\Users\forxa\Desktop\CBSeedFinder\Constants.cuh(28): warning #1000-D: a storage class may not be specified here
-    const static enum RoomID {
-    ^
+C:\Users\forxa\Desktop\CBSeedFinder\Constants.cuh(10): warning #1866-D: attribute does not apply to any entity
+    __declspec(__device__) __declspec(__constant__) enum RoomID : int32_t {
+                                      ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Constants.cuh(28): warning #21-D: type qualifiers are meaningless in this declaration
-    const static enum RoomID {
-    ^
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(27): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "EMPTY ROOM";
+    		       ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(11): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(29): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "lockroom";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(31): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "173";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(33): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "start";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(35): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room1123";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(37): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room1archive";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(39): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2storage";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(41): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3storage";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(43): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2tesla_lcz";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(45): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "endroom";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(47): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room012";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(49): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room205";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(51): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(53): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2_2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(55): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2_3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(57): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2_4";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(59): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2_5";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(61): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2c";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(63): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2c2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(65): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2closets";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(67): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2elevator";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(69): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2doors";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(71): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2scps";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(73): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room860";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(75): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2testroom2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(77): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(79): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3_2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(81): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(83): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4_2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(85): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "roompj";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(87): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "914";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(89): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2gw";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(91): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2gw_b";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(93): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room1162";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(95): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2scps2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(97): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2sl";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(99): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "lockroom3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(101): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4info";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(103): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3_3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(105): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "checkpoint1";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(107): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "008";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(109): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room035";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(111): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room049";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(113): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room106";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(115): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room513";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(117): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "coffin";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(119): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room966";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(121): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "endroom2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(123): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "testroom";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(125): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "tunnel";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(127): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "tunnel2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(129): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2ctunnel";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(131): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2nuke";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(133): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2pipes";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(135): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2pit";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(137): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3pit";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(139): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4pit";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(141): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2servers";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(143): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2shaft";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(145): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2tunnel";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(147): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3tunnel";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(149): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4tunnels";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(151): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2tesla_hcz";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(153): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3z2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(155): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2cpit";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(157): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2pipes2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(159): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "checkpoint2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(161): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room079";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(163): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "lockroom2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(165): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "exit1";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(167): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "gateaentrance";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(169): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "gatea";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(171): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "medibay";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(173): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2z3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(175): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2cafeteria";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(177): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3cz3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(179): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2ccont";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(181): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2offices";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(183): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2offices2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(185): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2offices3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(187): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2offices4";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(189): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2poffices";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(191): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2poffices2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(193): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2sroom";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(195): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2toilets";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(197): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2tesla";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(199): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3servers";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(201): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3servers2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(203): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3z3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(205): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4z3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(207): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room1lifts";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(209): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4gw";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(211): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2servers2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(213): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3offices";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(215): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2z3_2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(217): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "pocketdimension";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(219): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "dimension1499";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(221): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "EMPTY ROOM";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(12): warning #1000-D: a storage class may not be specified here
     static struct RoomTemplates {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(29): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(30): warning #1000-D: a storage class may not be specified here
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(69): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "lockroom";
-    	                 ^
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1378): warning #174-D: expression has no effect
+    	rt[counter].name = ROOM2Z3_2; "room2z3_2";
+    	                              ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(84): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "173";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(98): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "start";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(112): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room1123";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(127): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room1archive";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(141): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2storage";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(156): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3storage";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(165): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2tesla_lcz";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(179): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "endroom";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(194): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room012";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(209): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room205";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(224): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(238): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2_2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(252): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2_3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(266): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2_4";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(280): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2_5";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(294): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2c";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(308): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2c2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(322): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2closets";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(338): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2elevator";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(352): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2doors";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(366): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2scps";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(380): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room860";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(393): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2testroom2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(407): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(421): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3_2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(435): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(449): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4_2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(463): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "roompj";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(478): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "914";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(493): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2gw";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(507): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2gw_b";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(521): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room1162";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(535): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2scps2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(549): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2sl";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(564): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "lockroom3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(578): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4info";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(592): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3_3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(606): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "checkpoint1";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(621): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "008";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(636): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room035";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(650): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room049";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(660): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room106";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(676): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room513";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(690): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "coffin";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(705): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room966";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(713): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "endroom2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(727): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "testroom";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(742): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "tunnel";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(756): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "tunnel2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(770): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2ctunnel";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(784): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2nuke";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(799): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2pipes";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(813): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2pit";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(828): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3pit";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(843): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4pit";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(857): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2servers";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(872): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2shaft";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(886): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2tunnel";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(901): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3tunnel";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(915): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4tunnels";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(929): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2tesla_hcz";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(943): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3z2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(957): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2cpit";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(972): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2pipes2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(987): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "checkpoint2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1002): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room079";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1018): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "lockroom2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1032): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "exit1";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1041): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "gateaentrance";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1055): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "gatea";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1063): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "medibay";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1077): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2z3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1091): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2cafeteria";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1107): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2cz3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1121): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2ccont";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1136): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2offices";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1150): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2offices2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1165): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2offices3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1179): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2offices4";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1193): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2poffices";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1207): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2poffices2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1221): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2sroom";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1235): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2toilets";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1249): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2tesla";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1263): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3servers";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1278): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3servers2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1293): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3z3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1307): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4z3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1321): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room1lifts";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1335): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3gw";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1349): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2servers2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1363): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3offices";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1377): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2z3_2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1391): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "pocketdimension";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1404): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "dimension1499";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(350): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM1][0] = "start";
-    	                  ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(351): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("roompj", ROOM1, floorf(0.1 * float(Room1Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(352): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("914", ROOM1, floorf(0.3 * float(Room1Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(353): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room1archive", ROOM1, floorf(0.5 * float(Room1Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(354): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room205", ROOM1, floorf(0.6 * float(Room1Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(356): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][0] = "lockroom";
-    	                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(361): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2][0] = "room2closets";
-    	                  ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(362): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2testroom2", ROOM2, floorf(0.1 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(363): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2scps", ROOM2, floorf(0.2 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(364): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2storage", ROOM2, floorf(0.3 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(365): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2gw_b", ROOM2, floorf(0.4 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(366): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2sl", ROOM2, floorf(0.5 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(367): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room012", ROOM2, floorf(0.55 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(368): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2scps2", ROOM2, floorf(0.6 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(369): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room1123", ROOM2, floorf(0.7 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(370): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2elevator", ROOM2, floorf(0.85 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(373): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room3storage";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(376): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][tempIndex] = "room1162";
-    	                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(379): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM4][tempIndex] = "room4info";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(386): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room079", ROOM1, Room1Amount[0] + floorf(0.15 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(387): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room106", ROOM1, Room1Amount[0] + floorf(0.3 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(388): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("008", ROOM1, Room1Amount[0] + floorf(0.4 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(389): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room035", ROOM1, Room1Amount[0] + floorf(0.5 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(390): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("coffin", ROOM1, Room1Amount[0] + floorf(0.7 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(397): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2][tempIndex] = "room2nuke";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(398): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2tunnel", ROOM2, Room2Amount[0] + floorf(0.25 * float(Room2Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(399): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room049", ROOM2, Room2Amount[0] + floorf(0.4 * float(Room2Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(400): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2shaft", ROOM2, Room2Amount[0] + floorf(0.6 * float(Room2Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(401): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("testroom", ROOM2, Room2Amount[0] + floorf(0.7 * float(Room2Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(402): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2servers", ROOM2, Room2Amount[0] + floorf(0.9 * Room2Amount[1]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(405): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room513";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(407): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room966";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(410): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][tempIndex] = "room2cpit";
-    	                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(412): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][tempIndex] = "room2cpit";
-    	                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(416): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1] + Room1Amount[2] - 2] = "exit1";
-    	                                                                     ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(417): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1] + Room1Amount[2] - 1] = "gateaentrance";
-    	                                                                     ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(418): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1]] = "room1lifts";
-    	                                                ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(424): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2][tempIndex] = "room2poffices";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(425): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2cafeteria", ROOM2, min_pos + floorf(0.2 * float(Room2Amount[2])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(426): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2sroom", ROOM2, min_pos + floorf(0.3 * float(Room2Amount[2])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(427): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2servers2", ROOM2, min_pos + floorf(0.4 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(428): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2offices", ROOM2, min_pos + floorf(0.45 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(429): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2offices4", ROOM2, min_pos + floorf(0.5 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(430): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room860", ROOM2, min_pos + floorf(0.6 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(431): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("medibay", ROOM2, min_pos + floorf(0.7 * float(Room2Amount[2])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(432): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2poffices2", ROOM2, min_pos + floorf(0.8 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(433): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2offices2", ROOM2, min_pos + floorf(0.9 * float(Room2Amount[2])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(435): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][Room2CAmount[0] + Room2CAmount[1]] = "room2ccont";
-    	                                                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(436): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][Room2CAmount[0] + Room2CAmount[1] + 1] = "lockroom2";
-    	                                                       ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(439): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room3servers";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(441): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room3servers2";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(443): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room3offices";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(469): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");					
-    					                                                                                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(472): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint2");
-    					                                                                                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(606): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 500, 8, "gatea");
-    	                                                                                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(609): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 0, (MapHeight - 1) * 8, "pocketdimension");
-    	                                                                                                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(615): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, 8, 800, 0, "dimension1499");
-    	                                                                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(9): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(10): warning #1000-D: a storage class may not be specified here
     static struct rnd_state {
     ^
   
   Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
   
-C:\Users\forxa\Desktop\CBSeedFinder\Constants.cuh(28): warning #1000-D: a storage class may not be specified here
-    const static enum RoomID {
-    ^
+C:\Users\forxa\Desktop\CBSeedFinder\Constants.cuh(10): warning #1866-D: attribute does not apply to any entity
+    __declspec(__device__) __declspec(__constant__) enum RoomID : int32_t {
+                                      ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Constants.cuh(28): warning #21-D: type qualifiers are meaningless in this declaration
-    const static enum RoomID {
-    ^
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(27): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "EMPTY ROOM";
+    		       ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(11): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(29): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "lockroom";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(31): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "173";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(33): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "start";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(35): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room1123";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(37): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room1archive";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(39): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2storage";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(41): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3storage";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(43): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2tesla_lcz";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(45): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "endroom";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(47): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room012";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(49): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room205";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(51): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(53): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2_2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(55): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2_3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(57): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2_4";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(59): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2_5";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(61): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2c";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(63): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2c2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(65): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2closets";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(67): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2elevator";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(69): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2doors";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(71): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2scps";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(73): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room860";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(75): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2testroom2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(77): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(79): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3_2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(81): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(83): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4_2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(85): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "roompj";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(87): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "914";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(89): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2gw";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(91): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2gw_b";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(93): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room1162";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(95): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2scps2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(97): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2sl";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(99): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "lockroom3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(101): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4info";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(103): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3_3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(105): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "checkpoint1";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(107): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "008";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(109): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room035";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(111): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room049";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(113): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room106";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(115): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room513";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(117): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "coffin";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(119): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room966";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(121): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "endroom2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(123): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "testroom";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(125): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "tunnel";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(127): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "tunnel2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(129): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2ctunnel";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(131): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2nuke";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(133): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2pipes";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(135): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2pit";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(137): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3pit";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(139): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4pit";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(141): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2servers";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(143): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2shaft";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(145): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2tunnel";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(147): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3tunnel";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(149): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4tunnels";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(151): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2tesla_hcz";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(153): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3z2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(155): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2cpit";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(157): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2pipes2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(159): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "checkpoint2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(161): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room079";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(163): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "lockroom2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(165): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "exit1";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(167): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "gateaentrance";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(169): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "gatea";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(171): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "medibay";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(173): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2z3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(175): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2cafeteria";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(177): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3cz3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(179): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2ccont";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(181): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2offices";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(183): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2offices2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(185): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2offices3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(187): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2offices4";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(189): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2poffices";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(191): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2poffices2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(193): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2sroom";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(195): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2toilets";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(197): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2tesla";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(199): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3servers";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(201): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3servers2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(203): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3z3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(205): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4z3";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(207): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room1lifts";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(209): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room4gw";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(211): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2servers2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(213): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room3offices";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(215): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "room2z3_2";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(217): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "pocketdimension";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(219): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "dimension1499";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(221): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    		return "EMPTY ROOM";
+    		       ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(12): warning #1000-D: a storage class may not be specified here
     static struct RoomTemplates {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(29): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(30): warning #1000-D: a storage class may not be specified here
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(69): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "lockroom";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(84): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "173";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(98): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "start";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(112): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room1123";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(127): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room1archive";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(141): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2storage";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(156): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3storage";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(165): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2tesla_lcz";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(179): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "endroom";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(194): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room012";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(209): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room205";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(224): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(238): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2_2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(252): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2_3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(266): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2_4";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(280): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2_5";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(294): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2c";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(308): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2c2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(322): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2closets";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(338): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2elevator";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(352): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2doors";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(366): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2scps";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(380): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room860";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(393): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2testroom2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(407): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(421): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3_2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(435): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(449): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4_2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(463): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "roompj";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(478): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "914";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(493): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2gw";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(507): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2gw_b";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(521): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room1162";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(535): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2scps2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(549): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2sl";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(564): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "lockroom3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(578): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4info";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(592): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3_3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(606): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "checkpoint1";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(621): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "008";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(636): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room035";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(650): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room049";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(660): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room106";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(676): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room513";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(690): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "coffin";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(705): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room966";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(713): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "endroom2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(727): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "testroom";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(742): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "tunnel";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(756): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "tunnel2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(770): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2ctunnel";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(784): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2nuke";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(799): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2pipes";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(813): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2pit";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(828): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3pit";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(843): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4pit";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(857): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2servers";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(872): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2shaft";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(886): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2tunnel";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(901): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3tunnel";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(915): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4tunnels";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(929): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2tesla_hcz";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(943): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3z2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(957): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2cpit";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(972): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2pipes2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(987): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "checkpoint2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1002): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room079";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1018): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "lockroom2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1032): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "exit1";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1041): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "gateaentrance";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1055): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "gatea";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1063): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "medibay";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1077): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2z3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1091): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2cafeteria";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1107): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2cz3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1121): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2ccont";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1136): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2offices";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1150): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2offices2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1165): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2offices3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1179): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2offices4";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1193): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2poffices";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1207): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2poffices2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1221): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2sroom";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1235): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2toilets";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1249): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2tesla";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1263): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3servers";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1278): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3servers2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1293): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3z3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1307): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room4z3";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1321): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room1lifts";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1335): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3gw";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1349): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2servers2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1363): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room3offices";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1377): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "room2z3_2";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1391): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "pocketdimension";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1404): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rt[counter].name = "dimension1499";
-    	                 ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1522): warning #940-D: missing return statement at end of non-void function "CreateRoom"
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1378): warning #174-D: expression has no effect
+    	rt[counter].name = ROOM2Z3_2; "room2z3_2";
+    	                              ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1524): warning #940-D: missing return statement at end of non-void function "CreateRoom"
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1477): warning #177-D: variable "c" was declared but never referenced
-    	cudaError c;
-    	          ^
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1461): warning #177-D: variable "def" was declared but never referenced
+    	int32_t def = static_cast<int32_t>(abc);
+    	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1585): warning #177-D: variable "temp2" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1587): warning #177-D: variable "temp2" was declared but never referenced
     	int32_t temp2, x2, y2, rot, rot2;	
     	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1670): warning #177-D: variable "shrinkAmount" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1672): warning #177-D: variable "shrinkAmount" was declared but never referenced
     	static const float shrinkAmount = 0.05;
     	                   ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(350): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM1][0] = "start";
-    	                  ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(351): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("roompj", ROOM1, floorf(0.1 * float(Room1Amount[0])), min_pos, max_pos);
+C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(352): warning #177-D: variable "asd" was declared but never referenced
+    	int32_t asd = static_cast<int32_t>(MapRoom[ROOM1][0]);
     	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(352): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("914", ROOM1, floorf(0.3 * float(Room1Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(353): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room1archive", ROOM1, floorf(0.5 * float(Room1Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(354): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room205", ROOM1, floorf(0.6 * float(Room1Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(356): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][0] = "lockroom";
-    	                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(361): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2][0] = "room2closets";
-    	                  ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(362): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2testroom2", ROOM2, floorf(0.1 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(363): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2scps", ROOM2, floorf(0.2 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(364): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2storage", ROOM2, floorf(0.3 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(365): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2gw_b", ROOM2, floorf(0.4 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(366): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2sl", ROOM2, floorf(0.5 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(367): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room012", ROOM2, floorf(0.55 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(368): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2scps2", ROOM2, floorf(0.6 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(369): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room1123", ROOM2, floorf(0.7 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(370): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2elevator", ROOM2, floorf(0.85 * float(Room2Amount[0])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(373): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room3storage";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(376): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][tempIndex] = "room1162";
-    	                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(379): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM4][tempIndex] = "room4info";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(386): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room079", ROOM1, Room1Amount[0] + floorf(0.15 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(387): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room106", ROOM1, Room1Amount[0] + floorf(0.3 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(388): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("008", ROOM1, Room1Amount[0] + floorf(0.4 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(389): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room035", ROOM1, Room1Amount[0] + floorf(0.5 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(390): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("coffin", ROOM1, Room1Amount[0] + floorf(0.7 * float(Room1Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(397): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2][tempIndex] = "room2nuke";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(398): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2tunnel", ROOM2, Room2Amount[0] + floorf(0.25 * float(Room2Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(399): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room049", ROOM2, Room2Amount[0] + floorf(0.4 * float(Room2Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(400): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2shaft", ROOM2, Room2Amount[0] + floorf(0.6 * float(Room2Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(401): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("testroom", ROOM2, Room2Amount[0] + floorf(0.7 * float(Room2Amount[1])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(402): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2servers", ROOM2, Room2Amount[0] + floorf(0.9 * Room2Amount[1]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(405): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room513";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(407): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room966";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(410): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][tempIndex] = "room2cpit";
-    	                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(412): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][tempIndex] = "room2cpit";
-    	                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(416): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1] + Room1Amount[2] - 2] = "exit1";
-    	                                                                     ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(417): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1] + Room1Amount[2] - 1] = "gateaentrance";
-    	                                                                     ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(418): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM1][Room1Amount[0] + Room1Amount[1]] = "room1lifts";
-    	                                                ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(424): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2][tempIndex] = "room2poffices";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(425): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2cafeteria", ROOM2, min_pos + floorf(0.2 * float(Room2Amount[2])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(426): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2sroom", ROOM2, min_pos + floorf(0.3 * float(Room2Amount[2])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(427): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2servers2", ROOM2, min_pos + floorf(0.4 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(428): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2offices", ROOM2, min_pos + floorf(0.45 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(429): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2offices4", ROOM2, min_pos + floorf(0.5 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(430): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room860", ROOM2, min_pos + floorf(0.6 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(431): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("medibay", ROOM2, min_pos + floorf(0.7 * float(Room2Amount[2])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(432): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2poffices2", ROOM2, min_pos + floorf(0.8 * Room2Amount[2]), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(433): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	SetRoom("room2offices2", ROOM2, min_pos + floorf(0.9 * float(Room2Amount[2])), min_pos, max_pos);
-    	        ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(435): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][Room2CAmount[0] + Room2CAmount[1]] = "room2ccont";
-    	                                                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(436): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM2C][Room2CAmount[0] + Room2CAmount[1] + 1] = "lockroom2";
-    	                                                       ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(439): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room3servers";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(441): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room3servers2";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(443): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	MapRoom[ROOM3][tempIndex] = "room3offices";
-    	                          ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(469): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint1");					
-    					                                                                                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(472): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, "checkpoint2");
-    					                                                                                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(606): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 500, 8, "gatea");
-    	                                                                                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(609): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 0, (MapHeight - 1) * 8, "pocketdimension");
-    	                                                                                                           ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(615): warning #2464-D: conversion from a string literal to "char *" is deprecated
-    	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, 8, 800, 0, "dimension1499");
-    	                                                                          ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(448): warning #177-D: variable "spacing" was declared but never referenced
     	float spacing = 8.0;
@@ -1307,5 +871,5 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_0000a5e8_00000000-7_kernel.cudafe1.cpp
+  tmpxft_0000494c_00000000-7_kernel.cudafe1.cpp
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe

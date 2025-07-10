@@ -1,3 +1,4 @@
+#pragma once
 
 #ifndef RANDOM_CUH
 #define RANDOM_CUH
