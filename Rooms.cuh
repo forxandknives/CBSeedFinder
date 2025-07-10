@@ -51,13 +51,16 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rn
 __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
+__device__ inline void FillRoom(bbRandom bb, rnd_state* rnd_state, Rooms* r);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
-	int32_t counter = 0;
+	int32_t counter = 1;
 
 	//All commonness is defined as max(min(commonness, 100), 0);
 	//Rooms with disableoverlapcheck = true do not have min and max extents.
+	//The name variable is not a string but instead an enum for the ID of the room the roomtemplate represents.
+	//This is so we do no have to do char stuff.
 
 	//LIGHT CONTAINMENT
 
@@ -1491,22 +1494,22 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rn
 	int32_t RandomRoom = bb.bbRand(&rnd_state, 0, t);
 	t = 0;
 	for (int32_t i = 0; i < roomTemplateAmount; i++) {
-		RoomTemplates rt = rts[i];
+		RoomTemplates* rt = &rts[i];
 		for (int32_t j = 0; j <= 4; j++) {
-			if (rt.zone[j] == zone && rt.shape == roomshape) {
-				t = t + rt.commonness;
-				if (RandomRoom > t - rt.commonness && RandomRoom <= t) {
-					r.rt = rt;
+			if (rt->zone[j] == zone && rt->shape == roomshape) {
+				t = t + rt->commonness;
+				if (RandomRoom > t - rt->commonness && RandomRoom <= t) {
+					r.rt = *rt;
 
-					if (rt.obj == 0) {
+					if (rt->obj == 0) {
 						//INCOMPLETE
 						//LoadRoomMesh(rt);
 					}
 
 					//INCOMPLETE
-					//FillRoom(r);
+					FillRoom(bb, &rnd_state, &r);
 
-					//Skil light cone stuff
+					//Skip light cone stuff
 
 					CalculateRoomExtents(&r);
 					return r;
@@ -1670,5 +1673,13 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 	return;
 }
 
+__device__ inline void FillRoom(bbRandom bb, rnd_state* rnd_state, Rooms* r) {
+	
+
+}
+
+__device__ inline void CreateDoor(rnd_state* rnd_state, bool open, int32_t big) {
+
+}
 
 #endif
