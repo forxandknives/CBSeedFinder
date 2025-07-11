@@ -27,21 +27,21 @@ public:
 		return (rnd_state->rnd_state & 65535) / 65536.0f + (.5f / 65536.0f);
 	}
 
-	__device__ inline float bbRnd(rnd_state* rnd_state, int from, int to) {
+	__device__ inline float bbRnd(rnd_state* rnd_state, int32_t from, int32_t to) {
 		return rnd(rnd_state) * (to - from) + from;
 	}
 
-	__device__ inline int bbRand(rnd_state* rnd_state, int from, int to) {
+	__device__ inline int32_t bbRand(rnd_state* rnd_state, int32_t from, int32_t to) {
 		if (to < from) {
 			int temp = to;
 			from = to;
 			to = temp;
 		}
 
-		return int(rnd(rnd_state) * (to - from + 1)) + from;
+		return int32_t(rnd(rnd_state) * (to - from + 1)) + from;
 	}
 
-	__device__ inline void bbSeedRnd(rnd_state* rnd_state, int seed) {
+	__device__ inline void bbSeedRnd(rnd_state* rnd_state, int32_t seed) {
 		if (seed <= 0) {
 			rnd_state->rnd_state = 1;
 		} else {

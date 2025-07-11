@@ -13,13 +13,11 @@ __device__ inline int32_t GetZone(const int32_t y);
 __host__ __device__ inline char* RoomIDToName(RoomID r);
 
 __device__ inline int32_t GetZone(const int32_t y) {
-	int32_t zone = min(floorf((float(MapWidth - y) / MapWidth * ZONEAMOUNT)), float(ZONEAMOUNT - 1));
+	int32_t zone = int32_t(min(floorf((float(MapWidth - y) / MapWidth * ZONEAMOUNT)), float(ZONEAMOUNT - 1)));
 	return zone;
 }
 
-__host__ __device__ inline char* RoomIDToName(RoomID r) {
-
-	printf("in roomidtoname\n");
+__host__ __device__ inline char* RoomIDToName(RoomID r) {	
 
 	//big ass switch statement converting number to room name god help me.
 	switch (r) {

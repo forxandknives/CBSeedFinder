@@ -19,11 +19,11 @@ __device__ inline void InitNewGame(bbRandom bb, rnd_state rnd_state, RoomTemplat
 }
 
 __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates* rts) {
-	int32_t x, y, temp;
-	int32_t i, x2, y2;
-	int32_t width, height;
+	int32_t x = 0, y = 0, temp = 0;
+	int32_t i = 0, x2 = 0, y2 = 0;
+	int32_t width = 0, height = 0;
 
-	int32_t zone;
+	int32_t zone = 0;
 
 	RoomID MapName[MapWidth][MapHeight] = { {ROOMEMPTY, ROOMEMPTY} };
 	int32_t MapRoomID[ROOM4 + 1] = { 0 };
@@ -35,18 +35,20 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		MapTemp[x][i] = true;
 	}
 
-	int32_t tempheight;
-	int32_t yhallways;
+	int32_t tempheight = 0;
+	int32_t yhallways = 0;
+
 
 	do {
 		width = bb.bbRand(&rnd_state, 10, 15);
 
-		if ((float)x > float(MapWidth * 0.6)) {
+		if (x > MapWidth * 0.6) {
 			width = -width;
 		}
-		else if ((float)x > float(MapWidth * 0.4)) {
+		else if (x > MapWidth * 0.4) {
 			x = x - (width / 2);
 		}
+
 		if (x + width > MapWidth - 3) {
 			width = MapWidth - 3 - x;
 		}
@@ -55,7 +57,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		}
 
 		x = min(x, x + width);
-		width = abs((int)width);
+		width = abs((int32_t)width);
 
 		for (i = x; i <= x + width; i++) {
 			MapTemp[min(i, MapWidth)][y] = true;
@@ -80,8 +82,8 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 
 			if (x2 < x + width) {
 				if (i == 1) {
-					tempheight = height;
-					if (bb.bbRand(&rnd_state, 0, 2) == 1) {
+					tempheight = height;				
+					if (bb.bbRand(&rnd_state, 1, 2) == 1) {
 						x2 = x;
 					}
 					else {
@@ -107,9 +109,20 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 			}
 		}
 		x = temp;
-		y = y - height;
+		y = y - height;				
 
 	} while (y >= 2);
+
+	
+	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
+	//THE ORIGINAL GAME 1:1.
+
+	/*for (int32_t i = 0; i < MapWidth + 1; i++) {
+		for (int32_t j = 0; j < MapHeight + 1; j++) {
+			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
+		}
+	}
+	printf("RND_STATE: %d\n", rnd_state.rnd_state);*/
 
 	int32_t ZoneAmount = 3;
 	int32_t Room1Amount[3] = { 0 };
@@ -332,6 +345,13 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 			}
 		}
 	}
+
+	/*for (int32_t i = 0; i < MapWidth + 1; i++) {
+		for (int32_t j = 0; j < MapHeight + 1; j++) {
+			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
+		}
+	}
+	printf("RND_STATE: %d\n", rnd_state.rnd_state);*/
 
 	int32_t MaxRooms = 55 * MapWidth / 20;
 	MaxRooms = max(MaxRooms, Room1Amount[0] + Room1Amount[1] + Room1Amount[2] + 1);
