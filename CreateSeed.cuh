@@ -111,18 +111,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		x = temp;
 		y = y - height;				
 
-	} while (y >= 2);
-
-	
-	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
-	//THE ORIGINAL GAME 1:1.
-
-	/*for (int32_t i = 0; i < MapWidth + 1; i++) {
-		for (int32_t j = 0; j < MapHeight + 1; j++) {
-			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
-		}
-	}
-	printf("RND_STATE: %d\n", rnd_state.rnd_state);*/
+	} while (y >= 2);			
 
 	int32_t ZoneAmount = 3;
 	int32_t Room1Amount[3] = { 0 };
@@ -134,9 +123,9 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 	//count the amount of rooms
 	//might be problems with adding 1 to end number
 	//or reducing starting number by 1.
-	for (y = 0; y < MapHeight; y++) {
+	for (y = 1; y <= MapHeight - 1; y++) {
 		uint32_t zone = GetZone(y);
-		for (x = 0; x < MapWidth; x++) {
+		for (x = 1; x <= MapWidth - 1; x++) {
 			if (MapTemp[x][y] > 0) {
 				temp = min(MapTemp[x + 1][y], 1) + min(MapTemp[x - 1][y], 1);
 				temp = temp + min(MapTemp[x][y + 1], 1) + min(MapTemp[x][y - 1], 1);
@@ -146,34 +135,39 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 				switch (MapTemp[x][y]) {
 				case 1:
 					Room1Amount[zone] = Room1Amount[zone] + 1;
+					break;
 				case 2:
 					if (min(MapTemp[x + 1][y], 1) + min(MapTemp[x - 1][y], 1) == 2) {
 						Room2Amount[zone] = Room2Amount[zone] + 1;
-					}
+					}				
 					else if (min(MapTemp[x][y + 1], 1) + min(MapTemp[x][y - 1], 1) == 2) {
 						Room2Amount[zone] = Room2Amount[zone] + 1;
 					}
 					else {
 						Room2CAmount[zone] = Room2CAmount[zone] + 1;
 					}
+					break;
 				case 3:
 					Room3Amount[zone] = Room3Amount[zone] + 1;
+					break;
 				case 4:
 					Room4Amount[zone] = Room4Amount[zone] + 1;
+					break;
 				}
 			}
 		}
-	}
+	}				
+
 	//Force more room1s.
 	for (i = 0; i <= 2; i++) {
 		temp = -Room1Amount[i] + 5;
 		if (temp > 0) {
-			for (y = (MapHeight / ZoneAmount) * (2 - i) + 1; y <= ((MapHeight / ZoneAmount) * ((2 - 1) + 1.0)) - 2; y++) {
+			for (y = (MapHeight / ZoneAmount) * (2 - i) + 1; y <= ((MapHeight / ZoneAmount) * ((2 - i) + 1.0)) - 2; y++) {
 				for (x = 2; x <= MapWidth - 2; x++) {
 					if (MapTemp[x][y] == 0) {
 						if (min(MapTemp[x + 1][y], 1) + min(MapTemp[x - 1][y], 1) + min(MapTemp[x][y + 1], 1) + min(MapTemp[x][y - 1], 1) == 1) {
 							if (MapTemp[x + 1][y]) {
-								x2 = x;
+								x2 = x + 1;
 								y2 = y;
 							}
 							else if (MapTemp[x - 1][y]) {
@@ -181,7 +175,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 								y2 = y;
 							}
 							else if (MapTemp[x][y + 1]) {
-								x2 = 2;
+								x2 = x;
 								y2 = y + 1;
 							}
 							else if (MapTemp[x][y - 1]) {
@@ -202,16 +196,19 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 										Room3Amount[i] = Room3Amount[i] + 1;
 										placed = true;
 									}
+									break;
 								case 3:
 									Room3Amount[i] = Room3Amount[i] - 1;
 									Room4Amount[i] = Room4Amount[i] + 1;
 									placed = true;
+									break;
 								}
 								if (placed) {
 									MapTemp[x2][y2] = MapTemp[x2][y2] + 1;
 
 									MapTemp[x][y] = 1;
 									Room1Amount[i] = Room1Amount[i] + 1;
+									temp = temp - 1;
 								}
 							}
 						}
@@ -221,7 +218,22 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 				if (temp == 0) break;
 			}
 		}
+	}	
+
+	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
+	//THE ORIGINAL GAME 1:1.
+
+	for (int32_t i = 0; i < MapWidth + 1; i++) {
+		for (int32_t j = 0; j < MapHeight + 1; j++) {
+			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
+		}
 	}
+	printf("Room1Amount:  %d, %d, %d\n", Room1Amount[0], Room1Amount[1], Room1Amount[2]);
+	printf("Room2Amount:  %d, %d, %d\n", Room2Amount[0], Room2Amount[1], Room2Amount[2]);
+	printf("Room2CAmount: %d, %d, %d\n", Room2CAmount[0], Room2CAmount[1], Room2CAmount[2]);
+	printf("Room3Amount:  %d, %d, %d\n", Room3Amount[0], Room3Amount[1], Room3Amount[2]);
+	printf("Room4Amount:  %d, %d, %d\n", Room4Amount[0], Room4Amount[1], Room4Amount[2]);
+	printf("RND_STATE: %d\n", rnd_state.rnd_state);
 
 	int32_t temp2;
 
@@ -232,12 +244,15 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 		case 2:
 			zone = 2;
 			temp2 = MapHeight / 3;
+			break;
 		case 1:
 			zone = MapHeight / 3 + 1;
 			temp2 = MapHeight * (2.0 / 3.0) - 1;
+			break;
 		case 0:
 			zone = MapHeight * (2.0 / 3.0) + 1;
 			temp2 = MapHeight - 2;
+			break;
 		}
 
 		if (Room4Amount[i] < 1) {
