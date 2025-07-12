@@ -48,7 +48,7 @@ static struct Rooms {
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos);
-__device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
+__device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
 __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
@@ -60,8 +60,9 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	//Rooms with disableoverlapcheck = true do not have min and max extents.
 	//The name variable is not a string but instead an enum for the ID of the room the roomtemplate represents.
 	//This is so we do no have to do char stuff.
-
-	int32_t counter = 0;
+	
+	//We start at 1 because room template 0 is just room ambience stuff.
+	int32_t counter = 1;
 
 	//LIGHT CONTAINMENT
 
@@ -1276,7 +1277,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
 	//room3servers2
 	rt[counter].id = counter;
-	rt[counter].name = ROOM3SERVERS;// "room3servers2";
+	rt[counter].name = ROOM3SERVERS2;// "room3servers2";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
 	rt[counter].disableDecals = true;
@@ -1347,7 +1348,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
 	//room2servers2
 	rt[counter].id = counter;
-	rt[counter].name = ROOM2SERVERS;// "room2servers2";
+	rt[counter].name = ROOM2SERVERS2;// "room2servers2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
 	rt[counter].zone[0] = 3;
@@ -1443,12 +1444,12 @@ __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t po
 	}
 }
 
-__device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
+__device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
 
 	Rooms r = Rooms();
 	//RoomTemplates* rt;
 
-	//TEMPORARY
+	//The original game doesn't actually have a room id variable
 	r.id = roomIdCounter++;
 
 	r.zone = zone;
@@ -1470,7 +1471,8 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rn
 
 				//Don't think we need light cone stuff.
 
-				CalculateRoomExtents(&r);
+				//INCOMPLETE
+				//CalculateRoomExtents(&r);
 				return r;
 			}
 		}
@@ -1490,7 +1492,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rn
 	}
 	
 
-	int32_t RandomRoom = bb.bbRand(&rnd_state, 0, t);
+	int32_t RandomRoom = bb->bbRand(rnd_state, 1, t);
 	t = 0;
 	for (int32_t i = 0; i < roomTemplateAmount; i++) {
 		RoomTemplates* rt = &rts[i];
@@ -1506,11 +1508,12 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom bb, rnd_state rn
 					}
 
 					//INCOMPLETE
-					FillRoom(bb, &rnd_state, &r);
+					//FillRoom(bb, &rnd_state, &r);
 
 					//Skip light cone stuff
 
-					CalculateRoomExtents(&r);
+					//INCOMPLETE
+					//CalculateRoomExtents(&r);
 					return r;
 				}
 			}

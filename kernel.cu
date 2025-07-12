@@ -85,18 +85,15 @@ __global__ void testFunction(int* outputArray) {
 
     __syncthreads();
 
-    InitNewGame(bb, rnd_state, rts);
+    InitNewGame(&bb, &rnd_state, rts);
 
     outputArray[threadNumber] = a;      
 
     //TODO:
-    //It might be a good idea to have the room names in an array
-    //and copy that memory to the device and label it __shared__.
-    //Same thing for roomtemplates.
+    //Once everything is working see if we can reduce the data type of some variables
+    //from int32_t to int8_t or int16_t depending on the known max-limit of those variables.
 
-    //Make a host-side RoomTemplate class.
-    //Create a RT object for each item in rooms.ini
-    //Add them to an array and maye it __shared__ memory.
+    //See if we can just make a global rnd_state varaible instead of the stupid pointer stuff.
 
 }
 __device__ void dummy() {};

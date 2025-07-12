@@ -172,7 +172,7 @@ __host__ __device__ inline char* RoomIDToName(RoomID r) {
 	case ROOM2CAFETERIA:
 		return "room2cafeteria";
 	case ROOM2CZ3:
-		return "room3cz3";
+		return "room2cz3";
 	case ROOM2CCONT:
 		return "room2ccont";
 	case ROOM2OFFICES:
@@ -204,7 +204,7 @@ __host__ __device__ inline char* RoomIDToName(RoomID r) {
 	case ROOM1LIFTS:
 		return "room1lifts";
 	case ROOM3GW:
-		return "room4gw";
+		return "room3gw";
 	case ROOM2SERVERS2:
 		return "room2servers2";
 	case ROOM3OFFICES:

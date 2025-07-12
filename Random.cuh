@@ -33,7 +33,7 @@ public:
 
 	__device__ inline int32_t bbRand(rnd_state* rnd_state, int32_t from, int32_t to) {
 		if (to < from) {
-			int temp = to;
+			int32_t temp = to;
 			from = to;
 			to = temp;
 		}

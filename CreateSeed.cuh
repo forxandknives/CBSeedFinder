@@ -10,15 +10,15 @@
 #ifndef CREATE_SEED_CUH
 #define CREATE_SEED_CUH
 
-__device__ inline void InitNewGame(bbRandom bb, rnd_state rnd_state, RoomTemplates* rts);
-__device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates* rts);
+__device__ inline void InitNewGame(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts);
+__device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts);
 
-__device__ inline void InitNewGame(bbRandom bb, rnd_state rnd_state, RoomTemplates* rts) {
+__device__ inline void InitNewGame(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts) {
 
 	CreateMap(bb, rnd_state, rts);
 }
 
-__device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates* rts) {
+__device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts) {
 	int32_t x = 0, y = 0, temp = 0;
 	int32_t i = 0, x2 = 0, y2 = 0;
 	int32_t width = 0, height = 0;
@@ -40,7 +40,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 
 
 	do {
-		width = bb.bbRand(&rnd_state, 10, 15);
+		width = bb->bbRand(rnd_state, 10, 15);
 
 		if (x > MapWidth * 0.6) {
 			width = -width;
@@ -63,19 +63,19 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 			MapTemp[min(i, MapWidth)][y] = true;
 		}
 
-		height = bb.bbRand(&rnd_state, 3, 4);
+		height = bb->bbRand(rnd_state, 3, 4);
 		if (y - height < 1) {
 			height = y - 1;
 		}
 
-		yhallways = bb.bbRand(&rnd_state, 4, 5);
+		yhallways = bb->bbRand(rnd_state, 4, 5);
 
 		if (GetZone(y - height) != GetZone(y - height + 1)) {
 			height = height - 1;
 		}
 
 		for (i = 1; i <= yhallways; i++) {
-			x2 = max(min(bb.bbRand(&rnd_state, x, x + width - 1), MapWidth - 2), 2);
+			x2 = max(min(bb->bbRand(rnd_state, x, x + width - 1), MapWidth - 2), 2);
 			while (MapTemp[x2][y - 1] || MapTemp[x2 - 1][y - 1] || MapTemp[x2 + 1][y - 1]) {
 				x2++;
 			}
@@ -83,7 +83,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 			if (x2 < x + width) {
 				if (i == 1) {
 					tempheight = height;				
-					if (bb.bbRand(&rnd_state, 1, 2) == 1) {
+					if (bb->bbRand(rnd_state, 1, 2) == 1) {
 						x2 = x;
 					}
 					else {
@@ -91,7 +91,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 					}
 				}
 				else {
-					tempheight = bb.bbRand(&rnd_state, 1, height);
+					tempheight = bb->bbRand(rnd_state, 1, height);
 				}
 
 				for (y2 = y - tempheight; y2 <= y; y2++) {
@@ -399,7 +399,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 	SetRoom(ROOM1123, ROOM2, floorf(0.7 * float(Room2Amount[0])), min_pos, max_pos);
 	SetRoom(ROOM2ELEVATOR, ROOM2, floorf(0.85 * float(Room2Amount[0])), min_pos, max_pos);
 
-	int32_t tempIndex = floorf(bb.bbRnd(&rnd_state, 0.2, 0.8) * float(Room3Amount[0]));
+	int32_t tempIndex = floorf(bb->bbRnd(rnd_state, 0.2, 0.8) * float(Room3Amount[0]));
 	MapRoom[ROOM3][tempIndex] = ROOM3STORAGE;
 
 	tempIndex = floorf(0.5 * float(Room2CAmount[0]));
@@ -473,30 +473,13 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
 	//THE ORIGINAL GAME 1:1.
 
-	for (int32_t i = 0; i < MapWidth + 1; i++) {
-		for (int32_t j = 0; j < MapHeight + 1; j++) {
-			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
-		}
-	}
-	printf("Room1Amount:  %d, %d, %d\n", Room1Amount[0], Room1Amount[1], Room1Amount[2]);
-	printf("Room2Amount:  %d, %d, %d\n", Room2Amount[0], Room2Amount[1], Room2Amount[2]);
-	printf("Room2CAmount: %d, %d, %d\n", Room2CAmount[0], Room2CAmount[1], Room2CAmount[2]);
-	printf("Room3Amount:  %d, %d, %d\n", Room3Amount[0], Room3Amount[1], Room3Amount[2]);
-	printf("Room4Amount:  %d, %d, %d\n", Room4Amount[0], Room4Amount[1], Room4Amount[2]);
-	for (int32_t i = 0; i <= ROOM4; i++) {
-		for (int32_t j = 0; j <= MaxRooms; j++) {
-			printf("MapRoom: (%d, %d) %s MaxRooms: %d\n", i, j, RoomIDToName(MapRoom[i][j]), MaxRooms);
-		}
-	}
-	printf("RND_STATE: %d\n", rnd_state.rnd_state);
-
 	//-----------------------------------------------------------------------------------------
 	temp = 0;
 	//Rooms r;
 	float spacing = 8.0;
 
 	//we are going to attempt to use an array of Rooms to store the created rooms.
-	//Guessing that we never go past 180 rooms
+	//Guessing that we never go past 324 rooms
 	Rooms rooms[MapHeight*MapWidth] = { NULL };
 	int32_t roomsIndex = 0; //we must increment this after creating each room;		
 
@@ -536,7 +519,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 					if (MapTemp[x][y + 1]) {
 						rooms[roomsIndex].angle = 180;
 					}
-					else if (MapTemp[x][y - 1]) {
+					else if (MapTemp[x - 1][y]) {
 						rooms[roomsIndex].angle = 270;
 					}
 					else if (MapTemp[x + 1][y]) {
@@ -548,6 +531,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 					//Increment here since we didnt do it earlier.
 					roomsIndex++;
 					MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
+					break;
 
 				case 2:
 					//we gotta do more not incrementing roomsIndex here so might be wrong.
@@ -558,7 +542,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 							}
 						}
 						rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
-						if (bb.bbRand(&rnd_state, 0, 2) == 1) {
+						if (bb->bbRand(rnd_state, 1, 2) == 1) {
 							rooms[roomsIndex].angle = 90;
 						}
 						else {
@@ -575,7 +559,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 							}
 						}
 						rooms[roomsIndex] = CreateRoom(rts, bb, rnd_state,zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
-						if (bb.bbRand(&rnd_state, 0, 2) == 1) {
+						if (bb->bbRand(rnd_state, 1, 2) == 1) {
 							rooms[roomsIndex].angle = 180;
 						}
 						else {
@@ -613,7 +597,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 						}						
 						MapRoomID[ROOM2C] = MapRoomID[ROOM2C] + 1;
 					}
-
+					break;
 				case 3:
 					if (MapRoomID[ROOM3] < MaxRooms && MapName[x][y] == ROOMEMPTY) {
 						if (MapRoom[ROOM3][MapRoomID[ROOM3]] != ROOMEMPTY) {
@@ -637,6 +621,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 						roomsIndex++;
 					}
 					MapRoomID[ROOM3] = MapRoomID[ROOM3] + 1;
+					break;
 
 				case 4:
 					if (MapRoomID[ROOM4] < MaxRooms && MapName[x][y] == ROOMEMPTY) {
@@ -646,6 +631,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 					}
 					rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, zone, ROOM4, x * 8, 0, y * 8, MapName[x][y]);
 					MapRoomID[ROOM4] = MapRoomID[ROOM4] + 1;
+					break;
 				}
 			}
 		}
@@ -663,6 +649,30 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, 8, 800, 0, DIMENSION1499);
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 	
+	//-----------------------------	
+
+	/*for (int32_t i = 0; i < MapWidth + 1; i++) {
+		for (int32_t j = 0; j < MapHeight + 1; j++) {
+			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
+		}
+	}
+	printf("Room1Amount:  %d, %d, %d\n", Room1Amount[0], Room1Amount[1], Room1Amount[2]);
+	printf("Room2Amount:  %d, %d, %d\n", Room2Amount[0], Room2Amount[1], Room2Amount[2]);
+	printf("Room2CAmount: %d, %d, %d\n", Room2CAmount[0], Room2CAmount[1], Room2CAmount[2]);
+	printf("Room3Amount:  %d, %d, %d\n", Room3Amount[0], Room3Amount[1], Room3Amount[2]);
+	printf("Room4Amount:  %d, %d, %d\n", Room4Amount[0], Room4Amount[1], Room4Amount[2]);
+	for (int32_t i = 0; i <= ROOM4; i++) {
+		for (int32_t j = 0; j <= MaxRooms; j++) {
+			printf("MapRoom: (%d, %d) %s MaxRooms: %d\n", i, j, RoomIDToName(MapRoom[i][j]), MaxRooms);
+		}
+	}
+	for (int32_t i = 0; i < 324; i++) {
+		if (rooms[i].id == -1) break;
+
+		printf("RTID: %d NAME: %s X: %d Z: %d SHAPE: %d\n", rooms[i].rt.id, RoomIDToName(rooms[i].rt.name), (int)rooms[i].x, (int)rooms[i].z, rooms[i].rt.shape);
+	}
+	printf("RND_STATE: %d\n", rnd_state->rnd_state);*/
+
 	//18*18 because that is length of rooms array
 	for (i = 0; i < 18*18; i++) {
 		//idk if theres a good way of checking if there is nothing
