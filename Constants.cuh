@@ -118,7 +118,7 @@ __device__ __constant__ const int32_t MapWidth  = 18;
 
 __device__ static int32_t MapTemp[MapWidth+1][MapHeight+1];
 
-__device__ __constant__ const int32_t ZONEAMOUNT = 3;
+__device__ __constant__ const static int32_t ZONEAMOUNT = 3;
 
 __device__ static RoomID MapRoom[ROOM4 + 1][180] = { {RoomID::ROOMEMPTY, RoomID::ROOMEMPTY} };
 

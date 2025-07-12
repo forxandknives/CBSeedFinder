@@ -218,22 +218,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 				if (temp == 0) break;
 			}
 		}
-	}	
-
-	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
-	//THE ORIGINAL GAME 1:1.
-
-	for (int32_t i = 0; i < MapWidth + 1; i++) {
-		for (int32_t j = 0; j < MapHeight + 1; j++) {
-			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
-		}
-	}
-	printf("Room1Amount:  %d, %d, %d\n", Room1Amount[0], Room1Amount[1], Room1Amount[2]);
-	printf("Room2Amount:  %d, %d, %d\n", Room2Amount[0], Room2Amount[1], Room2Amount[2]);
-	printf("Room2CAmount: %d, %d, %d\n", Room2CAmount[0], Room2CAmount[1], Room2CAmount[2]);
-	printf("Room3Amount:  %d, %d, %d\n", Room3Amount[0], Room3Amount[1], Room3Amount[2]);
-	printf("Room4Amount:  %d, %d, %d\n", Room4Amount[0], Room4Amount[1], Room4Amount[2]);
-	printf("RND_STATE: %d\n", rnd_state.rnd_state);
+	}			
 
 	int32_t temp2;
 
@@ -262,10 +247,28 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 				for (x = 2; x <= MapWidth - 2; x++) {
 					if (MapTemp[x][y] == 3) {
 						//switch (0)
+						//We have to invert each if
+						if (!(MapTemp[x + 1][y] || MapTemp[x + 1][y + 1] || MapTemp[x + 1][y - 1] || MapTemp[x + 2][y])) {
+							MapTemp[x + 1][y] = 1;
+							temp = 1;						
+						}
+						else if (!(MapTemp[x - 1][y] || MapTemp[x - 1][y + 1] || MapTemp[x - 1][y - 1] || MapTemp[x - 2][y])) {
+							MapTemp[x - 1][y] = 1;
+							temp = 1;						
+						}
+						else if (!(MapTemp[x][y + 1] || MapTemp[x + 1][y + 1] || MapTemp[x - 1][y + 1] || MapTemp[x][y + 2])) {
+							MapTemp[x][y + 1] = 1;
+							temp = 1;
+						}
+						else if (!(MapTemp[x][y - 1] || MapTemp[x + 1][y - 1] || MapTemp[x - 1][y - 1] || MapTemp[x][y - 2])) {
+							MapTemp[x][y - 1] = 1;
+							temp = 1;
+						}
+
 						if (temp == 1) {
 							MapTemp[x][y] = 4;
 							Room4Amount[i] = Room4Amount[i] + 1;
-							Room3Amount[i] = Room3Amount[i] + 1;
+							Room3Amount[i] = Room3Amount[i] - 1;
 							Room1Amount[i] = Room1Amount[i] + 1;
 						}
 					}
@@ -279,24 +282,26 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 			temp = 0;
 
 			zone = zone + 1;
-			temp2 = temp2 + 1;
+			temp2 = temp2 - 1;
 
 			for (y = zone; y <= temp2; y++) {
 				for (x = 3; x <= MapWidth - 3; x++) {
 					if (MapTemp[x][y] == 1) {
 						if (true) {
 							if (MapTemp[x - 1][y] > 0) {
-								if ((MapTemp[x + 1][y - 2] + MapTemp[x + 2][y - 1] + MapTemp[x + 1][y - 1]) == 0) {
-									MapTemp[x][y] = 2;
-									MapTemp[x + 1][y] = 2;
-									MapTemp[x + 1][y - 1] = 1;
-									temp = 1;
-								}
-								else if ((MapTemp[x + 1][y + 2] + MapTemp[x + 2][y + 1] + MapTemp[x + 1][y + 1]) == 0) {
-									MapTemp[x][y] = 2;
-									MapTemp[x + 1][y] = 2;
-									MapTemp[x + 1][y + 1] = 1;
-									temp = 1;
+								if ((MapTemp[x][y - 1] + MapTemp[x][y + 1] + MapTemp[x + 2][y]) == 0) {
+									if ((MapTemp[x + 1][y - 2] + MapTemp[x + 2][y - 1] + MapTemp[x + 1][y - 1]) == 0) {
+										MapTemp[x][y] = 2;
+										MapTemp[x + 1][y] = 2;
+										MapTemp[x + 1][y - 1] = 1;
+										temp = 1;
+									}
+									else if ((MapTemp[x + 1][y + 2] + MapTemp[x + 2][y + 1] + MapTemp[x + 1][y + 1]) == 0) {
+										MapTemp[x][y] = 2;
+										MapTemp[x + 1][y] = 2;
+										MapTemp[x + 1][y + 1] = 1;
+										temp = 1;
+									}
 								}
 							}
 							else if (MapTemp[x + 1][y] > 0) {
@@ -316,7 +321,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 								}
 							}
 							else if (MapTemp[x][y - 1] > 0) {
-								if ((MapTemp[x - 1][y] + MapTemp[x - 1][y + 2] + MapTemp[x - 1][y + 1]) == 0) {
+								if ((MapTemp[x - 1][y] + MapTemp[x + 1][y] + MapTemp[x][y + 2]) == 0) {
 									if ((MapTemp[x - 2][y + 1] + MapTemp[x - 1][y + 2] + MapTemp[x - 1][y + 1]) == 0) {
 										MapTemp[x][y] = 2;
 										MapTemp[x][y + 1] = 2;
@@ -359,14 +364,22 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 				if (temp == 1) break;
 			}
 		}
-	}
+	}	
 
-	/*for (int32_t i = 0; i < MapWidth + 1; i++) {
+	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
+	//THE ORIGINAL GAME 1:1.
+
+	for (int32_t i = 0; i < MapWidth + 1; i++) {
 		for (int32_t j = 0; j < MapHeight + 1; j++) {
 			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
 		}
 	}
-	printf("RND_STATE: %d\n", rnd_state.rnd_state);*/
+	printf("Room1Amount:  %d, %d, %d\n", Room1Amount[0], Room1Amount[1], Room1Amount[2]);
+	printf("Room2Amount:  %d, %d, %d\n", Room2Amount[0], Room2Amount[1], Room2Amount[2]);
+	printf("Room2CAmount: %d, %d, %d\n", Room2CAmount[0], Room2CAmount[1], Room2CAmount[2]);
+	printf("Room3Amount:  %d, %d, %d\n", Room3Amount[0], Room3Amount[1], Room3Amount[2]);
+	printf("Room4Amount:  %d, %d, %d\n", Room4Amount[0], Room4Amount[1], Room4Amount[2]);
+	printf("RND_STATE: %d\n", rnd_state.rnd_state);
 
 	int32_t MaxRooms = 55 * MapWidth / 20;
 	MaxRooms = max(MaxRooms, Room1Amount[0] + Room1Amount[1] + Room1Amount[2] + 1);
