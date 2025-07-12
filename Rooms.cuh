@@ -1428,10 +1428,10 @@ __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t po
 				pos = min_pos + 1;
 				looped = true;
 			}
-		}
-		else {
-			can_place = false;
-			break;
+			else {
+				can_place = false;
+				break;
+			}
 		}
 	}
 	if (can_place) {

@@ -120,7 +120,9 @@ __device__ static int32_t MapTemp[MapWidth+1][MapHeight+1];
 
 __device__ __constant__ const static int32_t ZONEAMOUNT = 3;
 
-__device__ static RoomID MapRoom[ROOM4 + 1][180] = { {RoomID::ROOMEMPTY, RoomID::ROOMEMPTY} };
+//In my limited testing I've never seen MaxRooms go above 60, but to be safe
+//I will set it to 70.
+__device__ static RoomID MapRoom[ROOM4 + 1][70] = { {RoomID::ROOMEMPTY, RoomID::ROOMEMPTY} };
 
 __device__ __constant__ const int32_t roomTemplateAmount = 96;
 

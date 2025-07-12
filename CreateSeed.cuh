@@ -364,22 +364,7 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 				if (temp == 1) break;
 			}
 		}
-	}	
-
-	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
-	//THE ORIGINAL GAME 1:1.
-
-	for (int32_t i = 0; i < MapWidth + 1; i++) {
-		for (int32_t j = 0; j < MapHeight + 1; j++) {
-			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
-		}
-	}
-	printf("Room1Amount:  %d, %d, %d\n", Room1Amount[0], Room1Amount[1], Room1Amount[2]);
-	printf("Room2Amount:  %d, %d, %d\n", Room2Amount[0], Room2Amount[1], Room2Amount[2]);
-	printf("Room2CAmount: %d, %d, %d\n", Room2CAmount[0], Room2CAmount[1], Room2CAmount[2]);
-	printf("Room3Amount:  %d, %d, %d\n", Room3Amount[0], Room3Amount[1], Room3Amount[2]);
-	printf("Room4Amount:  %d, %d, %d\n", Room4Amount[0], Room4Amount[1], Room4Amount[2]);
-	printf("RND_STATE: %d\n", rnd_state.rnd_state);
+	}			
 
 	int32_t MaxRooms = 55 * MapWidth / 20;
 	MaxRooms = max(MaxRooms, Room1Amount[0] + Room1Amount[1] + Room1Amount[2] + 1);
@@ -387,23 +372,18 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 	MaxRooms = max(MaxRooms, Room2CAmount[0] + Room2CAmount[1] + Room2CAmount[2] + 1);
 	MaxRooms = max(MaxRooms, Room3Amount[0] + Room3Amount[1] + Room3Amount[2] + 1);
 	MaxRooms = max(MaxRooms, Room4Amount[0] + Room4Amount[1] + Room4Amount[2] + 1);
-	//I am just guessing the max possible rooms here.
-	//I dont think it will go above ~150 but 180 just to be safe.
-	// Im also moving this into constants.cuh.
-	//char* MapRoom[ROOM4 + 1][180] = { "" };
 
 	//zone 1 --------------------------------------------------------------------------------------
 	int32_t min_pos = 1;
 	int32_t max_pos = Room1Amount[0] - 1;
 
 	MapRoom[ROOM1][0] = START;
-	int32_t asd = static_cast<int32_t>(MapRoom[ROOM1][0]);
 	SetRoom(ROOMPJ, ROOM1, floorf(0.1 * float(Room1Amount[0])), min_pos, max_pos);
 	SetRoom(ROOM914, ROOM1, floorf(0.3 * float(Room1Amount[0])), min_pos, max_pos);
 	SetRoom(ROOM1ARCHIVE, ROOM1, floorf(0.5 * float(Room1Amount[0])), min_pos, max_pos);
 	SetRoom(ROOM205, ROOM1, floorf(0.6 * float(Room1Amount[0])), min_pos, max_pos);
 
-	MapRoom[ROOM2C][0] = LOCKROOM;
+	MapRoom[ROOM2C][0] = LOCKROOM;	
 
 	min_pos = 1;
 	max_pos = Room2Amount[0] - 1;
@@ -489,6 +469,26 @@ __device__ inline void CreateMap(bbRandom bb, rnd_state rnd_state, RoomTemplates
 	MapRoom[ROOM3][tempIndex] = ROOM3SERVERS2;
 	tempIndex = Room3Amount[0] + Room3Amount[1] + floorf(0.5 * float(Room3Amount[2]));
 	MapRoom[ROOM3][tempIndex] = ROOM3OFFICES;
+
+	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
+	//THE ORIGINAL GAME 1:1.
+
+	for (int32_t i = 0; i < MapWidth + 1; i++) {
+		for (int32_t j = 0; j < MapHeight + 1; j++) {
+			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
+		}
+	}
+	printf("Room1Amount:  %d, %d, %d\n", Room1Amount[0], Room1Amount[1], Room1Amount[2]);
+	printf("Room2Amount:  %d, %d, %d\n", Room2Amount[0], Room2Amount[1], Room2Amount[2]);
+	printf("Room2CAmount: %d, %d, %d\n", Room2CAmount[0], Room2CAmount[1], Room2CAmount[2]);
+	printf("Room3Amount:  %d, %d, %d\n", Room3Amount[0], Room3Amount[1], Room3Amount[2]);
+	printf("Room4Amount:  %d, %d, %d\n", Room4Amount[0], Room4Amount[1], Room4Amount[2]);
+	for (int32_t i = 0; i <= ROOM4; i++) {
+		for (int32_t j = 0; j <= MaxRooms; j++) {
+			printf("MapRoom: (%d, %d) %s MaxRooms: %d\n", i, j, RoomIDToName(MapRoom[i][j]), MaxRooms);
+		}
+	}
+	printf("RND_STATE: %d\n", rnd_state.rnd_state);
 
 	//-----------------------------------------------------------------------------------------
 	temp = 0;

@@ -27,7 +27,7 @@ public:
 		return (rnd_state->rnd_state & 65535) / 65536.0f + (.5f / 65536.0f);
 	}
 
-	__device__ inline float bbRnd(rnd_state* rnd_state, int32_t from, int32_t to) {
+	__device__ inline float bbRnd(rnd_state* rnd_state, float from, float to) {
 		return rnd(rnd_state) * (to - from) + from;
 	}
 
