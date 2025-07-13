@@ -18,7 +18,7 @@ static struct RoomTemplates {
 	RoomID name = ROOMEMPTY;
 	int32_t commonness;
 	bool large;
-	int32_t useLightCones;
+	int32_t lights;
 	bool disableOverlapCheck = true;
 	bool disableDecals;
 
@@ -52,7 +52,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
-__device__ inline void FillRoom(bbRandom bb, rnd_state* rnd_state, Rooms* r);
+__device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
@@ -1467,7 +1467,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 					//LoadRoomMesh(rts[i]);				
 				}
 				//INCOMPLETE
-				//FillRoom(r);
+				FillRoom(bb, rnd_state, &r);
 
 				//Don't think we need light cone stuff.
 
@@ -1507,7 +1507,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 					}
 
 					//INCOMPLETE
-					//FillRoom(bb, &rnd_state, &r);
+					FillRoom(bb, rnd_state, &r);
 
 					//Skip light cone stuff
 
@@ -1674,12 +1674,709 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 	return;
 }
 
-__device__ inline void FillRoom(bbRandom bb, rnd_state* rnd_state, Rooms* r) {
+__device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 	
+	RoomID name = r->rt.name;
 
-}
+	switch (name) {
+	case ROOM860:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, true, 0);
 
-__device__ inline void CreateDoor(rnd_state* rnd_state, bool open, int32_t big) {
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		//GenForestGrid();
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case LOCKROOM:
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		break;
+	case LOCKROOM2:
+		for (int32_t i = 0; i <= 5; i++) {
+			bb->bbRand(rnd_state, 2, 3);
+			bb->bbRnd(rnd_state, -392, 520);
+			bb->bbRnd(rnd_state, 0, 0.001);
+			bb->bbRnd(rnd_state, -392, 520);
+			bb->bbRnd(rnd_state, 0, 360);
+			bb->bbRnd(rnd_state, 0.3, 0.6);
+
+			bb->bbRand(rnd_state, 15, 16);
+			bb->bbRnd(rnd_state, -392, 520);
+			bb->bbRnd(rnd_state, 0, 0.001);
+			bb->bbRnd(rnd_state, -392, 520);
+			bb->bbRnd(rnd_state, 0, 360);
+			bb->bbRnd(rnd_state, 0.1, 0.6);
+
+			bb->bbRand(rnd_state, 15, 16);
+			bb->bbRnd(rnd_state, -0.5, 0.5);
+			bb->bbRnd(rnd_state, 0, 0.001);
+			bb->bbRnd(rnd_state, -0.5, 0.5);
+			bb->bbRnd(rnd_state, 0, 360);
+			bb->bbRnd(rnd_state, 0.1, 0.6);
+		}
+		break;
+	case GATEA:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		//INCOMPLETE
+		//This might be wrong. We'll see when we test FillRoom();
+		CreateDoor(bb, rnd_state, false, 3);
+		break;
+
+	case GATEAENTRANCE:
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, false, 1);
+		break;
+
+	case EXIT1:
+		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, false, 3);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case ROOMPJ:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateDoor(bb, rnd_state, true, 1);
+		break;
+
+	case ROOM079:
+		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state, false, 0);
+		bb->bbRnd(rnd_state, 0, 360);
+		break;
+
+	case CHECKPOINT1:
+	case CHECKPOINT2:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		
+		int32_t x = floorf(r->x / 8.0);
+		int32_t y = floorf(r->z / 8.0) - 1;
+
+		if (MapTemp[x][y] == 0) {
+			CreateDoor(bb, rnd_state, false, 0);
+		}
+		break;
+
+	case ROOM2PIT:
+		break;
+
+	case ROOM2TESTROOM2:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM3TUNNEL:
+		break;
+
+	case ROOM2TOILETS:
+		break;
+
+	case ROOM2STORAGE:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2SROOM:
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2SHAFT:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		bb->bbRnd(rnd_state, 0, 360);
+		break;
+
+	case ROOM2POFFICES:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2POFFICES2:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		bb->bbRnd(rnd_state, 0, 360);
+		bb->bbRnd(rnd_state, 0, 360);
+		bb->bbRnd(rnd_state, 0, 360);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2ELEVATOR:
+		CreateDoor(bb, rnd_state, false, 3);
+		break;
+
+	case ROOM2CAFETERIA:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2NUKE:
+		CreateDoor(bb, rnd_state, false, false);
+		CreateDoor(bb, rnd_state, false, false);
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, false, 3);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2TUNNEL:
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, false, 1);
+
+		bb->bbRnd(rnd_state, 0, 360);
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM008:
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM035:
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM513:
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM966:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM3STORAGE:
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, false, 3);
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, false, 3);
+
+		bb->bbRand(rnd_state, 1, 3);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		bb->bbRnd(rnd_state, 0, 360);
+
+		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state, false, 2);
+		break;
+
+	case ROOM049:
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, false, 3);
+		CreateDoor(bb, rnd_state, true, 3);
+		CreateDoor(bb, rnd_state, false, 3);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 2);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		CreateDoor(bb, rnd_state, true, 1);
+		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state, false, 2);
+		break;
+
+	case ROOM2_2:
+		break;
+
+	case ROOM012:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		bb->bbRnd(rnd_state, 0, 360);
+		break;
+
+	case TUNNEL2:
+		break;
+
+	case ROOM2PIPES:
+		break;
+
+	case ROOM3PIT:
+		break;
+
+	case ROOM2SERVERS:
+		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case ROOM3SERVERS:
+		CreateItem(bb, rnd_state);
+
+		
+		if (bb->bbRand(rnd_state, 1, 2) == 1) {
+			CreateItem(bb, rnd_state);
+		}
+		if (bb->bbRand(rnd_state, 1, 2) == 1) {
+			CreateItem(bb, rnd_state);
+		}
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM3SERVERS2:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case TESTROOM:
+		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state, true, 0);
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2CLOSETS:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		if (bb->bbRand(rnd_state, 1, 2) == 1) {
+			CreateItem(bb, rnd_state);
+		}
+		if (bb->bbRand(rnd_state, 1, 2) == 1) {
+			CreateItem(bb, rnd_state);
+		}
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case ROOM2OFFICES:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2OFFICES2:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		bb->bbRand(rnd_state, 1, 2);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		bb->bbRand(rnd_state, 1, 4);
+		break;
+
+	case ROOM2OFFICES3:
+		bb->bbRand(rnd_state, 1, 2);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		for (int32_t i = 0; i <= bb->bbRand(rnd_state, 0, 1); i++) {
+			CreateItem(bb, rnd_state);
+		}
+
+		CreateItem(bb, rnd_state);
+
+		if (bb->bbRand(rnd_state, 1, 2) == 1) {
+			CreateItem(bb, rnd_state);
+		}
+		if (bb->bbRand(rnd_state, 1, 2) == 1) {
+			CreateItem(bb, rnd_state);
+		}
+
+		CreateDoor(bb, rnd_state, true, 0);
+		break;
+
+	case START:
+		CreateDoor(bb, rnd_state, true, 1);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		bb->bbRnd(rnd_state, 0, 360);
+		bb->bbRnd(rnd_state, 0, 360); 
+		break;
+
+	case ROOM2SCPS:
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		for (int32_t i = 0; i <= 14; i++) {
+			bb->bbRand(rnd_state, 15, 16);
+			bb->bbRand(rnd_state, 1, 360);
+
+			if (i > 10) {
+				bb->bbRnd(rnd_state, 0.2, 0.25);
+			}
+			else {
+				bb->bbRnd(rnd_state, 0.1, 0.17);
+			}
+		}
+		break;
+
+	case ROOM205:
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		break;
+
+	case ENDROOM:
+		CreateDoor(bb, rnd_state, false, 1);
+		break;
+
+	//This one might not actually be a room.
+	//It is originally called endroomc.
+	case ENDROOM2:
+		CreateDoor(bb, rnd_state, false, 2);
+		break;
+
+	case COFFIN:
+		CreateDoor(bb, rnd_state, false, 1);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2TESLA:
+	case ROOM2TESLA_LCZ:
+	case ROOM2TESLA_HCZ:
+		break;
+
+	case ROOM2DOORS:
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		break;
+
+	case ROOM914:
+		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM173:
+		CreateDoor(bb, rnd_state, false, 1);
+
+		bb->bbRand(rnd_state, 4, 5);
+		
+		bb->bbRnd(rnd_state, 0, 360);
+
+		for (int32_t x = 0; x <= 1; x++) {
+			for (int32_t z = 0; z <= 1; z++) {
+				bb->bbRand(rnd_state, 4, 6);
+				bb->bbRnd(rnd_state, -0.5, 0.5);
+				bb->bbRnd(rnd_state, 0.001, 0.0018);
+				bb->bbRnd(rnd_state, -0.5, 0.5);
+				bb->bbRnd(rnd_state, 0, 360);
+				bb->bbRnd(rnd_state, 0.5, 0.8);
+				bb->bbRnd(rnd_state, 0.8, 1.0);
+			}
+		}
+
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		for (int32_t z = 0; z <= 1; z++) {
+			CreateDoor(bb, rnd_state, false, 0);
+			CreateDoor(bb, rnd_state, false, 0);
+			for (int32_t x = 0; x <= 2; x++) {
+				CreateDoor(bb, rnd_state, false, 0);
+			}
+			for (int32_t x = 0; x <= 4; x++) {
+				CreateDoor(bb, rnd_state, false, 0);
+			}
+		}
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2CCONT:
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM106:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case ROOM1ARCHIVE:
+		for (int32_t xtemp = 0; xtemp <= 1; xtemp++) {
+			for (int32_t ytemp = 0; ytemp <= 2; ytemp = 0) {
+				for (int32_t ztemp = 0; ztemp <= 2; ztemp++) {
+
+					int32_t chance = bb->bbRand(rnd_state, -10, 100);
+
+					if (chance < 0) {
+						break;
+					}
+					else if (chance < 40) {
+						bb->bbRand(rnd_state, 1, 6);
+					}
+					else if (chance < 45) {
+						bb->bbRand(rnd_state, 1, 2);
+					}
+					else if (chance >= 95 && chance <= 100) {
+						bb->bbRand(rnd_state, 1, 3);
+					}
+
+					bb->bbRnd(rnd_state, -96.0, 96.0);
+
+					CreateItem(bb, rnd_state);
+				}
+			}
+		}
+
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	//case ROOM2TEST1074 <--- not a room
+
+	case ROOM1123:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case POCKETDIMENSION:
+		CreateItem(bb, rnd_state);
+
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		
+		bb->bbRnd(rnd_state, 0.8, 0.8);
+
+		for (int32_t i = 1; i <= 8; i++) {
+			if (i < 6) {
+				bb->bbRnd(rnd_state, 0.5, 0.5);
+			}
+		}
+		break;
+
+	case ROOM3Z3:
+		break;
+
+	case ROOM2_3:
+	case ROOM3_3:
+		break;
+
+	case ROOM1LIFTS:
+		break;
+
+	case ROOM2SERVERS2:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+
+		bb->bbRand(rnd_state, 0, 245);
+		break;
+
+	case ROOM2GW:
+	case ROOM2GW_B:
+		if (name == ROOM2GW_B) {
+			bb->bbRnd(rnd_state, 0, 360);
+		}
+
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+
+		if (name == ROOM2GW) {	
+			//INCOMPLETE
+			//This might be wrong
+			bb->bbRand(rnd_state, 1, 2);
+		}
+		break;
+
+	case ROOM3GW:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case ROOM1162:
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2SCPS2:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+	
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM3OFFICES:
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case ROOM2OFFICES4:
+		CreateDoor(bb, rnd_state, false, 0);
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2SL:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case ROOM2_4:
+		break;
+
+	case ROOM3Z2:
+		break;
+
+	case LOCKROOM3:
+		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case MEDIBAY:
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+		CreateItem(bb, rnd_state);
+
+		CreateDoor(bb, rnd_state, false, 0);
+		break;
+
+	case ROOM2CPIT:
+		CreateDoor(bb, rnd_state, false, 2);
+
+		CreateItem(bb, rnd_state);
+		break;
+
+	case DIMENSION1499:
+		break;
+	}
+
 
 }
 
