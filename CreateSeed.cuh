@@ -468,10 +468,7 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 	tempIndex = Room3Amount[0] + Room3Amount[1] + floorf(0.7 * float(Room3Amount[2]));
 	MapRoom[ROOM3][tempIndex] = ROOM3SERVERS2;
 	tempIndex = Room3Amount[0] + Room3Amount[1] + floorf(0.5 * float(Room3Amount[2]));
-	MapRoom[ROOM3][tempIndex] = ROOM3OFFICES;
-
-	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
-	//THE ORIGINAL GAME 1:1.
+	MapRoom[ROOM3][tempIndex] = ROOM3OFFICES;	
 
 	//-----------------------------------------------------------------------------------------
 	temp = 0;
@@ -648,10 +645,11 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 
 	rooms[roomsIndex++] = CreateRoom(rts, bb, rnd_state, 0, ROOM1, 8, 800, 0, DIMENSION1499);
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
-	
-	//-----------------------------	
 
-	/*for (int32_t i = 0; i < MapWidth + 1; i++) {
+	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
+	//THE ORIGINAL GAME 1:1.
+
+	for (int32_t i = 0; i < MapWidth + 1; i++) {
 		for (int32_t j = 0; j < MapHeight + 1; j++) {
 			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
 		}
@@ -671,7 +669,7 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 
 		printf("RTID: %d NAME: %s X: %d Z: %d SHAPE: %d\n", rooms[i].rt.id, RoomIDToName(rooms[i].rt.name), (int)rooms[i].x, (int)rooms[i].z, rooms[i].rt.shape);
 	}
-	printf("RND_STATE: %d\n", rnd_state->rnd_state);*/
+	printf("RND_STATE: %d\n", rnd_state->rnd_state);
 
 	//18*18 because that is length of rooms array
 	for (i = 0; i < 18*18; i++) {

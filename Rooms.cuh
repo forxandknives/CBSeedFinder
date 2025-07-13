@@ -957,7 +957,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	//room2cpit
 	rt[counter].id = counter;
 	rt[counter].name = ROOM2CPIT;// "room2cpit";
-	rt[counter].shape = ROOM2;
+	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 0;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
@@ -1481,7 +1481,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 	int32_t t = 0;
 	for (int32_t i = 0; i < roomTemplateAmount; i++) {
 		//5 because that is the len of the rt.zone[] array;
-		for (int32_t j = 0; j < 5; j++) {
+		for (int32_t j = 0; j <= 4; j++) {
 			if (rts[i].zone[j] == zone) {
 				if (rts[i].shape == roomshape) {
 					t = t + rts[i].commonness;
@@ -1495,14 +1495,13 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 	int32_t RandomRoom = bb->bbRand(rnd_state, 1, t);
 	t = 0;
 	for (int32_t i = 0; i < roomTemplateAmount; i++) {
-		RoomTemplates* rt = &rts[i];
 		for (int32_t j = 0; j <= 4; j++) {
-			if (rt->zone[j] == zone && rt->shape == roomshape) {
-				t = t + rt->commonness;
-				if (RandomRoom > t - rt->commonness && RandomRoom <= t) {
-					r.rt = *rt;
+			if (rts[i].zone[j] == zone && rts[i].shape == roomshape) {
+				t = t + rts[i].commonness;
+				if (RandomRoom > t - rts[i].commonness && RandomRoom <= t) {
+					r.rt = rts[i];
 
-					if (rt->obj == 0) {
+					if (rts[i].obj == 0) {
 						//INCOMPLETE
 						//LoadRoomMesh(rt);
 					}

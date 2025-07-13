@@ -124,7 +124,7 @@ __device__ __constant__ const static int32_t ZONEAMOUNT = 3;
 //I will set it to 70.
 __device__ static RoomID MapRoom[ROOM4 + 1][70] = { {RoomID::ROOMEMPTY, RoomID::ROOMEMPTY} };
 
-__device__ __constant__ const int32_t roomTemplateAmount = 96;
+__device__ __constant__ const int32_t roomTemplateAmount = 97;
 
 __device__ static int32_t roomIdCounter = 0;
 
