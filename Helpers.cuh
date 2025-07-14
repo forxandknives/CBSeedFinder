@@ -20,9 +20,10 @@ __device__ inline int32_t GetZone(const int32_t y) {
 }
 
 __device__ inline void CreateDoor(bbRandom* bb, rnd_state* rnd_state, bool open, int32_t big) {
-	if (open && !big && bb->bbRand(rnd_state, 1, 8)) {
-		//do nothing because yea
-	}
+	//if (open && !big && bb->bbRand(rnd_state, 1, 8)) {
+	//	//do nothing because yea
+	//}
+	bb->bbRand(rnd_state, 1, 8);
 }
 
 __device__ inline void CreateItem(bbRandom* bb, rnd_state* rnd_state) {

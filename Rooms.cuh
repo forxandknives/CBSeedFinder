@@ -73,6 +73,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].zone[0] = 1;
 	rt[counter].zone[1] = 3;
 	rt[counter].commonness = 30;
+	rt[counter].lights = 4;
 	rt[counter].minX = -864.0;
 	rt[counter].minY = 0.0;
 	rt[counter].minZ = -1024.0;
@@ -86,6 +87,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM173;// "173";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 29;
 	rt[counter].disableDecals = true;
 	rt[counter].minX = -8705.0;
 	rt[counter].minY = -768.0;
@@ -100,6 +102,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = START;// "start";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 9;
 	rt[counter].disableDecals = true;
 	rt[counter].minX = -672.0;
 	rt[counter].minY = -28.0;
@@ -114,6 +117,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM1123;//"room1123";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 20;
 	rt[counter].zone[0] = 1;
 	rt[counter].disableDecals = true;
 	rt[counter].minX = -928.0;
@@ -129,6 +133,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM1ARCHIVE;// "room1archive";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 80;
+	rt[counter].lights = 2;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -768.0;
 	rt[counter].minY = -16.0;
@@ -143,6 +148,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2STORAGE;// "room2storage";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 10;
 	rt[counter].zone[0] = 1;
 	rt[counter].disableDecals = true;
 	rt[counter].minX = -1328.0001;
@@ -158,6 +164,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3STORAGE;// "room3storage";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 33;
 	rt[counter].zone[0] = 1;
 	rt[counter].disableOverlapCheck = true;
 	counter++;
@@ -167,6 +174,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2TESLA_LCZ;//"room2tesla_lcz";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 8;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -304.00012;
 	rt[counter].minY = -64.0;
@@ -181,6 +189,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ENDROOM;// "endroom";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 1;
 	rt[counter].zone[2] = 3;
 	rt[counter].minX = -720.0;
@@ -196,6 +205,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM012;//"room012";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 1;
 	rt[counter].disableDecals = true;
 	rt[counter].minX = -1024.0;
@@ -211,6 +221,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM205;//"room205";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 1;
 	rt[counter].large = true;
 	rt[counter].minX = -1792.0;
@@ -226,6 +237,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2ID;//"room2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 45;
+	rt[counter].lights = 2;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -304.0;
 	rt[counter].minY = -1.0;
@@ -240,6 +252,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2_2;// "room2_2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 40;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -800.0;
 	rt[counter].minY = -1.0;
@@ -254,6 +267,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2_3;// "room2_3";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 35;
+	rt[counter].lights = 0;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -416.00003;
 	rt[counter].minY = -20.0;
@@ -268,6 +282,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2_4;// "room2_4";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 35;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -304.0;
 	rt[counter].minY = -1.0;
@@ -282,6 +297,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2_5;// "room2_5";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 35;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -304.0;
 	rt[counter].minY = -1.0;
@@ -296,6 +312,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2CID;// "room2c";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 30;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -320.0;
 	rt[counter].minY = 0.0;
@@ -310,6 +327,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2C2;// "room2c2";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 30;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -320.0;
 	rt[counter].minY = 0.0;
@@ -324,6 +342,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2CLOSETS;// "room2closets";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 1;
 	rt[counter].disableDecals = true;
 	rt[counter].large = true;
@@ -340,6 +359,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2ELEVATOR;// "room2elevator";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 20;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -304.00006;
 	rt[counter].minY = -32.0;
@@ -354,6 +374,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2DOORS;// "room2doors";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 30;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = 0.0;
@@ -368,6 +389,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2SCPS;// "room2scps";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -816.0001;
 	rt[counter].minY = -1.0;
@@ -382,6 +404,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM860;// "room860";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 4;
 	rt[counter].minX = -304.0;
 	rt[counter].minY = -32.0;
 	rt[counter].minZ = -1024.0;
@@ -395,6 +418,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2TESTROOM2;// "room2testroom2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0002;
 	rt[counter].minY = -48.0;
@@ -409,6 +433,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3ID;// "room3";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = 0.0;
@@ -423,6 +448,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3_2;// "room3_2";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = 0.0;
@@ -437,6 +463,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM4ID;// "room4";
 	rt[counter].shape = ROOM4;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = 0.0;
@@ -451,6 +478,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM4_2;// "room4_2";
 	rt[counter].shape = ROOM4;
 	rt[counter].commonness = 80;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -0.0000038146973;
@@ -465,6 +493,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOMPJ;// "roompj";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 8;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0;
@@ -480,6 +509,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM914;// "914";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 9;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0001;
@@ -495,6 +525,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2GW;// "room2gw";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 10;
+	rt[counter].lights = 2;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -544.0;
 	rt[counter].minY = -18.0;
@@ -509,6 +540,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2GW_B;// "room2gw_b";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 2;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -482.00003;
 	rt[counter].minY = -18.0;
@@ -523,6 +555,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM1162;// "room1162";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -320.0;
 	rt[counter].minY = -32.0;
@@ -537,6 +570,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2SCPS2;// "room2scps2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -304.0;
 	rt[counter].minY = -9.599998;
@@ -551,6 +585,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2SL;// "room2sl";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 7;
 	rt[counter].zone[0] = 1;
 	rt[counter].large = true;
 	rt[counter].minX = -304.0;
@@ -566,6 +601,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = LOCKROOM3;// "lockroom3";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 15;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -832.0;
 	rt[counter].minY = 0.0;
@@ -580,6 +616,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM4INFO;// "room4info";
 	rt[counter].shape = ROOM4;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -20.0;
@@ -594,6 +631,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3_3;// "room3_3";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 20;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -24.0;
@@ -608,6 +646,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = CHECKPOINT1;// "checkpoint1";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 2;
 	rt[counter].minX = -1104.0;
 	rt[counter].minY = 0.0;
 	rt[counter].minZ = -1024.0001;
@@ -623,6 +662,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM008;// "008";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -608.0;
@@ -638,6 +678,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM035;// "room035";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -736.0;
 	rt[counter].minY = -32.0;
@@ -652,6 +693,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM049;// "room049";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 26;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].disableOverlapCheck = true;	
@@ -662,6 +704,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM106;// "room106";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 14;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].large = true;
@@ -678,6 +721,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM513;// "room513";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -1.0000322;
@@ -692,6 +736,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = COFFIN;// "coffin";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 9;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 1;
 	rt[counter].minX = -960.0;
@@ -707,6 +752,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM966;// "room966";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].disableOverlapCheck = true;
 	counter++;
 
@@ -715,6 +761,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ENDROOM2;// "endroom2";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -480.00003;
 	rt[counter].minY = -0.56270504;
@@ -729,6 +776,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = TESTROOM;// "testroom";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 23;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -1024.0;
@@ -744,6 +792,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = TUNNEL;// "tunnel";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -288.0;
 	rt[counter].minY = -0.9999924;
@@ -758,6 +807,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = TUNNEL2;// "tunnel2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 70;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -336.0;
 	rt[counter].minY = -0.9492798;
@@ -772,6 +822,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2CTUNNEL;// "room2ctunnel";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 40;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -384.0;
 	rt[counter].minY = -0.0000076293945;
@@ -786,6 +837,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2NUKE;// "room2nuke";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 14;
 	rt[counter].zone[0] = 2;
 	rt[counter].large = true;
 	rt[counter].minX = -1024.0;
@@ -801,6 +853,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2PIPES;// "room2pipes";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 50;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -312.09503;
 	rt[counter].minY = -449.0;
@@ -815,6 +868,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2PIT;// "room2pit";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 75;
+	rt[counter].lights = 6;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -1024.0001;
@@ -830,6 +884,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3PIT;// "room3pit";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 12;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -1024.0;
@@ -845,6 +900,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM4PIT;// "room4pit";
 	rt[counter].shape = ROOM4;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 16;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -960.99994;
@@ -859,6 +915,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2SERVERS;// "room2servers";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 2;
 	rt[counter].large = true;
 	rt[counter].minX = -1664.0;
@@ -874,6 +931,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2SHAFT;// "room2shaft";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].disableDecals = true;
 	rt[counter].minX = -256.0;
 	rt[counter].minY = -1504.0;
@@ -888,6 +946,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2TUNNEL;// "room2tunnel";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 4;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -880.0;
@@ -903,6 +962,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3TUNNEL;// "room3tunnel";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -0.0000076293945;
@@ -917,6 +977,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM4TUNNELS;// "room4tunnels";
 	rt[counter].shape = ROOM4;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -64.0;
@@ -931,6 +992,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2TESLA_HCZ;// "room2tesla_hcz";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 10;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -304.0;
 	rt[counter].minY = -64.0;
@@ -945,6 +1007,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3Z2;// "room3z2";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 3;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -32.0;
@@ -959,6 +1022,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2CPIT;// "room2cpit";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 10;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -568.0001;
@@ -974,6 +1038,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2PIPES2;// "room2pipes2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 70;
+	rt[counter].lights = 6;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].minX = -256.0;
@@ -989,6 +1054,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = CHECKPOINT2;// "checkpoint2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 2;
 	rt[counter].minX = -1102.0;
 	rt[counter].minY = 0.0;
 	rt[counter].minZ = -1024.0002;
@@ -1004,6 +1070,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM079;// "room079";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 3;
 	rt[counter].large = true;
@@ -1020,6 +1087,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = LOCKROOM2;// "lockroom2";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -864.0;
 	rt[counter].minY = -1.0;
@@ -1034,6 +1102,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = EXIT1;// "exit1";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 15;
 	rt[counter].zone[0] = 3;
 	rt[counter].disableOverlapCheck = true;	
 	counter++;
@@ -1043,6 +1112,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = GATEAENTRANCE;// "gateaentrance";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -720.0;
 	rt[counter].minY = -32.0;
@@ -1057,6 +1127,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = GATEA;// "gatea";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 12;
 	rt[counter].disableOverlapCheck = true;
 	counter++;
 
@@ -1065,6 +1136,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = MEDIBAY;// "medibay";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1024.0002;
 	rt[counter].minY = -1.8437233;
@@ -1079,6 +1151,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2Z3;// "room2z3";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 75;
+	rt[counter].lights = 0;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -256.0;
 	rt[counter].minY = -1.0;
@@ -1093,6 +1166,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2CAFETERIA;// "room2cafeteria";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 7;
 	rt[counter].zone[0] = 3;
 	rt[counter].large = true;
 	rt[counter].disableOverlapCheck = true;
@@ -1109,6 +1183,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2CZ3;// "room2cz3";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -576.0;
 	rt[counter].minY = -1.0;
@@ -1123,6 +1198,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2CCONT;// "room2ccont";
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 9;
 	rt[counter].zone[0] = 3;
 	rt[counter].large = true;
 	rt[counter].minX = -2272.0;
@@ -1138,6 +1214,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2OFFICES;// "room2offices";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 30;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -608.0;
 	rt[counter].minY = 0.0;
@@ -1152,6 +1229,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2OFFICES2;// "room2offices2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 20;
+	rt[counter].lights = 6;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1024.0;
@@ -1167,6 +1245,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2OFFICES3;// "room2offices3";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 20;
+	rt[counter].lights = 6;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1600.0002;
 	rt[counter].minY = -0.000029060417;
@@ -1181,6 +1260,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2OFFICES4;// "room2offices4";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1568.0;
 	rt[counter].minY = -416.0;
@@ -1195,6 +1275,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2POFFICES;// "room2poffices";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -512.0;
 	rt[counter].minY = -0.000030517578;
@@ -1209,6 +1290,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2POFFICES2;// "room2poffices2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1184.0;
 	rt[counter].minY = -1.4324226;
@@ -1223,6 +1305,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2SROOM;// "room2sroom";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -304.0;
 	rt[counter].minY = -0.000030517578;
@@ -1237,6 +1320,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2TOILETS;// "room2toilets";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 30;
+	rt[counter].lights = 5;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -320.0;
 	rt[counter].minY = 0.0;
@@ -1251,6 +1335,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2TESLA;// "room2tesla";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 8;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -304.00012;
 	rt[counter].minY = -64.0;
@@ -1265,6 +1350,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3SERVERS;// "room3servers";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1024.0;
@@ -1280,6 +1366,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3SERVERS2;// "room3servers2";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 6;
 	rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1024.0;
@@ -1295,6 +1382,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3Z3;// "room3z3";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 1;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = 0.0;
@@ -1309,6 +1397,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM4Z3;// "room4z3";
 	rt[counter].shape = ROOM4;
 	rt[counter].commonness = 100;
+	rt[counter].lights = 2;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -1.0;
@@ -1323,6 +1412,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM1LIFTS;// "room1lifts";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 1;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -464.0;
 	rt[counter].minY = -36.01808;
@@ -1337,6 +1427,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3GW;// "room3gw";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 10;
+	rt[counter].lights = 1;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -18.0;
@@ -1351,6 +1442,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2SERVERS2;// "room2servers2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 4;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1081.5002;
 	rt[counter].minY = -800.02185;
@@ -1365,6 +1457,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM3OFFICES;// "room3offices";
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 1;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -1024.0;
 	rt[counter].minY = -0.0000076293945;
@@ -1379,6 +1472,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = ROOM2Z3_2; "room2z3_2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 25;
+	rt[counter].lights = 0;
 	rt[counter].zone[0] = 3;
 	rt[counter].minX = -304.0;
 	rt[counter].minY = -1.0;
@@ -1393,6 +1487,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = POCKETDIMENSION;// "pocketdimension";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 1;
 	rt[counter].minX = -512.0;
 	rt[counter].minY = -32.0;
 	rt[counter].minZ = -512.0;
@@ -1406,6 +1501,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].name = DIMENSION1499;// "dimension1499";
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
+	rt[counter].lights = 0;
 	rt[counter].disableDecals = true;
 	rt[counter].minX = -7509.0;
 	rt[counter].minY = -672.0001;
@@ -1678,6 +1774,8 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 	
 	RoomID name = r->rt.name;
 
+	printf("Starting FillRoom on: %s RND: %d\n", RoomIDToName(name), rnd_state->rnd_state);
+
 	switch (name) {
 	case ROOM860:
 		CreateDoor(bb, rnd_state, false, 0);
@@ -1764,8 +1862,8 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 		
-		int32_t x = floorf(r->x / 8.0);
-		int32_t y = floorf(r->z / 8.0) - 1;
+		int32_t x = int(floorf(r->x / 8.0));
+		int32_t y = int(floorf(r->z / 8.0)) - 1;
 
 		if (MapTemp[x][y] == 0) {
 			CreateDoor(bb, rnd_state, false, 0);
@@ -1873,6 +1971,9 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		CreateItem(bb, rnd_state);
 		break;
 
+	case TUNNEL:
+		break;
+
 	case ROOM2TUNNEL:
 		CreateDoor(bb, rnd_state, true, 3);
 		CreateDoor(bb, rnd_state, true, 3);
@@ -1881,6 +1982,9 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		bb->bbRnd(rnd_state, 0, 360);
 
 		CreateItem(bb, rnd_state);
+		break;
+
+	case ROOM2CTUNNEL:
 		break;
 
 	case ROOM008:
@@ -1898,6 +2002,7 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 
+		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1957,6 +2062,7 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		CreateDoor(bb, rnd_state, false, 2);
 		break;
 
+	case ROOM2ID:
 	case ROOM2_2:
 		break;
 
@@ -2075,15 +2181,15 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		break;
 
 	case START:
-		CreateDoor(bb, rnd_state, true, 1);
+		CreateDoor(bb, rnd_state, true, 1);	
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, true, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, true, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 
-		bb->bbRnd(rnd_state, 0, 360);
-		bb->bbRnd(rnd_state, 0, 360); 
+		bb->bbRand(rnd_state, 1, 360);
+		bb->bbRand(rnd_state, 1, 360); 
 		break;
 
 	case ROOM2SCPS:
@@ -2125,7 +2231,7 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 	//This one might not actually be a room.
 	//It is originally called endroomc.
 	case ENDROOM2:
-		CreateDoor(bb, rnd_state, false, 2);
+		//CreateDoor(bb, rnd_state, false, 2);
 		break;
 
 	case COFFIN:
@@ -2216,7 +2322,7 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 
 	case ROOM1ARCHIVE:
 		for (int32_t xtemp = 0; xtemp <= 1; xtemp++) {
-			for (int32_t ytemp = 0; ytemp <= 2; ytemp = 0) {
+			for (int32_t ytemp = 0; ytemp <= 2; ytemp++) {
 				for (int32_t ztemp = 0; ztemp <= 2; ztemp++) {
 
 					int32_t chance = bb->bbRand(rnd_state, -10, 100);
@@ -2276,6 +2382,8 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		break;
 
 	case ROOM2_3:
+	case ROOM3ID:
+	case ROOM3_2:
 	case ROOM3_3:
 		break;
 
@@ -2349,6 +2457,7 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		break;
 
 	case ROOM2_4:
+	case ROOM2_5:
 		break;
 
 	case ROOM3Z2:
@@ -2375,8 +2484,25 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 
 	case DIMENSION1499:
 		break;
+
+	case ROOM4INFO:
+	case ROOM4PIT:
+	case ROOM4Z3:
+		break;
+
+	default:
+		printf("ROOM: %s NOT FOUND IN FillRoom().\n", RoomIDToName(name));
 	}
 
+	printf("BEFORE LIGHTS NAME: %s RND: %d\n", RoomIDToName(name), rnd_state->rnd_state);
+
+	//32 becase that is MaxRoomLights
+	for (int32_t i = 0; i < min(32, r->rt.lights); i++) {
+		bb->bbRand(rnd_state, 1, 360);
+		bb->bbRand(rnd_state, 1, 10);
+	}
+
+	printf("AFTER LIGHTS NAME: %s RND: %d\n\n", RoomIDToName(name), rnd_state->rnd_state);
 
 }
 
