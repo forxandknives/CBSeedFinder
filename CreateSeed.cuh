@@ -667,19 +667,21 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 	for (int32_t i = 0; i < 324; i++) {
 		if (rooms[i].id == -1) break;
 
-		printf("RTID: %d NAME: %s X: %d Z: %d SHAPE: %d\n", rooms[i].rt.id, RoomIDToName(rooms[i].rt.name), (int)rooms[i].x, (int)rooms[i].z, rooms[i].rt.shape);
+		Rooms* r = &rooms[i];
+
+		printf("NAME: %s ANGLE: %d MINX: %f MINY: %f MINZ: %f MAXX: %f MAXY: %f MAXZ: %f\n", RoomIDToName(r->rt.name), r->angle, r->minX, r->minY, r->minZ, r->maxX, r->maxY, r->maxZ);
 	}
 	printf("RND_STATE: %d\n", rnd_state->rnd_state);
 
 	//18*18 because that is length of rooms array
-	for (i = 0; i < 18*18; i++) {
-		//idk if theres a good way of checking if there is nothing
+	for (i = 0; i < 18*18; i++) {	
 		//at the index of the rooms array.
 		//if the id is -1 that means
-		//if (rooms[i].rt.id == -1) break;
+		if (rooms[i].rt.id == -1) break;
 
-		PreventRoomOverlap(rooms, i);
+		PreventRoomOverlap(&rooms[i], rooms);
 	}
+
 
 	for (y = 0; y <= MapHeight; y++) {
 		for (x = 0; x <= MapWidth; x++) {

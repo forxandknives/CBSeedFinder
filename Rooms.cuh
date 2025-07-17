@@ -49,7 +49,7 @@ static struct Rooms {
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos);
 __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
-__device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index);
+__device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
 __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r);
@@ -1568,7 +1568,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 				//Don't think we need light cone stuff.
 
 				//INCOMPLETE
-				//CalculateRoomExtents(&r);
+				CalculateRoomExtents(&r);
 				return r;
 			}
 		}
@@ -1608,7 +1608,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 					//Skip light cone stuff
 
 					//INCOMPLETE
-					//CalculateRoomExtents(&r);
+					CalculateRoomExtents(&r);
 					return r;
 				}
 			}
@@ -1618,13 +1618,11 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 	//but it isn't there in the blitz code so idk.
 }
 
-__device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
-	if (rooms[index].rt.disableOverlapCheck) return true;
+__device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms) {
+	if (r->rt.disableOverlapCheck) return true;
 
-
-	//CLEANUP
-	//We should probably make this a pointer instead of a copy.
-	Rooms* r = &rooms[index];
+	//We might have some problems with passing the rooms array by pointer.
+	//Want to make sure we pass by reference instead of making a new copy of entire rooms array.
 
 	Rooms* r2;
 	Rooms* r3;
@@ -1635,6 +1633,10 @@ __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
 
 	for (int32_t i = 0; i < 324; i++) {
 		r2 = &rooms[i];
+
+		//-1 id means we are at the point of the array where there are no more rooms.
+		if (r2->id == -1) break;
+
 		if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
 			if (CheckRoomOverlap(r, r2)) {
 				isIntersecting = true;
@@ -1655,7 +1657,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
 		CalculateRoomExtents(r);
 
 		for (int32_t i = 0; i < 18 * 18; i++) {
-			if (rooms[i].id == -1) break; //Id should only be -1 after all other rooms.
+			if (r->id == -1) break; //Id should only be -1 after all other rooms.
 			r2 = &rooms[i];
 
 			if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
@@ -1682,6 +1684,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
 	int32_t temp2, x2, y2, rot, rot2;	
 	for (int32_t i = 0; i < 18 * 18; i++) {
 		if (rooms[i].id == -1) break;
+
 		r2 = &rooms[i];
 
 		if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
@@ -1709,6 +1712,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* rooms, int32_t index) {
 				//make sure neither room overlaps with anything after the swap
 				for (int32_t i = 0; i < 18 * 18; i++) {
 					if (rooms[i].id == -1) break;
+
 					r3 = &rooms[i];
 
 					if (!r3->rt.disableOverlapCheck) {
@@ -1767,6 +1771,59 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 	static const float shrinkAmount = 0.05;
 
 	//We must convert TFormVector() in blitz to c++ code.
+	static float roomScale = 8.0 / 2048.0;
+
+	//First we scale.
+	r->rt.minX *= roomScale;
+	r->rt.minY *= roomScale;
+	r->rt.minZ *= roomScale;
+
+	r->rt.maxX *= roomScale;
+	r->rt.maxY *= roomScale;
+	r->rt.maxZ *= roomScale;
+
+	//Then we rotate	
+	float rad = 0.0;
+	switch (r->angle) {
+	case 90:
+		rad = 1.5708;
+		break;
+	case 180:
+		rad = 3.14159;
+		break;
+	case 270:
+		rad = 4.71239;
+		break;
+	}
+
+	r->rt.minX = r->rt.minX * cosf(rad) - r->rt.minZ * sinf(rad);
+	r->rt.minZ = r->rt.minX * sinf(rad) + r->rt.minZ * cosf(rad);
+
+	r->rt.maxX = r->rt.maxX * cosf(rad) - r->rt.maxZ * sinf(rad);
+	r->rt.maxZ = r->rt.maxX * sinf(rad) + r->rt.maxZ * cosf(rad);
+
+	//Back to blitz.
+
+	r->minX = r->rt.minX + shrinkAmount + r->x;
+	r->minY = r->rt.minY + shrinkAmount;
+	r->minZ = r->rt.minZ + shrinkAmount + r->z;
+
+	r->maxX = r->rt.maxX - shrinkAmount + r->x;
+	r->maxY = r->rt.maxY - shrinkAmount;
+	r->maxZ = r->rt.maxZ - shrinkAmount + r->z;
+
+	if (r->minX > r->maxX) {
+		float temp = r->maxX;
+		r->maxX = r->minX;
+		r->minX = temp;
+	}
+
+	if (r->minZ > r->maxZ) {
+		float temp = r->maxZ;
+		r->maxZ = r->minZ;
+		r->minZ = temp;
+	}
+
 	return;
 }
 

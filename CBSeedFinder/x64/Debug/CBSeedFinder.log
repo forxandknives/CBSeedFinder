@@ -419,9 +419,9 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1472): warning #174-D: expression 
     	rt[counter].name = ROOM2Z3_2; "room2z3_2";
     	                              ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1779): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 1865)
-              variable "y" (declared at line 1866)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1836): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 1922)
+              variable "y" (declared at line 1923)
     	switch (name) {
     	^
   
@@ -847,17 +847,13 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1619): warning #940-D: missing ret
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1682): warning #177-D: variable "temp2" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1684): warning #177-D: variable "temp2" was declared but never referenced
     	int32_t temp2, x2, y2, rot, rot2;	
     	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1767): warning #177-D: variable "shrinkAmount" was declared but never referenced
-    	static const float shrinkAmount = 0.05;
-    	                   ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1779): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 1865)
-              variable "y" (declared at line 1866)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1836): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 1922)
+              variable "y" (declared at line 1923)
     	switch (name) {
     	^
   
@@ -875,7 +871,5 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_0000a808_00000000-7_kernel.cudafe1.cpp
-     Creating library C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.lib and object C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exp
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  tmpxft_0000e558_00000000-7_kernel.cudafe1.cpp
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe
