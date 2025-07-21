@@ -4870,7 +4870,7 @@ __device__ void GetRoomExtents(Rooms* r) {
 
 		}
 		break;
-	case 008:
+	case ROOM008:
 		switch (angle) {
 		case 0:
 			minX = 5.675000190734863;

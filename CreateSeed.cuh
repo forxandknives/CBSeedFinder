@@ -665,7 +665,7 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 
 		Rooms* r = &rooms[i];
 
-		printf("NAME: %s X: %d Z: %d\n", RoomIDToName(r->rt.name), int(r->x), int(r->z));
+		printf("NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 	}
 	printf("RND_STATE: %d\n", rnd_state->rnd_state);
 
