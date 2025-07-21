@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClInclude Include="Constants.cuh" />
     <ClInclude Include="CreateSeed.cuh" />
+    <ClInclude Include="Extents.cuh" />
     <ClInclude Include="Helpers.cuh" />
     <ClInclude Include="Random.cuh" />
     <ClInclude Include="Rooms.cuh" />

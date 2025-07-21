@@ -12,6 +12,7 @@ typedef struct RoomTemplates RoomTemplates;
 static struct RoomTemplates {
 	int32_t obj;
 	int32_t id = -1;
+    int32_t extentIndex = 0;
 	//dont need objPath i think
 	int32_t zone[5] = { 0 };
 	int32_t shape;
@@ -1470,7 +1471,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
 	//room2z3_2
 	rt[counter].id = counter;
-	rt[counter].name = ROOM2Z3_2; "room2z3_2";
+	rt[counter].name = ROOM2Z3_2;// "room2z3_2";
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 25;
 	rt[counter].lights = 0;

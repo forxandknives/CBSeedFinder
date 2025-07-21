@@ -128,5 +128,4 @@ __device__ __constant__ const int32_t roomTemplateAmount = 97;
 
 __device__ static int32_t roomIdCounter = 0;
 
-
 #endif
