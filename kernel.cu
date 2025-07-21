@@ -33,11 +33,16 @@ int main()
         exit(1);
     }
 
+    //This causes GPU assert fail so we probably can't do this.
+    //_control87(_RC_NEAR | _PC_24 | _EM_INVALID | _EM_ZERODIVIDE | _EM_OVERFLOW | _EM_UNDERFLOW | _EM_INEXACT | _EM_DENORMAL, 0xfffff);
+
     printf("starting!\n");
 
     testFunction <<<1, arraySize>>> (cudaOutput);    
 
     printf("ended!\n");
+
+    //_control87(_CW_DEFAULT, 0xfffff);
 
     c = cudaGetLastError();
     if (c != cudaSuccess) {

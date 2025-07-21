@@ -647,40 +647,27 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 
 	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
-	//THE ORIGINAL GAME 1:1.
+	//THE ORIGINAL GAME 1:1.	
 
-	for (int32_t i = 0; i < MapWidth + 1; i++) {
-		for (int32_t j = 0; j < MapHeight + 1; j++) {
-			printf("MapTemp (%d, %d) %d\n", i, j, MapTemp[i][j]);
-		}
+	//18*18 because that is length of rooms array
+	//In the future, if this program works, we can check the room amount of 
+	//every seed in the game, take the maximun number, and set the
+	//rooms array length to that number.
+	for (i = 0; i < 18*18; i++) {	
+		//If id is -1 that means we reached end of actual rooms in array.
+		if (rooms[i].rt.id == -1) break;
+
+		PreventRoomOverlap(&rooms[i], rooms);
 	}
-	printf("Room1Amount:  %d, %d, %d\n", Room1Amount[0], Room1Amount[1], Room1Amount[2]);
-	printf("Room2Amount:  %d, %d, %d\n", Room2Amount[0], Room2Amount[1], Room2Amount[2]);
-	printf("Room2CAmount: %d, %d, %d\n", Room2CAmount[0], Room2CAmount[1], Room2CAmount[2]);
-	printf("Room3Amount:  %d, %d, %d\n", Room3Amount[0], Room3Amount[1], Room3Amount[2]);
-	printf("Room4Amount:  %d, %d, %d\n", Room4Amount[0], Room4Amount[1], Room4Amount[2]);
-	for (int32_t i = 0; i <= ROOM4; i++) {
-		for (int32_t j = 0; j <= MaxRooms; j++) {
-			printf("MapRoom: (%d, %d) %s MaxRooms: %d\n", i, j, RoomIDToName(MapRoom[i][j]), MaxRooms);
-		}
-	}
+	
 	for (int32_t i = 0; i < 324; i++) {
 		if (rooms[i].id == -1) break;
 
 		Rooms* r = &rooms[i];
 
-		printf("NAME: %s ANGLE: %d MINX: %f MINY: %f MINZ: %f MAXX: %f MAXY: %f MAXZ: %f\n", RoomIDToName(r->rt.name), r->angle, r->minX, r->minY, r->minZ, r->maxX, r->maxY, r->maxZ);
+		printf("NAME: %s X: %d Z: %d\n", RoomIDToName(r->rt.name), int(r->x), int(r->z));
 	}
 	printf("RND_STATE: %d\n", rnd_state->rnd_state);
-
-	//18*18 because that is length of rooms array
-	for (i = 0; i < 18*18; i++) {	
-		//at the index of the rooms array.
-		//if the id is -1 that means
-		if (rooms[i].rt.id == -1) break;
-
-		PreventRoomOverlap(&rooms[i], rooms);
-	}
 
 
 	for (y = 0; y <= MapHeight; y++) {
