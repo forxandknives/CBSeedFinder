@@ -56,6 +56,7 @@
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <GenerateLineInfo>true</GenerateLineInfo>
+      <Optimization>InheritFromHost</Optimization>
     </CudaCompile>
     <CudaLink>
       <GPUDebugInfo>true</GPUDebugInfo>
@@ -86,6 +87,7 @@
   <ItemGroup>
     <ClInclude Include="Constants.cuh" />
     <ClInclude Include="CreateSeed.cuh" />
+    <ClInclude Include="Extents.cuh" />
     <ClInclude Include="Helpers.cuh" />
     <ClInclude Include="Random.cuh" />
     <ClInclude Include="Rooms.cuh" />
