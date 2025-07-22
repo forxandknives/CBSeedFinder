@@ -133,7 +133,7 @@ __global__ void testFunction(int* outputArray, float* extents, uint8_t* forest) 
     //god help me
     rnd_state rnd_state;    
     bbRandom bb = bbRandom();
-    bb.bbSeedRnd(&rnd_state, 1022727131/*threadNumber*/);
+    bb.bbSeedRnd(&rnd_state, 1022940408/*threadNumber*/);
 
     int a = threadNumber;        
 
