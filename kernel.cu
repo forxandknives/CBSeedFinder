@@ -50,8 +50,10 @@ int main()
     printf("  Concurrent kernels: %s\n", prop.concurrentKernels ? "yes" : "no");
     printf("  Concurrent computation/communication: %s\n\n", prop.deviceOverlap ? "yes" : "no");        
 
-    int extentSize = 48416;
+    int extentSize = 48960;
     float* hostExtents = (float*)malloc(extentSize * sizeof(float));   
+
+    PopulateRoomExtents(hostExtents);   
 
     float* deviceExtents;
     c = cudaMalloc((void**)&deviceExtents, extentSize * sizeof(float));
@@ -121,7 +123,7 @@ __global__ void testFunction(int* outputArray, float* extents) {
 
     __syncthreads();
 
-    InitNewGame(&bb, &rnd_state, rts);
+    InitNewGame(&bb, &rnd_state, rts, extents);
 
     outputArray[threadNumber] = a;      
 
@@ -132,4 +134,5 @@ __global__ void testFunction(int* outputArray, float* extents) {
     //See if we can just make a global rnd_state varaible instead of the stupid pointer stuff.
 
 }
+
 __device__ void dummy() {};

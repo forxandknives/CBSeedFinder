@@ -12,7 +12,7 @@ typedef struct RoomTemplates RoomTemplates;
 static struct RoomTemplates {
 	int32_t obj;
 	int32_t id = -1;
-    int32_t extentIndex = 0;
+    int32_t index = 0;
 	//dont need objPath i think
 	int32_t zone[5] = { 0 };
 	int32_t shape;
@@ -49,12 +49,12 @@ static struct Rooms {
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos);
-__device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
-__device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms);
+__device__ inline Rooms CreateRoom(float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
+__device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
 __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r);
-__device__ void GetRoomExtents(Rooms* r);
+__device__ void GetRoomExtents(Rooms* r, float* e);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
@@ -82,6 +82,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 640.0;
 	rt[counter].maxZ = 864.0;
+    rt[counter].index = 0; //lockroom
 	counter++;
 
 	//173
@@ -112,7 +113,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 5504.0;
 	rt[counter].maxY = 1400.0;
 	rt[counter].maxZ = 2848.0;
-	counter++;
+    rt[counter].index = 1; //start
+    counter++;
 
 	//room1123
 	rt[counter].id = counter;
@@ -128,7 +130,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 980.8511;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 2; //room1123
+    counter++;
 
 	//room1archive
 	rt[counter].id = counter;
@@ -143,7 +146,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 288.0;
 	rt[counter].maxY = 600.23865;
 	rt[counter].maxZ = 752.00006;
-	counter++;
+    rt[counter].index = 3; //room1archive
+    counter++;
 
 	//room2storage
 	rt[counter].id = counter;
@@ -159,7 +163,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1328.0001;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 4; //room2storage
+    counter++;
 
 	//room3storage
 	rt[counter].id = counter;
@@ -183,7 +188,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].minZ = -1024.0;
 	rt[counter].maxX = 304.0001;
 	rt[counter].maxY = 714.83057;
-	rt[counter].maxZ = 1024.0;
+    rt[counter].maxZ = 1024.0;
+    rt[counter].index = 5; //room2tesla_lcz
 	counter++;
 
 	//endroom
@@ -200,7 +206,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 784.0;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1240.0;
-	counter++;
+    rt[counter].index = 6; //endroom
+    counter++;
 
 	//room012
 	rt[counter].id = counter;
@@ -216,7 +223,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 816.00006;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 7; //room012
+    counter++;
 
 	//room205
 	rt[counter].id = counter;
@@ -232,7 +240,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 800.0;
 	rt[counter].maxY = 1184.0;
 	rt[counter].maxZ = 864.0;
-	counter++;
+    rt[counter].index = 8; //room205
+    counter++;
 
 	//room2
 	rt[counter].id = counter;
@@ -247,7 +256,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 304.0001;
 	rt[counter].maxY = 726.83057;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 9; //room2
+    counter++;
 
 	//room2_2
 	rt[counter].id = counter;
@@ -262,7 +272,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 304.0001;
 	rt[counter].maxY = 726.83057;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 10; //room2_2
+    counter++;
 
 	//room2_3
 	rt[counter].id = counter;
@@ -277,7 +288,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 416.0;
 	rt[counter].maxY = 596.23865;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 11; //room2_3
+    counter++;
 
 	//room2_4
 	rt[counter].id = counter;
@@ -292,7 +304,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 772.0;
 	rt[counter].maxY = 706.86816;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 12; //room2_4
+    counter++;
 
 	//room2_5
 	rt[counter].id = counter;
@@ -307,7 +320,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 320.0;
 	rt[counter].maxY = 386.86813;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 13; //room2_5
+    counter++;
 
 	//room2c
 	rt[counter].id = counter;
@@ -322,7 +336,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 726.83057;
 	rt[counter].maxZ = 320.0;
-	counter++;
+    rt[counter].index = 14; //room2c
+    counter++;
 
 	//room2c2
 	rt[counter].id = counter;
@@ -337,7 +352,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 800.8681;
 	rt[counter].maxZ = 1023.99994;
-	counter++;
+    rt[counter].index = 15; //room2c2
+    counter++;
 
 	//room2closets
 	rt[counter].id = counter;
@@ -354,7 +370,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 816.0;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 16; //room2closets
+    counter++;
 
 	//room2elevator
 	rt[counter].id = counter;
@@ -369,7 +386,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1056.0002;
 	rt[counter].maxY = 854.83057;
 	rt[counter].maxZ = 1024.0002;
-	counter++;
+    rt[counter].index = 17; //room2elevator
+    counter++;
 
 	//room2doors
 	rt[counter].id = counter;
@@ -384,7 +402,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 256.0;
 	rt[counter].maxY = 640.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 18; //room2doors
+    counter++;
 
 	//room2scps
 	rt[counter].id = counter;
@@ -399,7 +418,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 816.0002;
 	rt[counter].maxY = 714.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 19; //room2scps
+    counter++;
 
 	//room860
 	rt[counter].id = counter;
@@ -413,7 +433,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1280.0;
 	rt[counter].maxY = 726.83057;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 20; //room860
+    counter++;
 
 	//room2testroom2
 	rt[counter].id = counter;
@@ -428,7 +449,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 352.0;
 	rt[counter].maxY = 640.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 21; //room2testroom2
+    counter++;
 
 	//room3
 	rt[counter].id = counter;
@@ -443,7 +465,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 854.83057;
 	rt[counter].maxZ = 1023.99994;
-	counter++;
+    rt[counter].index = 22; //room3
+    counter++;
 
 	//room3_2
 	rt[counter].id = counter;
@@ -458,7 +481,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 854.83057;
 	rt[counter].maxZ = 448.0001;
-	counter++;
+    rt[counter].index = 23; //room3_2
+    counter++;
 
 	//room4
 	rt[counter].id = counter;
@@ -473,7 +497,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 850.45544;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 24; //room4
+    counter++;
 
 	//room4_2
 	rt[counter].id = counter;
@@ -488,7 +513,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 784.8511;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 25; //room4_2
+    counter++;
 
 	//roompj
 	rt[counter].id = counter;
@@ -504,7 +530,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 960.0;
 	rt[counter].maxZ = 1280.0;
-	counter++;
+    rt[counter].index = 26; //roompj
+    counter++;
 
 	//914
 	rt[counter].id = counter;
@@ -520,7 +547,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0001;
 	rt[counter].maxY = 816.0;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 27; //914
+    counter++;
 
 	//room2gw
 	rt[counter].id = counter;
@@ -535,7 +563,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 544.0;
 	rt[counter].maxY = 575.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 28; //room2gw
+    counter++;
 
 	//room2gw_b
 	rt[counter].id = counter;
@@ -550,7 +579,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 485.0;
 	rt[counter].maxY = 575.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 29; //room2gw_b
+    counter++;
 
 	//room1162
 	rt[counter].id = counter;
@@ -565,7 +595,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 752.8511;
 	rt[counter].maxZ = 320.00006;
-	counter++;
+    rt[counter].index = 30; //room1162
+    counter++;
 
 	//room2scps2
 	rt[counter].id = counter;
@@ -580,7 +611,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1264.0;
 	rt[counter].maxY = 706.8681;
 	rt[counter].maxZ = 1026.3;
-	counter++;
+    rt[counter].index = 31; //room2scps2
+    counter++;
 
 	//room2sl
 	rt[counter].id = counter;
@@ -596,7 +628,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1792.0;
 	rt[counter].maxY = 960.0;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 32; //room2sl
+    counter++;
 
 	//lockroom3
 	rt[counter].id = counter;
@@ -611,7 +644,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 384.0;
 	rt[counter].maxZ = 864.0;
-	counter++;
+    rt[counter].index = 33; //lockroom3
+    counter++;
 
 	//room4info
 	rt[counter].id = counter;
@@ -626,7 +660,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 596.23865;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 34; //room4info
+    counter++;
 
 	//room3_3
 	rt[counter].id = counter;
@@ -641,7 +676,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.8181;
 	rt[counter].maxY = 596.23865;
 	rt[counter].maxZ = 416.00003;
-	counter++;
+    rt[counter].index = 35; //room3_3
+    counter++;
 
 	//checkpoint1
 	rt[counter].id = counter;
@@ -655,7 +691,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1102.0;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 36; //checkpoint1
+    counter++;
 
 	//HEAVY CONTAINMENT
 
@@ -673,7 +710,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 784.0;
 	rt[counter].maxY = 1152.0;
 	rt[counter].maxZ = 832.0;
-	counter++;
+    rt[counter].index = 37; //008
+    counter++;
 
 	//room035
 	rt[counter].id = counter;
@@ -688,7 +726,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1248.0;
 	rt[counter].maxY = 498.45538;
 	rt[counter].maxZ = 912.0;
-	counter++;
+    rt[counter].index = 38; //room035
+    counter++;
 
 	//room049
 	rt[counter].id = counter;
@@ -716,7 +755,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 2256.0;
 	rt[counter].maxY = 1687.9999;
 	rt[counter].maxZ = 3120.0;
-	counter++;
+    rt[counter].index = 39; //room106
+    counter++;
 
 	//rom513
 	rt[counter].id = counter;
@@ -731,7 +771,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 470.83054;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 40; //room513
+    counter++;
 
 	//coffin
 	rt[counter].id = counter;
@@ -747,7 +788,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 464.0;
 	rt[counter].maxY = 704.0;
 	rt[counter].maxZ = 2560.0;
-	counter++;
+    rt[counter].index = 41; //coffin
+    counter++;
 
 	//room966
 	rt[counter].id = counter;
@@ -771,7 +813,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 464.0;
 	rt[counter].maxY = 1056.0;
 	rt[counter].maxZ = 376.0;
-	counter++;
+    rt[counter].index = 42; //endroom2
+    counter++;
 
 	//testroom
 	rt[counter].id = counter;
@@ -787,7 +830,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 800.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 43; //testroom
+    counter++;
 
 	//tunnel
 	rt[counter].id = counter;
@@ -802,7 +846,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 288.0;
 	rt[counter].maxY = 449.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 44; //tunnel
+    counter++;
 
 	//tunnel2
 	rt[counter].id = counter;
@@ -817,7 +862,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 528.0;
 	rt[counter].maxY = 696.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 45; //tunnel2
+    counter++;
 
 	//room2ctunnel
 	rt[counter].id = counter;
@@ -832,7 +878,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 448.00003;
 	rt[counter].maxZ = 402.46378;
-	counter++;
+    rt[counter].index = 46; //room2ctunnel
+    counter++;
 
 	//room2nuke
 	rt[counter].id = counter;
@@ -848,7 +895,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1808.0;
 	rt[counter].maxY = 2016.0;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 47; //room2nuke
+    counter++;
 
 	//room2pipes
 	rt[counter].id = counter;
@@ -863,7 +911,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 256.0;
 	rt[counter].maxY = 1024.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 48; //room2pipes
+    counter++;
 
 	//room2pit
 	rt[counter].id = counter;
@@ -879,7 +928,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 768.00006;
 	rt[counter].maxY = 448.0;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 49; //room2pit
+    counter++;
 
 	//room3pit
 	rt[counter].id = counter;
@@ -895,7 +945,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 385.0;
 	rt[counter].maxZ = 352.0;
-	counter++;
+    rt[counter].index = 50; //room3pit
+    counter++;
 
 	//room4pit
 	rt[counter].id = counter;
@@ -910,7 +961,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 385.0;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 51; //room4pit
+    counter++;
 
 	//room2servers
 	rt[counter].id = counter;
@@ -926,7 +978,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 224.00012;
 	rt[counter].maxY = 385.00006;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 52; //room2servers
+    counter++;
 
 	//room2shaft
 	rt[counter].id = counter;
@@ -941,7 +994,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 2016.0;
 	rt[counter].maxY = 1775.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 53; //room2shaft
+    counter++;
 
 	//room2tunnel
 	rt[counter].id = counter;
@@ -957,7 +1011,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 880.0;
 	rt[counter].maxY = 512.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 54; //room2tunnel
+    counter++;
 
 	//room3tunnel
 	rt[counter].id = counter;
@@ -972,7 +1027,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 758.83057;
 	rt[counter].maxZ = 416.00003;
-	counter++;
+    rt[counter].index = 55; //room3tunnel
+    counter++;
 
 	//room4tunnels
 	rt[counter].id = counter;
@@ -987,7 +1043,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 738.8681;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 56; //room4tunnels
+    counter++;
 
 	//room2tesla_hcz
 	rt[counter].id = counter;
@@ -1002,7 +1059,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 304.00003;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 57; //room2tesla_hcz
+    counter++;
 
 	//room3z2
 	rt[counter].id = counter;
@@ -1017,7 +1075,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0002;
 	rt[counter].maxY = 416.00003;
 	rt[counter].maxZ = 255.99985;
-	counter++;
+    rt[counter].index = 58; //room3z2
+    counter++;
 
 	//room2cpit
 	rt[counter].id = counter;
@@ -1033,7 +1092,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 874.8627;
 	rt[counter].maxZ = 960.0;
-	counter++;
+    rt[counter].index = 59; //room2cpit
+    counter++;
 
 	//room2pipes2
 	rt[counter].id = counter;
@@ -1049,7 +1109,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 671.5;
 	rt[counter].maxY = 788.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 60; //room2pipes2
+    counter++;
 
 	//checkpoint2
 	rt[counter].id = counter;
@@ -1063,7 +1124,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1104.0;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1026.0;
-	counter++;
+    rt[counter].index = 61; //checkpoint2
+    counter++;
 
 	//ENTRANCE ZONE
 
@@ -1082,7 +1144,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 2240.0;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 2048.0;
-	counter++;
+    rt[counter].index = 62; //room079
+    counter++;
 
 	//lockroom2
 	rt[counter].id = counter;
@@ -1097,7 +1160,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 434.83054;
 	rt[counter].maxZ = 864.0;
-	counter++;
+    rt[counter].index = 63; //lockroom2
+    counter++;
 
 	//exit1 
 	rt[counter].id = counter;
@@ -1122,7 +1186,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1360.0;
 	rt[counter].maxY = 1328.0;
 	rt[counter].maxZ = 1240.0;
-	counter++;
+    rt[counter].index = 64; //gateaentrance
+    counter++;
 
 	//gatea
 	rt[counter].id = counter;
@@ -1146,7 +1211,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 288.0;
 	rt[counter].maxY = 386.86813;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 65; //medibay
+    counter++;
 
 	//room2z3
 	rt[counter].id = counter;
@@ -1161,7 +1227,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 256.0;
 	rt[counter].maxY = 438.83054;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 66; //room2z3
+    counter++;
 
 	//room2cafeteria
 	rt[counter].id = counter;
@@ -1171,13 +1238,15 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].lights = 7;
 	rt[counter].zone[0] = 3;
 	rt[counter].large = true;
-	rt[counter].disableOverlapCheck = true;
+	//TEMPORARY
+	//rt[counter].disableOverlapCheck = true;
 	rt[counter].minX = -1792.0;
 	rt[counter].minY = -416.0;
 	rt[counter].minZ = -1056.0;
 	rt[counter].maxX = 1952.0;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1024.0001;
+	rt[counter].index = 67; //room2cafeteria
 	counter++;
 
 	//room2cz3
@@ -1193,7 +1262,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 438.83054;
 	rt[counter].maxZ = 576.0;
-	counter++;
+    rt[counter].index = 68; //room2cz3
+    counter++;
 
 	//room2ccont
 	rt[counter].id = counter;
@@ -1209,7 +1279,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 1344.0;
 	rt[counter].maxZ = 1824.0;
-	counter++;
+    rt[counter].index = 69; //room2ccont
+    counter++;
 
 	//room2offices
 	rt[counter].id = counter;
@@ -1224,7 +1295,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 422.45544;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 70; //room2offices
+    counter++;
 
 	//room2offices2
 	rt[counter].id = counter;
@@ -1240,7 +1312,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 288.0;
 	rt[counter].maxY = 386.86813;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 71; //room2offices2
+    counter++;
 
 	//room2offices3
 	rt[counter].id = counter;
@@ -1255,7 +1328,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 768.0;
 	rt[counter].maxY = 832.0;
 	rt[counter].maxZ = 1024.0002;
-	counter++;
+    rt[counter].index = 72; //room2offices3
+    counter++;
 
 	//room2offices4
 	rt[counter].id = counter;
@@ -1270,7 +1344,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 596.0;
 	rt[counter].maxY = 708.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 73; //room2offices4
+    counter++;
 
 	//room2poffices
 	rt[counter].id = counter;
@@ -1285,7 +1360,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 976.0001;
 	rt[counter].maxY = 438.83057;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 74; //room2poffices
+    counter++;
 
 	//room2poffices2
 	rt[counter].id = counter;
@@ -1300,7 +1376,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1216.0;
 	rt[counter].maxY = 438.83057;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 75; //room2poffices2
+    counter++;
 
 	//room2sroom
 	rt[counter].id = counter;
@@ -1315,7 +1392,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 2304.0;
 	rt[counter].maxY = 640.0;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 76; //room2sroom
+    counter++;
 
 	//room2toilets
 	rt[counter].id = counter;
@@ -1330,7 +1408,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1568.0;
 	rt[counter].maxY = 386.86813;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 77; //room2toilets
+    counter++;
 
 	//room2tesla
 	rt[counter].id = counter;
@@ -1345,7 +1424,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 304.0001;
 	rt[counter].maxY = 722.45544;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 78; //room2tesla
+    counter++;
 
 	//room3servers
 	rt[counter].id = counter;
@@ -1361,7 +1441,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 385.00006;
 	rt[counter].maxZ = 1032.0;
-	counter++;
+    rt[counter].index = 79; //room3servers
+    counter++;
 
 	//room3servers2
 	rt[counter].id = counter;
@@ -1377,7 +1458,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 385.00006;
 	rt[counter].maxZ = 1032.0;
-	counter++;
+    rt[counter].index = 80; //room3servers2
+    counter++;
 
 	//room3z3
 	rt[counter].id = counter;
@@ -1392,7 +1474,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 438.83054;
 	rt[counter].maxZ = 576.0;
-	counter++;
+    rt[counter].index = 81; //room3z3
+    counter++;
 
 	//room4z3
 	rt[counter].id = counter;
@@ -1407,7 +1490,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 1440.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 82; //room4z3
+    counter++;
 
 	//room1lifts
 	rt[counter].id = counter;
@@ -1422,7 +1506,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 448.0;
 	rt[counter].maxY = 466.85107;
 	rt[counter].maxZ = 105.69403;
-	counter++;
+    rt[counter].index = 83; //room1lifts
+    counter++;
 
 	//room3gw
 	rt[counter].id = counter;
@@ -1437,7 +1522,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1038.9995;
 	rt[counter].maxY = 535.0;
 	rt[counter].maxZ = 547.5521;
-	counter++;
+    rt[counter].index = 84; //room3gw
+    counter++;
 
 	//room2servers2
 	rt[counter].id = counter;
@@ -1452,7 +1538,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 816.00006;
 	rt[counter].maxY = 464.85107;
 	rt[counter].maxZ = 1024.0001;
-	counter++;
+    rt[counter].index = 85; //room2servers2
+    counter++;
 
 	//room3offices
 	rt[counter].id = counter;
@@ -1467,7 +1554,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 1024.0;
 	rt[counter].maxY = 464.85107;
 	rt[counter].maxZ = 1036.0;
-	counter++;
+    rt[counter].index = 86; //room3offices
+    counter++;
 
 	//room2z3_2
 	rt[counter].id = counter;
@@ -1482,7 +1570,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 304.00018;
 	rt[counter].maxY = 416.0;
 	rt[counter].maxZ = 1024.0;
-	counter++;
+    rt[counter].index = 87; //room2z3_2
+    counter++;
 
 	//pocketdimension
 	rt[counter].id = counter;
@@ -1496,7 +1585,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 512.0;
 	rt[counter].maxY = 1024.0;
 	rt[counter].maxZ = 512.0;
-	counter++;
+    rt[counter].index = 88; //pocketdimension
+    counter++;
 
 	//dimension1499
 	rt[counter].id = counter;
@@ -1511,6 +1601,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].maxX = 7509.2817;
 	rt[counter].maxY = 8928.0;
 	rt[counter].maxZ = 4207.0;
+    rt[counter].index = 89; //dimension1499
 
 }
 
@@ -1542,7 +1633,7 @@ __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t po
 	}
 }
 
-__device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
+__device__ inline Rooms CreateRoom(float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
 
 	Rooms r = Rooms();
 	//RoomTemplates* rt;
@@ -1567,7 +1658,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 				
 				//CalculateRoomExtents(&r);
 				//TEMPORARY
-				GetRoomExtents(&r);
+				GetRoomExtents(&r, e);
 				return r;
 			}
 		}
@@ -1602,7 +1693,7 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 			
 					//CalculateRoomExtents(&r);
 					//TEMPORARY
-					GetRoomExtents(&r);
+					GetRoomExtents(&r, e);
 					return r;
 				}
 			}
@@ -1612,11 +1703,15 @@ __device__ inline Rooms CreateRoom(RoomTemplates* rts, bbRandom* bb, rnd_state* 
 	//but it isn't there in the blitz code so idk.
 }
 
-__device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms) {
+__device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	if (r->rt.disableOverlapCheck) return true;
 
 	//We might have some problems with passing the rooms array by pointer.
 	//Want to make sure we pass by reference instead of making a new copy of entire rooms array.
+
+	if (r->rt.name == ROOM2CAFETERIA) {
+		printf("ANGLE: %d X: %f Z: %f\n", r->angle, r->x, r->z);
+	}
 
 	Rooms* r2;
 	Rooms* r3;
@@ -1650,7 +1745,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms) {
 		r->angle += 180;
 		//CalculateRoomExtents(r);
 		//TEMPORARY
-		GetRoomExtents(r);
+		GetRoomExtents(r, e);
 
 		for (int32_t i = 0; i < 18 * 18; i++) {
 			r2 = &rooms[i];
@@ -1662,7 +1757,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms) {
 					r->angle = r->angle - 180;
 					//CalculateRoomExtents(r);
 					//TEMPORARY
-					GetRoomExtents(r);
+					GetRoomExtents(r, e);
 					break;
 				}
 			}
@@ -1702,14 +1797,14 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms) {
 				r->angle = rot2;
 				//CalculateRoomExtents(r);
 				//TEMPORARY
-				GetRoomExtents(r);
+				GetRoomExtents(r, e);
 
 				r2->x = x * 8.0;
 				r2->z = y * 8.0;
 				r2->angle = rot;
 				//CalculateRoomExtents(r2);
 				//TEMPORARY
-				GetRoomExtents(r2);
+				GetRoomExtents(r2, e);
 
 				//make sure neither room overlaps with anything after the swap
 				for (int32_t i = 0; i < 18 * 18; i++) {
@@ -1740,14 +1835,14 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms) {
 					r->angle = rot;
 					//CalculateRoomExtents(r);
 					//TEMPORARY
-					GetRoomExtents(r);
+					GetRoomExtents(r, e);
 
 					r2->x = x2 * 8.0;
 					r2->z = y2 * 8.0;
 					r2->angle = rot2;
 					//CalculateRoomExtents(r2);
 					//TEMPORARY
-					GetRoomExtents(r2);
+					GetRoomExtents(r2, e);
 
 					isIntersecting = false;
 				}
@@ -1764,9 +1859,9 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms) {
 
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2) {
 
-	if (r->maxX <= r2->minX || r->maxY <= r2->minY || r->maxZ <= r2->minZ) return false;
+	if (r->maxX <= r2->minX || r->maxZ <= r2->minZ) return false;
 
-	if (r->minX >= r2->maxX || r->minY >= r2->maxY || r->minZ >= r2->maxZ) return false;
+	if (r->minX >= r2->maxX || r->minZ >= r2->maxZ) return false;
 
 	return true;
 }
@@ -2572,3270 +2667,31 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 	}
 }
 
-__device__ void GetRoomExtents(Rooms* r) {
+__device__ inline void GetRoomExtents(Rooms* r, float* e) {
 
-	//god help us
+	if (r->rt.disableOverlapCheck) return;
 
-	RoomID name = r->rt.name;
-	//We subtract 1 from this because the extents will be off
-	//by 8.0 if we do not.
-	float x = (r->x / 8.0) - 1;
-	float z = (r->z / 8.0) - 1;
-	int32_t angle = r->angle;
+	int32_t xIndex = int((r->x / 8.0)) - 1;
+	int32_t zIndex = int((r->z / 8.0)) - 1;
+	int32_t angle = r->angle / 90;
+	int32_t startIndex = r->rt.index;	
 
-	float minX = 0.0;
-	float maxX = 0.0;
-	float minZ = 0.0;
-	float maxZ = 0.0;
+	//544 because that is amount of extents per room.
+	startIndex *= 544;
 
-	float factor = 8.0;
+	//68 because that is amoung of extents per angle.
+	startIndex += 68 * angle;
 
-	switch (name) {
-	case LOCKROOM:
-		switch (angle) {
-		case 0:
-		case 360:
-			minX = 4.675;
-			maxX = 11.95;
-			minZ = 4.05;
-			maxZ = 11.325;
-			break;
+	//4 because the extents are in blocks of 4 (minX, maxX, minZ, maxZ).
+	xIndex = startIndex + (4 * xIndex);
+	//+2 because we get the x extents for this index if we don't.
+	zIndex = (startIndex + (4 * zIndex)) + 2;
 
-		case 90:
-		case 450:
-			minX = 4.575;
-			maxX = 12.05;
-			minZ = 4.675;
-			maxZ = 11.95;
-			break;
+	r->minX = e[xIndex];
+	r->maxX = e[xIndex + 1];
 
-		case 180:
-		case 540:
-			minX = 3.95;
-			maxX = 11.425;
-			minZ = 4.575;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-		case 630:
-			minX = 4.05;
-			maxX = 11.325;
-			minZ = 3.95;
-			maxZ = 11.425;
-			break;
-
-		}
-		break;
-	case START:
-		switch (angle) {
-		case 0:
-		case 360:
-			minX = 5.425;
-			maxX = 29.45;
-			minZ = 4.05;
-			maxZ = 19.075;
-			break;
-
-		case 90:
-		case 450:
-			minX = -3.175;
-			maxX = 12.05;
-			minZ = 5.425;
-			maxZ = 29.45;
-			break;
-
-		case 180:
-		case 540:
-			minX = -13.55;
-			maxX = 10.675;
-			minZ = -3.175;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-		case 630:
-			minX = 4.05;
-			maxX = 19.075;
-			minZ = -13.55;
-			maxZ = 10.675;
-			break;
-		}
-		break;
-	case ROOM1123:
-		switch (angle) {
-		case 0:
-		case 360:
-			minX = 4.425;
-			maxX = 11.95;
-			minZ = 4.05;
-			maxZ = 11.95;
-			break;
-
-		case 90:
-		case 450:
-			minX = 3.95;
-			maxX = 12.05;
-			minZ = 4.425;
-			maxZ = 11.95;
-			break;
-
-		case 180:
-		case 540:
-			minX = 3.95;
-			maxX = 11.675;
-			minZ = 3.95;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-		case 630:
-			minX = 4.05;
-			maxX = 11.95;
-			minZ = 3.95;
-			maxZ = 11.675;
-			break;		
-		}
-		break;
-	case ROOM1ARCHIVE:
-		switch (angle) {
-		case 0:
-        case 360:
-			minX = 5.05;
-			maxX = 9.075;
-			minZ = 4.05;
-			maxZ = 10.8875;
-			break;
-
-		case 90:
-        case 450:
-			minX = 5.0125;
-			maxX = 12.05;
-			minZ = 5.05;
-			maxZ = 9.075;
-			break;
-
-		case 180:
-        case 540:
-			minX = 6.825;
-			maxX = 11.05;
-			minZ = 5.0125;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-        case 630:
-			minX = 4.05;
-			maxX = 10.8875;
-			minZ = 6.825;
-			maxZ = 11.05;
-			break;
-		
-		}
-		break;
-	case ROOM2STORAGE:
-		switch (angle) {
-		case 0:
-        case 360:
-			minX = 2.8625;
-			maxX = 13.1375;
-			minZ = 4.05;
-			maxZ = 11.95;
-			break;
-
-		case 90:
-        case 450:
-			minX = 3.95;
-			maxX = 12.05;
-			minZ = 2.8625;
-			maxZ = 13.1375;
-			break;
-
-		case 180:
-        case 540:
-			minX = 2.7625;
-			maxX = 13.2375;
-			minZ = 3.95;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-        case 630:
-			minX = 4.05;
-			maxX = 11.95;
-			minZ = 2.7625;
-			maxZ = 13.2375;
-			break;
-		
-		}
-		break;
-	case ROOM2TESLA_LCZ:
-		switch (angle) {
-		case 0:
-        case 360:
-			minX = 6.8625;
-			maxX = 9.1375;
-			minZ = 4.05;
-			maxZ = 11.95;
-			break;
-
-		case 90:
-        case 450:
-			minX = 3.95;
-			maxX = 12.05;
-			minZ = 6.8625;
-			maxZ = 9.1375;
-			break;
-
-		case 180:
-        case 540:
-			minX = 6.7625;
-			maxX = 9.2375;
-			minZ = 3.95;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-        case 630:
-			minX = 4.05;
-			maxX = 11.95;
-			minZ = 6.7625;
-			maxZ = 9.2375;
-			break;
-		
-		}
-		break;
-	case ENDROOM:
-		switch (angle) {
-		case 0:
-        case 360:
-			minX = 5.2375;
-			maxX = 11.0125;
-			minZ = 4.05;
-			maxZ = 12.79375;
-			break;
-
-		case 90:
-        case 450:
-			minX = 3.10625;
-			maxX = 12.05;
-			minZ = 5.2375;
-			maxZ = 11.0125;
-			break;
-
-		case 180:
-        case 540:
-			minX = 4.8875;
-			maxX = 10.8625;
-			minZ = 3.1062;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-        case 630:
-			minX = 4.05;
-			maxX = 12.7938;
-			minZ = 4.8875;
-			maxZ = 10.8625;
-			break;
-		
-		}
-		break;
-	case ROOM012:
-		switch (angle) {
-		case 0:
-        case 360:
-			minX = 4.05;
-			maxX = 11.1375;
-			minZ = 4.05;
-			maxZ = 11.95;
-			break;
-
-		case 90:
-        case 450:
-			minX = 3.95;
-			maxX = 12.05;
-			minZ = 4.05;
-			maxZ = 11.1375;
-			break;
-
-		case 180:
-        case 540:
-			minX = 4.7625;
-			maxX = 12.05;
-			minZ = 3.95;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-        case 630:
-			minX = 4.05;
-			maxX = 11.95;
-			minZ = 4.7625;
-			maxZ = 12.05;
-			break;
-		
-		}
-		break;
-	case ROOM205:
-		switch (angle) {
-		case 0:
-        case 360:
-			minX = 1.05;
-			maxX = 11.075;
-			minZ = 4.05;
-			maxZ = 11.325;
-			break;
-
-		case 90:
-        case 450:
-			minX = 4.575;
-			maxX = 12.05;
-			minZ = 1.05;
-			maxZ = 11.075;
-			break;
-
-		case 180:
-        case 540:
-			minX = 4.825;
-			maxX = 15.05;
-			minZ = 4.575;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-        case 630:
-			minX = 4.05;
-			maxX = 11.325;
-			minZ = 4.825;
-			maxZ = 15.05;
-			break;
-		
-		}
-		break;
-	case ROOM2ID:
-		switch (angle) {
-		case 0:
-        case 360:
-			minX = 6.8625;
-			maxX = 9.1375;
-			minZ = 4.05;
-			maxZ = 11.95;
-			break;
-
-		case 90:
-        case 450:
-			minX = 3.95;
-			maxX = 12.05;
-			minZ = 6.8625;
-			maxZ = 9.1375;
-			break;
-
-		case 180:
-        case 540:
-			minX = 6.7625;
-			maxX = 9.2375;
-			minZ = 3.95;
-			maxZ = 12.05;
-			break;
-
-		case 270:
-        case 630:
-			minX = 4.05;
-			maxX = 11.95;
-			minZ = 6.7625;
-			maxZ = 9.2375;
-			break;
-
-		}
-		break;        
-    case ROOM2_2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.925;
-            maxX = 9.1375;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.925;
-            maxZ = 9.1375;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.7625;
-            maxX = 11.175;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.7625;
-            maxZ = 11.175;
-            break;
-
-        }
-        break;
-    case ROOM2_3:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.425;
-            maxX = 9.575;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.425;
-            maxZ = 9.575;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.325;
-            maxX = 9.675;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.325;
-            maxZ = 9.675;
-            break;
-
-        }
-        break;
-    case ROOM2_4:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 10.9656;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 10.9656;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.93437;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.93437;
-            maxZ = 9.2375;
-            break;
-
-        }
-        break;
-    case ROOM2_5:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 9.2;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 9.2;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.7;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.7;
-            maxZ = 9.2375;
-            break;
-
-        }
-        break;
-    case ROOM2CID:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 9.2;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.7;
-            maxX = 12.05;
-            minZ = 6.8;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 9.3;
-            minZ = 6.7;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 9.2;
-            minZ = 3.95;
-            maxZ = 9.3;
-            break;
-
-        }
-        break;
-    case ROOM2C2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 9.3;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 9.3;
-            break;
-
-        }
-        break;
-    case ROOM2CLOSETS:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 0.346875;
-            maxX = 11.1375;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 0.347;
-            maxZ = 11.137;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.7625;
-            maxX = 15.7531;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.7625;
-            maxZ = 15.753;
-            break;
-
-        }
-        break;
-    case ROOM2ELEVATOR:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 12.075;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 12.075;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.825;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.825;
-            maxZ = 9.2375;
-            break;
-
-        }
-        break;
-    case ROOM2DOORS:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 8.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 8.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2SCPS:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.8625;
-            maxX = 11.1375;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.8625;
-            maxZ = 11.137;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.7625;
-            maxX = 11.237;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.7625;
-            maxZ = 11.237;
-            break;
-
-        }
-        break;
-    case ROOM860:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 12.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 12.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 2.95;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 2.95;
-            maxZ = 9.237;
-            break;
-
-        }
-        break;
-    case ROOM2TESTROOM2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 9.325;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 9.325;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.575;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.575;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM3ID:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM3_2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 9.7;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.2;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.2;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 9.7;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM4ID:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM4_2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOMPJ:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 12.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 2.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 2.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 12.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case 914:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2GW:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 5.925;
-            maxX = 10.075;
-            minZ = 4.00312;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.0968;
-            minZ = 5.925;
-            maxZ = 10.075;
-            break;
-
-        case 180:
-        case 540:
-            minX = 5.825;
-            maxX = 10.175;
-            minZ = 3.95;
-            maxZ = 12.0968;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.0031;
-            maxX = 11.95;
-            minZ = 5.825;
-            maxZ = 10.175;
-            break;
-
-        }
-        break;
-    case ROOM2GW_B:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.1671;
-            maxX = 9.8445;
-            minZ = 4.01093;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.089;
-            minZ = 6.167;
-            maxZ = 9.8445;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.055;
-            maxX = 9.933;
-            minZ = 3.95;
-            maxZ = 12.089;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.0109;
-            maxX = 11.95;
-            minZ = 6.055;
-            maxZ = 9.933;
-            break;
-
-        }
-        break;
-    case ROOM1162:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8;
-            maxX = 11.95;
-            minZ = 4.0351;
-            maxZ = 9.2;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.7;
-            maxX = 12.065;
-            minZ = 6.8;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 9.3;
-            minZ = 6.7;
-            maxZ = 12.065;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.0351;
-            maxX = 9.2;
-            minZ = 3.95;
-            maxZ = 9.3;
-            break;
-
-        }
-        break;
-    case ROOM2SCPS2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 12.8875;
-            minZ = 4.05;
-            maxZ = 11.959;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.941;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 12.8875;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.0125;
-            maxX = 9.2375;
-            minZ = 3.941;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.959;
-            minZ = 3.0125;
-            maxZ = 9.2375;
-            break;
-
-        }
-        break;
-    case ROOM2SL:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 14.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 14.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 0.95;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 0.95;
-            maxZ = 9.2375;
-            break;
-
-        }
-        break;
-    case LOCKROOM3:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.8;
-            maxX = 11.95;
-            minZ = 4.0265;
-            maxZ = 11.325;
-            break;
-
-        case 90:
-        case 450:
-            minX = 4.575;
-            maxX = 12.073;
-            minZ = 4.8;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 11.3;
-            minZ = 4.575;
-            maxZ = 12.073;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.0265;
-            maxX = 11.325;
-            minZ = 3.95;
-            maxZ = 11.3;
-            break;
-
-        }
-        break;
-    case ROOM4INFO:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM3_3:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.953;
-            minZ = 4.05;
-            maxZ = 9.575;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.325;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.325;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 9.575;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case CHECKPOINT1:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 3.7375;
-            maxX = 12.2547;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.7375;
-            maxZ = 12.255;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.645;
-            maxX = 12.3625;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.6453;
-            maxZ = 12.3625;
-            break;
-
-        }
-        break;
-    case ROOM008:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 5.675;
-            maxX = 11.0125;
-            minZ = 4.05;
-            maxZ = 11.2;
-            break;
-
-        case 90:
-        case 450:
-            minX = 4.7;
-            maxX = 12.05;
-            minZ = 5.675;
-            maxZ = 11.0125;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.8875;
-            maxX = 10.425;
-            minZ = 4.7;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.2;
-            minZ = 4.8875;
-            maxZ = 10.425;
-            break;
-
-        }
-        break;
-    case ROOM035:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 5.175;
-            maxX = 12.825;
-            minZ = 4.05;
-            maxZ = 11.5125;
-            break;
-
-        case 90:
-        case 450:
-            minX = 4.3875;
-            maxX = 12.05;
-            minZ = 5.175;
-            maxZ = 12.825;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.075;
-            maxX = 10.925;
-            minZ = 4.3875;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.5125;
-            minZ = 3.075;
-            maxZ = 10.925;
-            break;
-
-        }
-        break;
-    case ROOM106:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 2.9563;
-            maxX = 16.7625;
-            minZ = 4.05;
-            maxZ = 20.1375;
-            break;
-
-        case 90:
-        case 450:
-            minX = -4.7625;
-            maxX = 12.05;
-            minZ = 2.9563;
-            maxZ = 16.7625;
-            break;
-
-        case 180:
-        case 540:
-            minX = -0.8625;
-            maxX = 13.14375;
-            minZ = -4.2375;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 20.1375;
-            minZ = -0.8625;
-            maxZ = 13.1437;
-            break;
-
-        }
-        break;
-    case ROOM513:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case COFFIN:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.3;
-            maxX = 9.7625;
-            minZ = 4.05;
-            maxZ = 17.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = -2.05;
-            maxX = 12.05;
-            minZ = 4.3;
-            maxZ = 9.7625;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.1375;
-            maxX = 11.8;
-            minZ = -2.05;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 17.95;
-            minZ = 6.1375;
-            maxZ = 11.8;
-            break;
-
-        }
-        break;
-    case ENDROOM2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.175;
-            maxX = 9.7625;
-            minZ = 4.05;
-            maxZ = 9.41875;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.48125;
-            maxX = 12.05;
-            minZ = 6.1753;
-            maxZ = 9.7625;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.1375;
-            maxX = 9.925;
-            minZ = 6.48125;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 9.41875;
-            minZ = 6.1375;
-            maxZ = 9.925;
-            break;
-
-        }
-        break;
-    case TESTROOM:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case TUNNEL:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.925;
-            maxX = 9.075;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.925;
-            maxZ = 9.075;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.825;
-            maxX = 9.175;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.825;
-            maxZ = 9.175;
-            break;
-
-        }
-        break;
-    case TUNNEL2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.7375;
-            maxX = 10.0125;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.7375;
-            maxZ = 10.0125;
-            break;
-
-        case 180:
-        case 540:
-            minX = 5.8875;
-            maxX = 9.3625;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 5.8875;
-            maxZ = 9.3625;
-            break;
-
-        }
-        break;
-    case ROOM2CTUNNEL:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.55;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 9.5221;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.3779;
-            maxX = 12.05;
-            minZ = 6.55;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 9.55;
-            minZ = 6.3779;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 9.522;
-            minZ = 3.95;
-            maxZ = 9.55;
-            break;
-
-        }
-        break;
-    case ROOM2NUKE:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 15.0125;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 15.0125;
-            break;
-
-        case 180:
-        case 540:
-            minX = 0.8875;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 0.8875;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2PIPES:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8309;
-            maxX = 8.95;
-            minZ = 4.04219;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.0578;
-            minZ = 6.8309;
-            maxZ = 8.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.95;
-            maxX = 9.2691;
-            minZ = 3.95;
-            maxZ = 12.0578;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.0422;
-            maxX = 11.95;
-            minZ = 6.95;
-            maxZ = 9.27;
-            break;
-
-        }
-        break;
-    case ROOM2PIT:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 10.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 10.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM3PIT:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 9.325;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.575;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.575;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 9.325;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM4PIT:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2SERVERS:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 1.55;
-            maxX = 8.825;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 1.55;
-            maxZ = 8.825;
-            break;
-
-        case 180:
-        case 540:
-            minX = 7.075;
-            maxX = 14.55;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 7.075;
-            maxZ = 14.55;
-            break;
-
-        }
-        break;
-    case ROOM2SHAFT:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 7.05;
-            maxX = 15.825;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 7.05;
-            maxZ = 15.825;
-            break;
-
-        case 180:
-        case 540:
-            minX = 0.075;
-            maxX = 9.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 0.075;
-            maxZ = 9.05;
-            break;
-
-        }
-        break;
-    case ROOM2TUNNEL:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.6125;
-            maxX = 11.3875;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.6125;
-            maxZ = 11.3875;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.5125;
-            maxX = 11.4875;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.5125;
-            maxZ = 11.4875;
-            break;
-
-        }
-        break;
-    case ROOM3TUNNEL:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 9.575;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.325;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.325;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 9.575;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM4TUNNELS:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2TESLA_HCZ:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 9.1375;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 9.1375;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.7625;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.7625;
-            maxZ = 9.2375;
-            break;
-
-        }
-        break;
-    case ROOM3Z2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 8.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 6.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 8.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2CPIT:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 5.83125;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.7;
-            break;
-
-        case 90:
-        case 450:
-            minX = 4.2;
-            maxX = 12.05;
-            minZ = 5.83125;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 10.269;
-            minZ = 4.2;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.7;
-            minZ = 3.95;
-            maxZ = 10.269;
-            break;
-
-        }
-        break;
-    case ROOM2PIPES2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 7.05;
-            maxX = 10.573;
-            minZ = 4.0422;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.058;
-            minZ = 7.05;
-            maxZ = 10.573;
-            break;
-
-        case 180:
-        case 540:
-            minX = 5.327;
-            maxX = 9.05;
-            minZ = 3.95;
-            maxZ = 12.0578;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.0422;
-            maxX = 11.95;
-            minZ = 5.327;
-            maxZ = 9.05;
-            break;
-
-        }
-        break;
-    case CHECKPOINT2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 3.75;
-            maxX = 12.2625;
-            minZ = 4.05;
-            maxZ = 11.958;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.9422;
-            maxX = 12.05;
-            minZ = 3.745;
-            maxZ = 12.2625;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.6375;
-            maxX = 12.355;
-            minZ = 3.9422;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.958;
-            minZ = 3.6375;
-            maxZ = 12.355;
-            break;
-
-        }
-        break;
-    case ROOM079:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.425;
-            maxX = 16.7;
-            minZ = 3.925;
-            maxZ = 15.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = -0.05;
-            maxX = 12.175;
-            minZ = 6.425;
-            maxZ = 16.7;
-            break;
-
-        case 180:
-        case 540:
-            minX = -0.8;
-            maxX = 9.675;
-            minZ = -0.05;
-            maxZ = 12.175;
-            break;
-
-        case 270:
-        case 630:
-            minX = 3.925;
-            maxX = 15.95;
-            minZ = -0.8;
-            maxZ = 9.675;
-            break;
-
-        }
-        break;
-    case LOCKROOM2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.675;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.325;
-            break;
-
-        case 90:
-        case 450:
-            minX = 4.575;
-            maxX = 12.05;
-            minZ = 4.675;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 11.425;
-            minZ = 4.575;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.325;
-            minZ = 3.95;
-            maxZ = 11.425;
-            break;
-
-        }
-        break;   
-    case GATEAENTRANCE:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 5.2375;
-            maxX = 13.2625;
-            minZ = 3.6125;
-            maxZ = 12.794;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.1062;
-            maxX = 12.488;
-            minZ = 5.238;
-            maxZ = 13.2625;
-            break;
-
-        case 180:
-        case 540:
-            minX = 2.6375;
-            maxX = 10.8625;
-            minZ = 3.10625;
-            maxZ = 12.4875;
-            break;
-
-        case 270:
-        case 630:
-            minX = 3.6125;
-            maxX = 12.794;
-            minZ = 2.6375;
-            maxZ = 10.863;
-            break;
-
-        }
-        break;   
-    case MEDIBAY:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 9.075;
-            minZ = 4.0461;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.054;
-            minZ = 4.05;
-            maxZ = 9.075;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.825;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.054;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.0461;
-            maxX = 11.95;
-            minZ = 6.825;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2Z3:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 7.05;
-            maxX = 8.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 7.05;
-            maxZ = 8.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.95;
-            maxX = 9.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.95;
-            maxZ = 9.05;
-            break;
-
-        }
-        break;
-    case ROOM2CAFETERIA:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 1.05;
-            maxX = 15.575;
-            minZ = 3.9875;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.113;
-            minZ = 1.05;
-            maxZ = 15.575;
-            break;
-
-        case 180:
-        case 540:
-            minX = 0.325;
-            maxX = 15.05;
-            minZ = 3.95;
-            maxZ = 12.113;
-            break;
-
-        case 270:
-        case 630:
-            minX = 3.988;
-            maxX = 11.95;
-            minZ = 0.325;
-            maxZ = 15.05;
-            break;
-
-        }
-        break;
-    case ROOM2CZ3:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 5.8;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 10.2;
-            break;
-
-        case 90:
-        case 450:
-            minX = 5.7;
-            maxX = 12.05;
-            minZ = 5.8;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 10.3;
-            minZ = 5.7;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 10.2;
-            minZ = 3.95;
-            maxZ = 10.3;
-            break;
-
-        }
-        break;
-    case ROOM2CCONT:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = -0.825;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 15.075;
-            break;
-
-        case 90:
-        case 450:
-            minX = 0.825;
-            maxX = 12.05;
-            minZ = -0.825;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 16.925;
-            minZ = 0.825;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 15.075;
-            minZ = 3.95;
-            maxZ = 16.925;
-            break;
-
-        }
-        break;
-    case ROOM2OFFICES:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 5.675;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 5.675;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 10.425;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 10.425;
-            break;
-
-        }
-        break;
-    case ROOM2OFFICES2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 9.075;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 9.075;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.825;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.825;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2OFFICES3:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 1.8;
-            maxX = 10.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 1.8;
-            maxZ = 10.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.95;
-            maxX = 14.3;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.95;
-            maxZ = 14.3;
-            break;
-
-        }
-        break;
-    case ROOM2OFFICES4:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 1.925;
-            maxX = 10.278;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 1.925;
-            maxZ = 10.278;
-            break;
-
-        case 180:
-        case 540:
-            minX = 5.622;
-            maxX = 14.175;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 5.622;
-            maxZ = 14.175;
-            break;
-
-        }
-        break;
-    case ROOM2POFFICES:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.05;
-            maxX = 11.763;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.05;
-            maxZ = 11.763;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.1375;
-            maxX = 10.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.1375;
-            maxZ = 10.05;
-            break;
-
-        }
-        break;
-    case ROOM2POFFICES2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 3.425;
-            maxX = 12.7;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.425;
-            maxZ = 12.7;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.2;
-            maxX = 12.675;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.2;
-            maxZ = 12.675;
-            break;
-
-        }
-        break;
-    case ROOM2SROOM:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 16.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 16.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = -1.05;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = -1.05;
-            maxZ = 9.238;
-            break;
-
-        }
-        break;
-    case ROOM2TOILETS:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8;
-            maxX = 14.075;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8;
-            maxZ = 14.075;
-            break;
-
-        case 180:
-        case 540:
-            minX = 1.825;
-            maxX = 9.3;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 1.825;
-            maxZ = 9.3;
-            break;
-
-        }
-        break;
-    case ROOM2TESLA:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 9.1375;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 9.1375;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.7625;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.7625;
-            maxZ = 9.2375;
-            break;
-
-        }
-        break;
-    case ROOM3SERVERS:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.981;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.919;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.919;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.981;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM3SERVERS2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.981;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.919;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.919;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.981;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM3Z3:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 10.2;
-            break;
-
-        case 90:
-        case 450:
-            minX = 5.7;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 5.7;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 10.2;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM4Z3:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM1LIFTS:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.2375;
-            maxX = 9.7;
-            minZ = 4.05;
-            maxZ = 8.363;
-            break;
-
-        case 90:
-        case 450:
-            minX = 7.5371;
-            maxX = 12.05;
-            minZ = 6.2375;
-            maxZ = 9.7;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.2;
-            maxX = 9.8625;
-            minZ = 7.5371;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 8.363;
-            minZ = 6.2;
-            maxZ = 9.863;
-            break;
-
-        }
-        break;
-    case ROOM3GW:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 12.0086;
-            minZ = 4.0227;
-            maxZ = 10.089;
-            break;
-
-        case 90:
-        case 450:
-            minX = 5.8111;
-            maxX = 12.077;
-            minZ = 4.05;
-            maxZ = 12.009;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.891;
-            maxX = 12.05;
-            minZ = 5.811;
-            maxZ = 12.077;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.0227;
-            maxX = 10.089;
-            minZ = 3.891;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2SERVERS2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 3.825;
-            maxX = 11.138;
-            minZ = 3.9523;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.148;
-            minZ = 3.825;
-            maxZ = 11.1375;
-            break;
-
-        case 180:
-        case 540:
-            minX = 4.7625;
-            maxX = 12.275;
-            minZ = 3.95;
-            maxZ = 12.15;
-            break;
-
-        case 270:
-        case 630:
-            minX = 3.9523;
-            maxX = 11.95;
-            minZ = 4.762;
-            maxZ = 12.275;
-            break;
-
-        }
-        break;
-    case ROOM3OFFICES:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 4.05;
-            maxZ = 11.997;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.9031;
-            maxX = 12.05;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 3.9031;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.997;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        }
-        break;
-    case ROOM2Z3_2:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.8625;
-            maxX = 9.1375;
-            minZ = 4.05;
-            maxZ = 11.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 3.95;
-            maxX = 12.05;
-            minZ = 6.8625;
-            maxZ = 9.1375;
-            break;
-
-        case 180:
-        case 540:
-            minX = 6.7625;
-            maxX = 9.2375;
-            minZ = 3.95;
-            maxZ = 12.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 4.05;
-            maxX = 11.95;
-            minZ = 6.7625;
-            maxZ = 9.2375;
-            break;
-
-        }
-        break;
-    case POCKETDIMENSION:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = 6.05;
-            maxX = 9.95;
-            minZ = 6.05;
-            maxZ = 9.95;
-            break;
-
-        case 90:
-        case 450:
-            minX = 5.95;
-            maxX = 10.05;
-            minZ = 6.05;
-            maxZ = 9.95;
-            break;
-
-        case 180:
-        case 540:
-            minX = 5.95;
-            maxX = 10.05;
-            minZ = 5.95;
-            maxZ = 10.05;
-            break;
-
-        case 270:
-        case 630:
-            minX = 6.05;
-            maxX = 9.95;
-            minZ = 5.95;
-            maxZ = 10.05;
-            break;
-
-        }
-        break;
-    case DIMENSION1499:
-        switch (angle) {
-        case 0:
-        case 360:
-            minX = -21.282;
-            maxX = 37.283;
-            minZ = -8.385;
-            maxZ = 24.384;
-            break;
-
-        case 90:
-        case 450:
-            minX = -8.4834;
-            maxX = 24.485;
-            minZ = -21.282;
-            maxZ = 37.283;
-            break;
-
-        case 180:
-        case 540:
-            minX = -21.383;
-            maxX = 37.382;
-            minZ = -8.484;
-            maxZ = 24.485;
-            break;
-
-        case 270:
-        case 630:
-            minX = -8.385;
-            maxX = 24.384;
-            minZ = -21.383;
-            maxZ = 37.382;
-            break;
-
-        }
-        break;
-    }
-
-	
-	r->minX = minX + (x * factor);
-	r->maxX = maxX + (x * factor);
-	r->minZ = minZ + (z * factor);
-	r->maxZ = maxZ + (z * factor);
+	r->minZ = e[zIndex];
+	r->maxZ = e[zIndex + 1];
 }
 
 #endif

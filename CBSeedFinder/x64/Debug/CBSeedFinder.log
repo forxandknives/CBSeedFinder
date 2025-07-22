@@ -415,9 +415,9 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(31): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1850): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 1936)
-              variable "y" (declared at line 1937)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1945): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2031)
+              variable "y" (declared at line 2032)
     	switch (name) {
     	^
   
@@ -835,17 +835,17 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(31): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1613): warning #940-D: missing return statement at end of non-void function "CreateRoom"
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1704): warning #940-D: missing return statement at end of non-void function "CreateRoom"
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1682): warning #177-D: variable "temp2" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1777): warning #177-D: variable "temp2" was declared but never referenced
     	int32_t temp2, x2, y2, rot, rot2;	
     	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1850): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 1936)
-              variable "y" (declared at line 1937)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1945): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2031)
+              variable "y" (declared at line 2032)
     	switch (name) {
     	^
   
@@ -857,13 +857,11 @@ C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(21): warning #177-D: variable "BLO
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
                            ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(115): warning #20044-D: extern declaration of the entity rts is treated as a static definition
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(117): warning #20044-D: extern declaration of the entity rts is treated as a static definition
   
 CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-line-info specified, ignoring --generate-line-info option
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00015010_00000000-7_kernel.cudafe1.cpp
-     Creating library C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.lib and object C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exp
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  tmpxft_00004088_00000000-7_kernel.cudafe1.cpp
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe
