@@ -12,7 +12,7 @@
 
 __device__ void dummy();
 
-__global__ void testFunction(int* outputArray, float* extents);
+__global__ void testFunction(int* outputArray, float* extents, uint8_t* forest);
 
 int main()
 {
@@ -50,7 +50,9 @@ int main()
     printf("  Concurrent kernels: %s\n", prop.concurrentKernels ? "yes" : "no");
     printf("  Concurrent computation/communication: %s\n\n", prop.deviceOverlap ? "yes" : "no");        
 
-    int extentSize = 48960;
+
+    ////////////////////////////////////EXTENTS///////////////////////////////
+    const int32_t extentSize = 48960;
     float* hostExtents = (float*)malloc(extentSize * sizeof(float));   
 
     PopulateRoomExtents(hostExtents);   
@@ -67,10 +69,31 @@ int main()
         printf("Failed to copy extents to gpu!\n");
         exit(1);
     }
+    ////////////////////////////////////EXTENTS///////////////////////////////
+
+    ////////////////////////////////////FOREST///////////////////////////////
+    int32_t totalForestDataSize = 3380;
+    uint8_t* forestData = (uint8_t*)malloc(totalForestDataSize * sizeof(uint8_t));
+
+    PopulateForestData(forestData);
+
+    uint8_t* deviceForestData;
+    c = cudaMalloc((void**)&deviceForestData, totalForestDataSize * sizeof(uint8_t));
+    if (c != cudaSuccess) {
+        printf("Failed to allocate memory for forest data!\n");
+        exit(1);
+    }
+
+    c = cudaMemcpy(deviceForestData, forestData, totalForestDataSize * sizeof(uint8_t), cudaMemcpyHostToDevice);
+    if (c != cudaSuccess) {
+        printf("Failed to copy forest data to gpu!\n");
+        exit(1);
+    }
+    ////////////////////////////////////FOREST///////////////////////////////
 
     printf("starting!\n");
 
-    testFunction <<<1, arraySize>>> (cudaOutput, deviceExtents);    
+    testFunction <<<1, arraySize>>> (cudaOutput, deviceExtents, deviceForestData);    
 
     printf("ended!\n");   
 
@@ -103,14 +126,14 @@ int main()
 
 }
 
-__global__ void testFunction(int* outputArray, float* extents) {
+__global__ void testFunction(int* outputArray, float* extents, uint8_t* forest) {
     int block = blockIdx.x + blockIdx.y * gridDim.x;
     int threadNumber = block * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;         
 
     //god help me
     rnd_state rnd_state;    
     bbRandom bb = bbRandom();
-    bb.bbSeedRnd(&rnd_state, 100/*threadNumber*/);
+    bb.bbSeedRnd(&rnd_state, 1022727131/*threadNumber*/);
 
     int a = threadNumber;        
 
@@ -123,7 +146,7 @@ __global__ void testFunction(int* outputArray, float* extents) {
 
     __syncthreads();
 
-    InitNewGame(&bb, &rnd_state, rts, extents);
+    InitNewGame(&bb, &rnd_state, rts, extents, forest);
 
     outputArray[threadNumber] = a;      
 

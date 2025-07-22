@@ -5,6 +5,10 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(6): warning C4067: unexpected toke
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(10): warning #1000-D: a storage class may not be specified here
     static struct rnd_state {
     ^
@@ -407,17 +411,17 @@ C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(232): warning #2464-D: conversio
     		return "EMPTY ROOM";
     		       ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(12): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(13): warning #1000-D: a storage class may not be specified here
     static struct RoomTemplates {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(31): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(32): warning #1000-D: a storage class may not be specified here
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1945): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2031)
-              variable "y" (declared at line 2032)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1946): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2032)
+              variable "y" (declared at line 2033)
     	switch (name) {
     	^
   
@@ -425,6 +429,10 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(6): warning C4067: unexpected toke
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(10): warning #1000-D: a storage class may not be specified here
     static struct rnd_state {
     ^
@@ -827,25 +835,25 @@ C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(232): warning #2464-D: conversio
     		return "EMPTY ROOM";
     		       ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(12): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(13): warning #1000-D: a storage class may not be specified here
     static struct RoomTemplates {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(31): warning #1000-D: a storage class may not be specified here
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(32): warning #1000-D: a storage class may not be specified here
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1704): warning #940-D: missing return statement at end of non-void function "CreateRoom"
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1705): warning #940-D: missing return statement at end of non-void function "CreateRoom(uint8_t *, float *, RoomTemplates *, bbRandom *, rnd_state *, int32_t, int32_t, float, float, float, RoomID)"
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1777): warning #177-D: variable "temp2" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1778): warning #177-D: variable "temp2" was declared but never referenced
     	int32_t temp2, x2, y2, rot, rot2;	
     	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1945): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2031)
-              variable "y" (declared at line 2032)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1946): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2032)
+              variable "y" (declared at line 2033)
     	switch (name) {
     	^
   
@@ -857,11 +865,11 @@ C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(21): warning #177-D: variable "BLO
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
                            ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(117): warning #20044-D: extern declaration of the entity rts is treated as a static definition
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(140): warning #20044-D: extern declaration of the entity rts is treated as a static definition
   
 CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-line-info specified, ignoring --generate-line-info option
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00004088_00000000-7_kernel.cudafe1.cpp
+  tmpxft_00014134_00000000-7_kernel.cudafe1.cpp
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe

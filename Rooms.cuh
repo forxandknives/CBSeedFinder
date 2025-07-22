@@ -7,6 +7,7 @@
 #include "Helpers.cuh";
 #include "Constants.cuh";
 #include "Random.cuh";
+#include "Forest.cuh";
 
 typedef struct RoomTemplates RoomTemplates;
 static struct RoomTemplates {
@@ -53,7 +54,7 @@ __device__ inline Rooms CreateRoom(float* e, RoomTemplates* rts, bbRandom* bb, r
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
-__device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r);
+__device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
 __device__ void GetRoomExtents(Rooms* r, float* e);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
@@ -1633,7 +1634,7 @@ __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t po
 	}
 }
 
-__device__ inline Rooms CreateRoom(float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
+__device__ inline Rooms CreateRoom(uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
 
 	Rooms r = Rooms();
 	//RoomTemplates* rt;
@@ -1652,7 +1653,7 @@ __device__ inline Rooms CreateRoom(float* e, RoomTemplates* rts, bbRandom* bb, r
 			if (rts[i].name == name) {
 				r.rt = rts[i];
 				
-				FillRoom(bb, rnd_state, &r);
+				FillRoom(bb, rnd_state, &r, forest);
 
 				//Don't think we need light cone stuff.
 				
@@ -1687,7 +1688,7 @@ __device__ inline Rooms CreateRoom(float* e, RoomTemplates* rts, bbRandom* bb, r
 				if (RandomRoom > t - rts[i].commonness && RandomRoom <= t) {
 					r.rt = rts[i];
 					
-					FillRoom(bb, rnd_state, &r);
+					FillRoom(bb, rnd_state, &r, forest);
 
 					//Skip light cone stuff
 			
@@ -1938,7 +1939,7 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 	return;
 }
 
-__device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
+__device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {
 	
 	RoomID name = r->rt.name;
 
@@ -1950,7 +1951,7 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r) {
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 
-		//GenForestGrid();
+		GenForestGrid(bb, rnd_state, forest);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
