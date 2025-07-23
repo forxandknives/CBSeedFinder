@@ -50,7 +50,7 @@ static struct Rooms {
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos);
-__device__ inline Rooms CreateRoom(float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
+__device__ inline Rooms CreateRoom(uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
@@ -1710,10 +1710,6 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	//We might have some problems with passing the rooms array by pointer.
 	//Want to make sure we pass by reference instead of making a new copy of entire rooms array.
 
-	if (r->rt.name == ROOM2CAFETERIA) {
-		printf("ANGLE: %d X: %f Z: %f\n", r->angle, r->x, r->z);
-	}
-
 	Rooms* r2;
 	Rooms* r3;
 
@@ -2676,6 +2672,10 @@ __device__ inline void GetRoomExtents(Rooms* r, float* e) {
 	int32_t zIndex = int((r->z / 8.0)) - 1;
 	int32_t angle = r->angle / 90;
 	int32_t startIndex = r->rt.index;	
+
+	//Bandaid fix for rooms generating in 8.0 or 0.0 positions.
+	if (xIndex < 0) xIndex = 0;
+	if (zIndex < 0) zIndex = 0;
 
 	//544 because that is amount of extents per room.
 	startIndex *= 544;
