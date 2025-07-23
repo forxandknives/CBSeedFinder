@@ -49,12 +49,12 @@ static struct Rooms {
 };	
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
-__device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos);
-__device__ inline Rooms CreateRoom(uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
+__device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos);
+__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
-__device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
+__device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
 __device__ void GetRoomExtents(Rooms* r, float* e);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
@@ -1606,7 +1606,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
 }
 
-__device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos) {
+__device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint32_t room_type, uint32_t pos, uint32_t min_pos, uint32_t max_pos) {
 	if (max_pos < min_pos) return false;
 
 	uint32_t looped = false; 
@@ -1634,7 +1634,7 @@ __device__ inline bool SetRoom(RoomID room_name, uint32_t room_type, uint32_t po
 	}
 }
 
-__device__ inline Rooms CreateRoom(uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
+__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
 
 	Rooms r = Rooms();
 	//RoomTemplates* rt;
@@ -1653,7 +1653,7 @@ __device__ inline Rooms CreateRoom(uint8_t* forest, float* e, RoomTemplates* rts
 			if (rts[i].name == name) {
 				r.rt = rts[i];
 				
-				FillRoom(bb, rnd_state, &r, forest);
+				FillRoom(MapTemp, bb, rnd_state, &r, forest);
 
 				//Don't think we need light cone stuff.
 				
@@ -1688,7 +1688,7 @@ __device__ inline Rooms CreateRoom(uint8_t* forest, float* e, RoomTemplates* rts
 				if (RandomRoom > t - rts[i].commonness && RandomRoom <= t) {
 					r.rt = rts[i];
 					
-					FillRoom(bb, rnd_state, &r, forest);
+					FillRoom(MapTemp, bb, rnd_state, &r, forest);
 
 					//Skip light cone stuff
 			
@@ -1935,7 +1935,7 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 	return;
 }
 
-__device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {
+__device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {
 	
 	RoomID name = r->rt.name;
 
@@ -2654,7 +2654,7 @@ __device__ inline void FillRoom(bbRandom* bb, rnd_state* rnd_state, Rooms* r, ui
 		break;
 
 	default:
-		printf("ROOM: %s NOT FOUND IN FillRoom().\n", RoomIDToName(name));
+		//printf("ROOM: %s NOT FOUND IN FillRoom().\n", RoomIDToName(name));
 	}	
 
 	//32 becase that is MaxRoomLights

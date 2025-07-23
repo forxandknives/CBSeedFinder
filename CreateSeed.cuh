@@ -10,15 +10,20 @@
 #ifndef CREATE_SEED_CUH
 #define CREATE_SEED_CUH
 
-__device__ inline void InitNewGame(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts, float* e, uint8_t* forest);
-__device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts, float* e, uint8_t* forest);
+__device__ inline int32_t InitNewGame(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts, float* e, uint8_t* forest);
+__device__ inline int32_t CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts, float* e, uint8_t* forest);
 
-__device__ inline void InitNewGame(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts, float* e, uint8_t* forest) {
+__device__ inline int32_t InitNewGame(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts, float* e, uint8_t* forest) {
 
-	CreateMap(bb, rnd_state, rts, e, forest);
+	return CreateMap(bb, rnd_state, rts, e, forest);
 }
 
-__device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts, float* e, uint8_t* forest) {
+__device__ inline int32_t CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplates* rts, float* e, uint8_t* forest) {
+
+	static int32_t MapTemp[MapWidth + 1][MapHeight + 1] = { {0, 0} };
+	static RoomID MapRoom[ROOM4 + 1][70] = { {RoomID::ROOMEMPTY, RoomID::ROOMEMPTY} };
+	static int32_t roomIdCounter = 0;
+
 	int32_t x = 0, y = 0, temp = 0;
 	int32_t i = 0, x2 = 0, y2 = 0;
 	int32_t width = 0, height = 0;
@@ -378,10 +383,10 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 	int32_t max_pos = Room1Amount[0] - 1;
 
 	MapRoom[ROOM1][0] = START;
-	SetRoom(ROOMPJ, ROOM1, floorf(0.1 * float(Room1Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM914, ROOM1, floorf(0.3 * float(Room1Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM1ARCHIVE, ROOM1, floorf(0.5 * float(Room1Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM205, ROOM1, floorf(0.6 * float(Room1Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOMPJ, ROOM1, floorf(0.1 * float(Room1Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM914, ROOM1, floorf(0.3 * float(Room1Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM1ARCHIVE, ROOM1, floorf(0.5 * float(Room1Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM205, ROOM1, floorf(0.6 * float(Room1Amount[0])), min_pos, max_pos);
 
 	MapRoom[ROOM2C][0] = LOCKROOM;	
 
@@ -389,15 +394,15 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 	max_pos = Room2Amount[0] - 1;
 
 	MapRoom[ROOM2][0] = ROOM2CLOSETS;
-	SetRoom(ROOM2TESTROOM2, ROOM2, floorf(0.1 * float(Room2Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM2SCPS, ROOM2, floorf(0.2 * float(Room2Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM2STORAGE, ROOM2, floorf(0.3 * float(Room2Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM2GW_B, ROOM2, floorf(0.4 * float(Room2Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM2SL, ROOM2, floorf(0.5 * float(Room2Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM012, ROOM2, floorf(0.55 * float(Room2Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM2SCPS2, ROOM2, floorf(0.6 * float(Room2Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM1123, ROOM2, floorf(0.7 * float(Room2Amount[0])), min_pos, max_pos);
-	SetRoom(ROOM2ELEVATOR, ROOM2, floorf(0.85 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2TESTROOM2, ROOM2, floorf(0.1 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2SCPS, ROOM2, floorf(0.2 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2STORAGE, ROOM2, floorf(0.3 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2GW_B, ROOM2, floorf(0.4 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2SL, ROOM2, floorf(0.5 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM012, ROOM2, floorf(0.55 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2SCPS2, ROOM2, floorf(0.6 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM1123, ROOM2, floorf(0.7 * float(Room2Amount[0])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2ELEVATOR, ROOM2, floorf(0.85 * float(Room2Amount[0])), min_pos, max_pos);
 
 	int32_t tempIndex = floorf(bb->bbRnd(rnd_state, 0.2, 0.8) * float(Room3Amount[0]));
 	MapRoom[ROOM3][tempIndex] = ROOM3STORAGE;
@@ -413,11 +418,11 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 	min_pos = Room1Amount[0];
 	max_pos = Room1Amount[0] + Room1Amount[1] - 1;
 
-	SetRoom(ROOM079, ROOM1, Room1Amount[0] + floorf(0.15 * float(Room1Amount[1])), min_pos, max_pos);
-	SetRoom(ROOM106, ROOM1, Room1Amount[0] + floorf(0.3 * float(Room1Amount[1])), min_pos, max_pos);
-	SetRoom(ROOM008, ROOM1, Room1Amount[0] + floorf(0.4 * float(Room1Amount[1])), min_pos, max_pos);
-	SetRoom(ROOM035, ROOM1, Room1Amount[0] + floorf(0.5 * float(Room1Amount[1])), min_pos, max_pos);
-	SetRoom(COFFIN, ROOM1, Room1Amount[0] + floorf(0.7 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM079, ROOM1, Room1Amount[0] + floorf(0.15 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM106, ROOM1, Room1Amount[0] + floorf(0.3 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM008, ROOM1, Room1Amount[0] + floorf(0.4 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM035, ROOM1, Room1Amount[0] + floorf(0.5 * float(Room1Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, COFFIN, ROOM1, Room1Amount[0] + floorf(0.7 * float(Room1Amount[1])), min_pos, max_pos);
 
 	min_pos = Room2Amount[0];
 	max_pos = Room2Amount[0] + Room2Amount[1] - 1;
@@ -425,11 +430,11 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 
 	tempIndex = Room2Amount[0] + floorf(0.1 * float(Room2Amount[1]));
 	MapRoom[ROOM2][tempIndex] = ROOM2NUKE;
-	SetRoom(ROOM2TUNNEL, ROOM2, Room2Amount[0] + floorf(0.25 * float(Room2Amount[1])), min_pos, max_pos);
-	SetRoom(ROOM049, ROOM2, Room2Amount[0] + floorf(0.4 * float(Room2Amount[1])), min_pos, max_pos);
-	SetRoom(ROOM2SHAFT, ROOM2, Room2Amount[0] + floorf(0.6 * float(Room2Amount[1])), min_pos, max_pos);
-	SetRoom(TESTROOM, ROOM2, Room2Amount[0] + floorf(0.7 * float(Room2Amount[1])), min_pos, max_pos);
-	SetRoom(ROOM2SERVERS, ROOM2, Room2Amount[0] + floorf(0.9 * Room2Amount[1]), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2TUNNEL, ROOM2, Room2Amount[0] + floorf(0.25 * float(Room2Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM049, ROOM2, Room2Amount[0] + floorf(0.4 * float(Room2Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2SHAFT, ROOM2, Room2Amount[0] + floorf(0.6 * float(Room2Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, TESTROOM, ROOM2, Room2Amount[0] + floorf(0.7 * float(Room2Amount[1])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2SERVERS, ROOM2, Room2Amount[0] + floorf(0.9 * Room2Amount[1]), min_pos, max_pos);
 
 	tempIndex = Room3Amount[0] + floorf(0.3 * float(Room3Amount[1]));
 	MapRoom[ROOM3][tempIndex] = ROOM513;
@@ -450,15 +455,15 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 
 	tempIndex = min_pos + floorf(0.1 * float(Room2Amount[2]));
 	MapRoom[ROOM2][tempIndex] = ROOM2POFFICES;
-	SetRoom(ROOM2CAFETERIA, ROOM2, min_pos + floorf(0.2 * float(Room2Amount[2])), min_pos, max_pos);
-	SetRoom(ROOM2SROOM, ROOM2, min_pos + floorf(0.3 * float(Room2Amount[2])), min_pos, max_pos);
-	SetRoom(ROOM2SERVERS2, ROOM2, min_pos + floorf(0.4 * Room2Amount[2]), min_pos, max_pos);
-	SetRoom(ROOM2OFFICES, ROOM2, min_pos + floorf(0.45 * Room2Amount[2]), min_pos, max_pos);
-	SetRoom(ROOM2OFFICES4, ROOM2, min_pos + floorf(0.5 * Room2Amount[2]), min_pos, max_pos);
-	SetRoom(ROOM860, ROOM2, min_pos + floorf(0.6 * Room2Amount[2]), min_pos, max_pos);
-	SetRoom(MEDIBAY, ROOM2, min_pos + floorf(0.7 * float(Room2Amount[2])), min_pos, max_pos);
-	SetRoom(ROOM2POFFICES2, ROOM2, min_pos + floorf(0.8 * Room2Amount[2]), min_pos, max_pos);
-	SetRoom(ROOM2OFFICES2, ROOM2, min_pos + floorf(0.9 * float(Room2Amount[2])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2CAFETERIA, ROOM2, min_pos + floorf(0.2 * float(Room2Amount[2])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2SROOM, ROOM2, min_pos + floorf(0.3 * float(Room2Amount[2])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2SERVERS2, ROOM2, min_pos + floorf(0.4 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2OFFICES, ROOM2, min_pos + floorf(0.45 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2OFFICES4, ROOM2, min_pos + floorf(0.5 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM860, ROOM2, min_pos + floorf(0.6 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom(MapRoom, MEDIBAY, ROOM2, min_pos + floorf(0.7 * float(Room2Amount[2])), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2POFFICES2, ROOM2, min_pos + floorf(0.8 * Room2Amount[2]), min_pos, max_pos);
+	SetRoom(MapRoom, ROOM2OFFICES2, ROOM2, min_pos + floorf(0.9 * float(Room2Amount[2])), min_pos, max_pos);
 
 	MapRoom[ROOM2C][Room2CAmount[0] + Room2CAmount[1]] = ROOM2CCONT;
 	MapRoom[ROOM2C][Room2CAmount[0] + Room2CAmount[1] + 1] = LOCKROOM2;
@@ -494,10 +499,10 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 		for (x = 1; x <= MapWidth - 2; x++) {
 			if (MapTemp[x][y] == 255) {
 				if (y > MapHeight / 2) {
-					rooms[roomsIndex++] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, CHECKPOINT1);
+					rooms[roomsIndex++] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, CHECKPOINT1);
 				}
 				else {
-					rooms[roomsIndex++] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, CHECKPOINT2);
+					rooms[roomsIndex++] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, CHECKPOINT2);
 				}
 			}
 			else if (MapTemp[x][y] > 0) {
@@ -512,7 +517,7 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 					}
 
 					//we do not increment roomsIndex here because we need to edit the room at this index
-					rooms[roomsIndex] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM1, x * 8, 0, y * 8, MapName[x][y]);
+					rooms[roomsIndex] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM1, x * 8, 0, y * 8, MapName[x][y]);
 					if (MapTemp[x][y + 1]) {
 						rooms[roomsIndex].angle = 180;
 					}
@@ -538,7 +543,7 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 								MapName[x][y] = MapRoom[ROOM2][MapRoomID[ROOM2]];
 							}
 						}
-						rooms[roomsIndex] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
+						rooms[roomsIndex] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
 						if (bb->bbRand(rnd_state, 1, 2) == 1) {
 							rooms[roomsIndex].angle = 90;
 						}
@@ -555,7 +560,7 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 								MapName[x][y] = MapRoom[ROOM2][MapRoomID[ROOM2]];
 							}
 						}
-						rooms[roomsIndex] = CreateRoom(forest, e, rts, bb, rnd_state,zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
+						rooms[roomsIndex] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state,zone, ROOM2, x * 8, 0, y * 8, MapName[x][y]);
 						if (bb->bbRand(rnd_state, 1, 2) == 1) {
 							rooms[roomsIndex].angle = 180;
 						}
@@ -574,22 +579,22 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 						}
 
 						if (MapTemp[x - 1][y] > 0 && MapTemp[x][y + 1] > 0) {
-							rooms[roomsIndex] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
 							rooms[roomsIndex].angle = 180;
 							roomsIndex++;
 						}
 						else if (MapTemp[x + 1][y] > 0 && MapTemp[x][y + 1] > 0) {
-							rooms[roomsIndex] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
 							rooms[roomsIndex].angle = 90;
 							roomsIndex++;
 						}
 						else if (MapTemp[x - 1][y] > 0 && MapTemp[x][y - 1] > 0) {
-							rooms[roomsIndex] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
 							rooms[roomsIndex].angle = 270;
 							roomsIndex++;
 						}
 						else {
-							rooms[roomsIndex] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
+							rooms[roomsIndex] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM2C, x * 8, 0, y * 8, MapName[x][y]);
 							roomsIndex++;
 						}						
 						MapRoomID[ROOM2C] = MapRoomID[ROOM2C] + 1;
@@ -601,7 +606,7 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 							MapName[x][y] = MapRoom[ROOM3][MapRoomID[ROOM3]];
 						}
 					}
-					rooms[roomsIndex] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM3, x * 8, 0, y * 8, MapName[x][y]);
+					rooms[roomsIndex] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM3, x * 8, 0, y * 8, MapName[x][y]);
 					if (!MapTemp[x][y - 1]) {
 						rooms[roomsIndex].angle = 180;
 						roomsIndex++;
@@ -626,7 +631,7 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 							MapName[x][y] = MapRoom[ROOM4][MapRoomID[ROOM4]];
 						}
 					}
-					rooms[roomsIndex++] = CreateRoom(forest, e, rts, bb, rnd_state, zone, ROOM4, x * 8, 0, y * 8, MapName[x][y]);
+					rooms[roomsIndex++] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, zone, ROOM4, x * 8, 0, y * 8, MapName[x][y]);
 					MapRoomID[ROOM4] = MapRoomID[ROOM4] + 1;
 					break;
 				}
@@ -634,16 +639,16 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 		}
 	}
 
-	rooms[roomsIndex++] = CreateRoom(forest, e, rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 500, 8, GATEA);
+	rooms[roomsIndex++] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 500, 8, GATEA);
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 
-	rooms[roomsIndex++] = CreateRoom(forest, e, rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 0, (MapHeight - 1) * 8, POCKETDIMENSION);
+	rooms[roomsIndex++] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, 0, ROOM1, (MapWidth - 1) * 8, 0, (MapHeight - 1) * 8, POCKETDIMENSION);
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 
 	//If introenabled
 	//dont need bc intro never on
 
-	rooms[roomsIndex++] = CreateRoom(forest, e, rts, bb, rnd_state, 0, ROOM1, 8, 800, 0, DIMENSION1499);
+	rooms[roomsIndex++] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, bb, rnd_state, 0, ROOM1, 8, 800, 0, DIMENSION1499);
 	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
 
 	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
@@ -660,48 +665,31 @@ __device__ inline void CreateMap(bbRandom* bb, rnd_state* rnd_state, RoomTemplat
 		PreventRoomOverlap(&rooms[i], rooms, e);
 	}
 	
-	for (int32_t i = 0; i < 324; i++) {
-		if (rooms[i].id == -1) break;
+	int32_t tempReturn = -1;
 
-		Rooms* r = &rooms[i];
+	if (threadIdx.x == 0) {
+		printf("THREAD 0 SEED 10\n");
+		for (int32_t i = 0; i < 324; i++) {
+			if (rooms[i].id == -1) break;
 
-		printf("NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
+			if (rooms[i].id == 2) tempReturn = static_cast<int32_t>(rooms[i].rt.name);
+
+			Rooms* r = &rooms[i];
+
+			printf("NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
+		}
+		printf("RND_STATE: %d\n", rnd_state->rnd_state);
 	}
-	printf("RND_STATE: %d\n", rnd_state->rnd_state);
 
 
 	for (y = 0; y <= MapHeight; y++) {
 		for (x = 0; x <= MapWidth; x++) {
 			MapTemp[x][y] = min(MapTemp[x][y], 1);
 		}
-	}
-	
-	/*
-	if (threadIdx.x == 0) {
-		uint32_t tempCounter = 0;
-		for (int32_t i = 0; i < 18 * 18; i++) {				
-			Rooms* r = &rooms[i];
+	}	
 
-			if (r->id == -1) tempCounter++;
-
-			printf("THREAD: %d\n", threadIdx.x);
-			printf("NAME: %d %s\n", static_cast<int32_t>(r->rt.name), RoomIDToName(r->rt.name));
-			printf("ROOM ID: %d\n", r->id);
-			printf("RT ID: %d\n", r->rt.id);
-			printf("X: %f\n", r->x / 8);
-			printf("Z: %f\n", r->z / 8);
-			printf("\n");						
-		}		
-		printf("Found %d null rooms.\n", tempCounter);
-	}		
-
-	for (int32_t i = 0; i < MapWidth; i++) {
-		for (int32_t j = 0; j < MapHeight; j++) {
-			printf("(%d, %d) NAME: %s\n", i, j, RoomIDToName(MapName[i][j]));
-		}
-	}
-	*/
-
+	return tempReturn;
 
 }
+
 #endif

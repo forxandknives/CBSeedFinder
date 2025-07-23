@@ -12,27 +12,11 @@
 
 __device__ void dummy();
 
-__global__ void testFunction(int* outputArray, float* extents, uint8_t* forest);
+__global__ void testFunction(int32_t offset, int* outputArray, float* extents, uint8_t* forest);
 
 int main()
-{
-    constexpr uint64_t TOTAL_SEEDS = 512;//(1ULL << 31);
-    constexpr uint32_t THREADS_PER_BLOCK = 256;
-    constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
-  
-    cudaError_t c;
-
-    //_control87();
-
-    const int arraySize = 1;    
-    int* cudaOutput = 0;
-    int* output = (int*)malloc(sizeof(int) * arraySize);   
-
-    c = cudaMalloc(&cudaOutput, arraySize * sizeof(int));
-    if (c != cudaSuccess) {
-        printf("Failed to allocate cuda mem!\n");
-        exit(1);
-    }  
+{      
+    cudaError_t c;      
 
     int i = 0;
 
@@ -91,9 +75,27 @@ int main()
     }
     ////////////////////////////////////FOREST///////////////////////////////
 
+    const int arraySize = 32;
+    int* cudaOutput = 0;
+    int* output = (int*)malloc(sizeof(int) * arraySize);
+
+    c = cudaMalloc(&cudaOutput, arraySize * sizeof(int));
+    if (c != cudaSuccess) {
+        printf("Failed to allocate cuda mem!\n");
+        exit(1);
+    }
+
+    int32_t offset = 10;
+
+    constexpr uint64_t TOTAL_SEEDS = 2147483648;    
+    constexpr uint32_t THREADS_PER_BLOCK = 256;
+    constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
+
     printf("starting!\n");
 
-    testFunction <<<1, arraySize>>> (cudaOutput, deviceExtents, deviceForestData);    
+    testFunction <<<1, arraySize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
+
+    cudaDeviceSynchronize();
 
     printf("ended!\n");   
 
@@ -126,16 +128,17 @@ int main()
 
 }
 
-__global__ void testFunction(int* outputArray, float* extents, uint8_t* forest) {
-    int block = blockIdx.x + blockIdx.y * gridDim.x;
-    int threadNumber = block * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;         
+__global__ void testFunction(int32_t offset, int* outputArray, float* extents, uint8_t* forest) {
+    //int block = blockIdx.x + blockIdx.y * gridDim.x;
+    //int threadNumber = block * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;         
+
+    int32_t thread = offset + blockIdx.x * blockDim.x + threadIdx.x;
 
     //god help me
     rnd_state rnd_state;    
     bbRandom bb = bbRandom();
-    bb.bbSeedRnd(&rnd_state, 1022940408/*threadNumber*/);
+    bb.bbSeedRnd(&rnd_state, thread/*threadNumber*/);       
 
-    int a = threadNumber;        
 
     extern __shared__ RoomTemplates rts[roomTemplateAmount];
 
@@ -146,16 +149,7 @@ __global__ void testFunction(int* outputArray, float* extents, uint8_t* forest) 
 
     __syncthreads();
 
-    InitNewGame(&bb, &rnd_state, rts, extents, forest);
-
-    outputArray[threadNumber] = a;      
-
-    //TODO:
-    //Once everything is working see if we can reduce the data type of some variables
-    //from int32_t to int8_t or int16_t depending on the known max-limit of those variables.
-
-    //See if we can just make a global rnd_state varaible instead of the stupid pointer stuff.
-
+    outputArray[threadIdx.x] = InitNewGame(&bb, &rnd_state, rts, extents, forest);   
 }
 
 __device__ void dummy() {};
