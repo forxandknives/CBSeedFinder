@@ -670,14 +670,14 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 
 		Rooms* r = &rooms[i];
 
-		printf("BEFORE NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
+		//printf("BEFORE NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 		PreventRoomOverlap(&rooms[i], rooms, e);
-		printf("AFTER  NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
+		//printf("AFTER  NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 	}
 	
 	int32_t tempReturn = -1;
 
-	int32_t tamongus = 0;
+	int32_t tamongus = 4;
 
 	if (threadIdx.x == tamongus) {
 		printf("THREAD %d SEED %d\n", tamongus, tamongus + 10);
@@ -691,15 +691,6 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 			printf("NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 		}
 		printf("RND_STATE: %d\n", rnd_state.rnd_state);
-		for (int32_t i = 0; i < 324; i++) {
-			if (rooms[i].id == -1) break;
-
-			Rooms r = rooms[i];
-
-			if (r.rt.name == ROOM2SERVERS2 || r.rt.name == ROOM2Z3) {
-				printf("%s MINX %f MAXX %f MINZ %f MAXZ %f\n", RoomIDToName(r.rt.name), r.minX, r.maxX, r.minZ, r.maxZ);
-			}
-		}
 	}
 
 

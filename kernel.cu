@@ -75,7 +75,7 @@ int main()
     }
     ////////////////////////////////////FOREST///////////////////////////////
 
-    const int arraySize = 1;
+    const int arraySize = 32;
     int* cudaOutput = 0;
     int* output = (int*)malloc(sizeof(int) * arraySize);
 
@@ -143,7 +143,7 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
 
     __syncthreads();
 
-    outputArray[threadIdx.x] = InitNewGame(11, rts, extents, forest);   
+    outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
 }
 
 __device__ void dummy() {};

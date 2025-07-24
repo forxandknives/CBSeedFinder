@@ -865,6 +865,10 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1946): warning #546-D: transfer of
     	switch (name) {
     	^
   
+C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(671): warning #177-D: variable "r" was declared but never referenced
+    		Rooms* r = &rooms[i];
+    		       ^
+  
 C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(487): warning #177-D: variable "spacing" was declared but never referenced
     	float spacing = 8.0;
     	      ^
@@ -873,15 +877,112 @@ C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(92): warning #177-D: variable "BLO
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
                            ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(135): warning #177-D: variable "thread" was declared but never referenced
-        int32_t thread = offset + blockIdx.x * blockDim.x + threadIdx.x;
-                ^
-  
 C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(137): warning #20044-D: extern declaration of the entity rts is treated as a static definition
   
 CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-line-info specified, ignoring --generate-line-info option
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00017758_00000000-7_kernel.cudafe1.cpp
+  tmpxft_00019634_00000000-7_kernel.cudafe1.cpp
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49235): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49239): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49243): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49247): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49251): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49252): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49256): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49260): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49264): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49269): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49273): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49277): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49284): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49294): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49304): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49308): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49319): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49323): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49327): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49331): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49334): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49338): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49342): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49346): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49355): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49362): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49366): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49367): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49370): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49371): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49386): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49390): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49394): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49398): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49401): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49403): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49405): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49407): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49409): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49411): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49413): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49418): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49428): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49438): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49440): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49442): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49444): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49447): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49448): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49451): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49452): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49453): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49455): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49457): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49459): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49461): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49463): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49465): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49474): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49478): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49482): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49493): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49505): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49509): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49514): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49518): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49522): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49526): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49530): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49541): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49545): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49549): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49556): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49576): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49580): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49591): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49595): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49599): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49603): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49606): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49610): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49614): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49618): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49637): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49652): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49656): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49660): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49664): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49668): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49677): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49679): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49681): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49683): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49685): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49687): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49689): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49695): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49722): warning C4305: '=': truncation from 'double' to 'float'
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe
