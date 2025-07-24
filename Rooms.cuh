@@ -1710,6 +1710,10 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	//We might have some problems with passing the rooms array by pointer.
 	//Want to make sure we pass by reference instead of making a new copy of entire rooms array.
 
+	if (threadIdx.x == 1 && r->rt.name == ROOM2SERVERS2) {
+		printf("ROOM2Z3 ANGLE: %d X: %f Z: %f\n", r->angle, r->x, r->z);
+	}
+
 	Rooms* r2;
 	Rooms* r3;
 
@@ -1804,8 +1808,8 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 				GetRoomExtents(r2, e);
 
 				//make sure neither room overlaps with anything after the swap
-				for (int32_t i = 0; i < 18 * 18; i++) {
-					r3 = &rooms[i];
+				for (int32_t j = 0; j < 18 * 18; j++) {
+					r3 = &rooms[j];
 
 					if (r3->id == -1) break;
 

@@ -75,7 +75,7 @@ int main()
     }
     ////////////////////////////////////FOREST///////////////////////////////
 
-    const int arraySize = 2;
+    const int arraySize = 1;
     int* cudaOutput = 0;
     int* output = (int*)malloc(sizeof(int) * arraySize);
 
@@ -133,13 +133,7 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
     //int threadNumber = block * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;         
 
     int32_t thread = offset + blockIdx.x * blockDim.x + threadIdx.x;
-
-    //god help me
-    rnd_state rnd_state;    
-    bbRandom bb = bbRandom();
-    bb.bbSeedRnd(&rnd_state, thread/*threadNumber*/);       
-
-
+       
     extern __shared__ RoomTemplates rts[roomTemplateAmount];
 
     //we want the first thread of each block to spawn the room templates;
@@ -149,7 +143,7 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
 
     __syncthreads();
 
-    outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
+    outputArray[threadIdx.x] = InitNewGame(11, rts, extents, forest);   
 }
 
 __device__ void dummy() {};
