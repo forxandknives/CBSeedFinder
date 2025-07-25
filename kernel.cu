@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include <iostream>
+#include <chrono>
 
 __device__ void dummy();
 
@@ -20,19 +21,27 @@ int main()
 
     int i = 0;
 
-    cudaDeviceProp prop;
-    cudaGetDeviceProperties(&prop, i);
-    printf("Device Number: %d\n", i);
-    printf("  Device name: %s\n", prop.name);
-    printf("  Memory Clock Rate (MHz): %d\n", prop.memoryClockRate / 1024);
-    printf("  Memory Bus Width (bits): %d\n", prop.memoryBusWidth);
-    printf("  Peak Memory Bandwidth (GB/s): %.1f\n", 2.0 * prop.memoryClockRate * (prop.memoryBusWidth / 8) / 1.0e6);
-    printf("  Total global memory (Gbytes) %.1f\n", (float)(prop.totalGlobalMem) / 1024.0 / 1024.0 / 1024.0);
-    printf("  Shared memory per block (Kbytes) %.1f\n", (float)(prop.sharedMemPerBlock) / 1024.0);
-    printf("  minor-major: %d-%d\n", prop.minor, prop.major);
-    printf("  Warp-size: %d\n", prop.warpSize);
-    printf("  Concurrent kernels: %s\n", prop.concurrentKernels ? "yes" : "no");
-    printf("  Concurrent computation/communication: %s\n\n", prop.deviceOverlap ? "yes" : "no");        
+    cudaDeviceProp devProp;
+    cudaGetDeviceProperties(&devProp, i);
+    printf("Major revision number:         %d\n", devProp.major);
+    printf("Minor revision number:         %d\n", devProp.minor);
+    printf("Name:                          %s\n", devProp.name);
+    printf("Total global memory:           %lu\n", devProp.totalGlobalMem);
+    printf("Total shared memory per block: %lu\n", devProp.sharedMemPerBlock);
+    printf("Total registers per block:     %d\n", devProp.regsPerBlock);
+    printf("Warp size:                     %d\n", devProp.warpSize);
+    printf("Maximum memory pitch:          %lu\n", devProp.memPitch);
+    printf("Maximum threads per block:     %d\n", devProp.maxThreadsPerBlock);
+    for (int i = 0; i < 3; ++i)
+        printf("Maximum dimension %d of block:  %d\n", i, devProp.maxThreadsDim[i]);
+    for (int i = 0; i < 3; ++i)
+        printf("Maximum dimension %d of grid:   %d\n", i, devProp.maxGridSize[i]);
+    printf("Clock rate:                    %d\n", devProp.clockRate);
+    printf("Total constant memory:         %lu\n", devProp.totalConstMem);
+    printf("Texture alignment:             %lu\n", devProp.textureAlignment);
+    printf("Concurrent copy and execution: %s\n", (devProp.deviceOverlap ? "Yes" : "No"));
+    printf("Number of multiprocessors:     %d\n", devProp.multiProcessorCount);
+    printf("Kernel execution timeout:      %s\n", (devProp.kernelExecTimeoutEnabled ? "Yes" : "No"));
 
 
     ////////////////////////////////////EXTENTS///////////////////////////////
@@ -75,7 +84,7 @@ int main()
     }
     ////////////////////////////////////FOREST///////////////////////////////
 
-    const int arraySize = 32;
+    const int arraySize = 1;
     int* cudaOutput = 0;
     int* output = (int*)malloc(sizeof(int) * arraySize);
 
@@ -85,27 +94,54 @@ int main()
         exit(1);
     }
 
-    int32_t offset = 10;
+    int32_t offset = 0;
 
     constexpr uint64_t TOTAL_SEEDS = 2147483648;    
-    constexpr uint32_t THREADS_PER_BLOCK = 256;
+    constexpr uint32_t THREADS_PER_BLOCK = 1024;
     constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
 
-    printf("starting!\n");
+    int gridSize;
+    int minGridSize;
+    int blockSize;
 
-    testFunction <<<1, arraySize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
+    int totalThreads = 65536;
+
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, testFunction, 0, totalThreads);
+
+    gridSize = (totalThreads + blockSize - 1) / blockSize;
+
+    printf("MINGRIDSIZE: %d\n", minGridSize);
+    printf("GRIDSIZE: %d\n", gridSize);
+    printf("BLOCKSIZE: %d\n", blockSize);
+
+    std::chrono::steady_clock::time_point start, end;
+
+    printf("Launching Kernel!\n");
+
+    uint32_t tempBlockAmount = 5;
+
+    start = std::chrono::steady_clock::now();
+
+    testFunction <<<1600, 256>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
 
     cudaDeviceSynchronize();
 
-    printf("ended!\n");   
+    end = std::chrono::steady_clock::now();
+
+    double ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+    printf("Kernel Stopped!\n");   
+
+    printf("Took %f milliseconds for %d seeds.\n", ms, totalThreads);
 
     c = cudaGetLastError();
     if (c != cudaSuccess) {
         printf("kernel error!\n");
+        printf("%s\n", cudaGetErrorString(c));
         exit(1);
     }
 
-    c = cudaMemcpy(output, cudaOutput, arraySize * sizeof(int), cudaMemcpyDeviceToHost);
+    /*c = cudaMemcpy(output, cudaOutput, arraySize * sizeof(int), cudaMemcpyDeviceToHost);
     if (c != cudaSuccess) {
         printf("failed to copy!\n");
         printf("%s\n", cudaGetErrorString(c));
@@ -118,7 +154,7 @@ int main()
         printf("Thread %d: Output: %d\n", i, output[i]);
     }
 
-    printf("at end\n");
+    printf("at end\n");*/
 
     free(output);
     cudaFree(cudaOutput);
@@ -134,7 +170,7 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
 
     int32_t thread = offset + blockIdx.x * blockDim.x + threadIdx.x;
        
-    extern __shared__ RoomTemplates rts[roomTemplateAmount];
+    __shared__ RoomTemplates rts[roomTemplateAmount];
 
     //we want the first thread of each block to spawn the room templates;
     if (threadIdx.x == 0) {
@@ -143,7 +179,13 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
 
     __syncthreads();
 
-    outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
+    //if (thread == 0 || thread == 2147483647) return;
+
+    InitNewGame(thread, rts, extents, forest);
+
+    //printf("Thread %d reached end.\n", thread);
+
+    //outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
 }
 
 __device__ void dummy() {};

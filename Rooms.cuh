@@ -55,7 +55,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
 __device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
-__device__ void GetRoomExtents(Rooms* r, float* e);
+__device__ inline void GetRoomExtents(Rooms* r, float* e);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
@@ -1709,10 +1709,6 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 
 	//We might have some problems with passing the rooms array by pointer.
 	//Want to make sure we pass by reference instead of making a new copy of entire rooms array.
-
-	if (threadIdx.x == 1 && r->rt.name == ROOM2SERVERS2) {
-		printf("ROOM2Z3 ANGLE: %d X: %f Z: %f\n", r->angle, r->x, r->z);
-	}
 
 	Rooms* r2;
 	Rooms* r3;

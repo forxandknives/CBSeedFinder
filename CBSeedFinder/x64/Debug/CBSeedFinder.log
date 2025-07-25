@@ -419,13 +419,13 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(32): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2662): warning #127-D: expected a statement
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2658): warning #127-D: expected a statement
     	}	
     	^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1946): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2032)
-              variable "y" (declared at line 2033)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1942): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2028)
+              variable "y" (declared at line 2029)
     	switch (name) {
     	^
   
@@ -851,17 +851,17 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1705): warning #940-D: missing ret
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1778): warning #177-D: variable "temp2" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1774): warning #177-D: variable "temp2" was declared but never referenced
     	int32_t temp2, x2, y2, rot, rot2;	
     	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2662): warning #127-D: expected a statement
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2658): warning #127-D: expected a statement
     	}	
     	^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1946): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2032)
-              variable "y" (declared at line 2033)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1942): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2028)
+              variable "y" (declared at line 2029)
     	switch (name) {
     	^
   
@@ -873,17 +873,25 @@ C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(487): warning #177-D: variabl
     	float spacing = 8.0;
     	      ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(92): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(680): warning #177-D: variable "tamongus" was declared but never referenced
+    	int32_t tamongus = 4;
+    	        ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(101): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
                            ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(137): warning #20044-D: extern declaration of the entity rts is treated as a static definition
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(121): warning #177-D: variable "tempBlockAmount" was declared but never referenced
+        uint32_t tempBlockAmount = 5;
+                 ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(173): warning #20044-D: extern declaration of the entity rts is treated as a static definition
   
 CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-line-info specified, ignoring --generate-line-info option
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00019634_00000000-7_kernel.cudafe1.cpp
+  tmpxft_00019f50_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
@@ -985,4 +993,21 @@ C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49687): warning C4305: '=': trun
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49689): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49695): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49722): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(29): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
+  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(29): note: consider using '%zu' in the format string
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(30): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
+  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(30): note: consider using '%zu' in the format string
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(33): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
+  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(33): note: consider using '%zu' in the format string
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(40): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
+  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(40): note: consider using '%zu' in the format string
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(41): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
+  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(41): note: consider using '%zu' in the format string
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(131): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+     Creating library C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.lib and object C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe

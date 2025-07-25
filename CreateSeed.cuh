@@ -679,7 +679,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 
 	int32_t tamongus = 4;
 
-	if (threadIdx.x == tamongus) {
+	/*if (threadIdx.x == tamongus) {
 		printf("THREAD %d SEED %d\n", tamongus, tamongus + 10);
 		for (int32_t i = 0; i < 324; i++) {
 			if (rooms[i].id == -1) break;
@@ -691,7 +691,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 			printf("NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 		}
 		printf("RND_STATE: %d\n", rnd_state.rnd_state);
-	}
+	}*/
 
 
 	for (y = 0; y <= MapHeight; y++) {
