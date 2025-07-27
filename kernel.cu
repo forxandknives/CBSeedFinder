@@ -100,13 +100,13 @@ int main()
     constexpr uint32_t THREADS_PER_BLOCK = 1024;
     constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
 
-    int gridSize;
+    uint64_t gridSize;
     int minGridSize;
     int blockSize;
 
-    int totalThreads = 524288;
+    int totalThreads = 524288; 
 
-    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, testFunction, 0, 0);
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, testFunction, 0, totalThreads);   
 
     gridSize = (totalThreads + blockSize - 1) / blockSize;
 
