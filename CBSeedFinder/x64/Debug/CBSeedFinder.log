@@ -16,7 +16,7 @@ C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(10): warning #1000-D: a storage c
   Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
   
 C:\Users\forxa\Desktop\CBSeedFinder\Constants.cuh(10): warning #1866-D: attribute does not apply to any entity
-    __declspec(__device__) __declspec(__constant__) enum RoomID : int32_t {
+    __declspec(__device__) __declspec(__constant__) enum RoomID : uint8_t {
                                       ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(38): warning #2464-D: conversion from a string literal to "char *" is deprecated
@@ -419,13 +419,13 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(32): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2658): warning #127-D: expected a statement
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2650): warning #127-D: expected a statement
     	}	
     	^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1942): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2028)
-              variable "y" (declared at line 2029)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1934): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2020)
+              variable "y" (declared at line 2021)
     	switch (name) {
     	^
   
@@ -444,7 +444,7 @@ C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(10): warning #1000-D: a storage c
   Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
   
 C:\Users\forxa\Desktop\CBSeedFinder\Constants.cuh(10): warning #1866-D: attribute does not apply to any entity
-    __declspec(__device__) __declspec(__constant__) enum RoomID : int32_t {
+    __declspec(__device__) __declspec(__constant__) enum RoomID : uint8_t {
                                       ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(38): warning #2464-D: conversion from a string literal to "char *" is deprecated
@@ -847,51 +847,41 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(32): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1705): warning #940-D: missing return statement at end of non-void function "CreateRoom"
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1702): warning #940-D: missing return statement at end of non-void function "CreateRoom"
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1774): warning #177-D: variable "temp2" was declared but never referenced
-    	int32_t temp2, x2, y2, rot, rot2;	
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1766): warning #177-D: variable "temp2" was declared but never referenced
+    	int32_t temp2;
     	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2658): warning #127-D: expected a statement
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2650): warning #127-D: expected a statement
     	}	
     	^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1942): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2028)
-              variable "y" (declared at line 2029)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1934): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2020)
+              variable "y" (declared at line 2021)
     	switch (name) {
     	^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(671): warning #177-D: variable "r" was declared but never referenced
-    		Rooms* r = &rooms[i];
-    		       ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(487): warning #177-D: variable "spacing" was declared but never referenced
-    	float spacing = 8.0;
-    	      ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(680): warning #177-D: variable "tamongus" was declared but never referenced
-    	int32_t tamongus = 4;
-    	        ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(101): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
                            ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(121): warning #177-D: variable "tempBlockAmount" was declared but never referenced
-        uint32_t tempBlockAmount = 5;
+        uint32_t tempBlockAmount = 5;   
                  ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(173): warning #20044-D: extern declaration of the entity rts is treated as a static definition
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(191): warning #20054-D: dynamic initialization is not supported for a function-scope static __shared__ variable within a __device__/__global__ function
+        __declspec(__shared__) RoomTemplates rts[roomTemplateAmount];
+                                             ^
   
 CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-line-info specified, ignoring --generate-line-info option
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00019f50_00000000-7_kernel.cudafe1.cpp
+  tmpxft_0001c5b8_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
@@ -993,16 +983,6 @@ C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49687): warning C4305: '=': trun
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49689): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49695): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49722): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(29): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(29): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(30): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(30): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(33): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(33): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(40): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(40): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(41): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(41): note: consider using '%zu' in the format string
 C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(131): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
           with
           [

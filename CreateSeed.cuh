@@ -193,7 +193,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 								x2 = x;
 								y2 = y - 1;
 							}
-							int32_t placed = false;
+							uint8_t placed = false;
 							if (MapTemp[x2][y2] > 1 && MapTemp[x2][y2] < 4) {
 								switch (MapTemp[x2][y2]) {
 								case 2:
@@ -483,13 +483,12 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 
 	//-----------------------------------------------------------------------------------------
 	temp = 0;
-	//Rooms r;
-	float spacing = 8.0;
+	//Rooms r;	
 
 	//we are going to attempt to use an array of Rooms to store the created rooms.
 	//Guessing that we never go past 324 rooms
-	Rooms rooms[MapHeight*MapWidth] = { NULL };
-	int32_t roomsIndex = 0; //we must increment this after creating each room;		
+	Rooms rooms[324] = { NULL };
+	uint8_t roomsIndex = 0; //we must increment this after creating each room;		
 
 	for (y = MapHeight-1; y >= 1; y--) {
 		if (y < MapHeight / 3 + 1) {
@@ -664,20 +663,15 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	//In the future, if this program works, we can check the room amount of 
 	//every seed in the game, take the maximun number, and set the
 	//rooms array length to that number.
-	for (i = 0; i < 18*18; i++) {	
+#pragma unroll
+	for (i = 0; i < 324; i++) {	
 		//If id is -1 that means we reached end of actual rooms in array.
-		if (rooms[i].id == -1) break;
-
-		Rooms* r = &rooms[i];
+		if (rooms[i].id == -1) break;	
 
 		//printf("BEFORE NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 		PreventRoomOverlap(&rooms[i], rooms, e);
 		//printf("AFTER  NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 	}
-	
-	int32_t tempReturn = -1;
-
-	int32_t tamongus = 4;
 
 	/*if (threadIdx.x == tamongus) {
 		printf("THREAD %d SEED %d\n", tamongus, tamongus + 10);
@@ -693,14 +687,14 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 		printf("RND_STATE: %d\n", rnd_state.rnd_state);
 	}*/
 
+//#pragma unroll
+//	for (y = 0; y <= MapHeight; y++) {
+//		for (x = 0; x <= MapWidth; x++) {
+//			MapTemp[x][y] = min(MapTemp[x][y], 1);
+//		}
+//	}	
 
-	for (y = 0; y <= MapHeight; y++) {
-		for (x = 0; x <= MapWidth; x++) {
-			MapTemp[x][y] = min(MapTemp[x][y], 1);
-		}
-	}	
-
-	return tempReturn;
+	return 1;
 
 }
 

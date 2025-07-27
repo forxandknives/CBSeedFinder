@@ -19,7 +19,7 @@ int main()
 {      
     cudaError_t c;      
 
-    int i = 0;
+    /*int i = 0;
 
     cudaDeviceProp devProp;
     cudaGetDeviceProperties(&devProp, i);
@@ -41,7 +41,7 @@ int main()
     printf("Texture alignment:             %lu\n", devProp.textureAlignment);
     printf("Concurrent copy and execution: %s\n", (devProp.deviceOverlap ? "Yes" : "No"));
     printf("Number of multiprocessors:     %d\n", devProp.multiProcessorCount);
-    printf("Kernel execution timeout:      %s\n", (devProp.kernelExecTimeoutEnabled ? "Yes" : "No"));
+    printf("Kernel execution timeout:      %s\n", (devProp.kernelExecTimeoutEnabled ? "Yes" : "No"));*/
 
 
     ////////////////////////////////////EXTENTS///////////////////////////////
@@ -104,9 +104,9 @@ int main()
     int minGridSize;
     int blockSize;
 
-    int totalThreads = 65536;
+    int totalThreads = 524288;
 
-    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, testFunction, 0, totalThreads);
+    cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, testFunction, 0, 0);
 
     gridSize = (totalThreads + blockSize - 1) / blockSize;
 
@@ -118,11 +118,11 @@ int main()
 
     printf("Launching Kernel!\n");
 
-    uint32_t tempBlockAmount = 5;
+    uint32_t tempBlockAmount = 5;   
 
     start = std::chrono::steady_clock::now();
 
-    testFunction <<<1600, 256>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
+    testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
 
     cudaDeviceSynchronize();
 
@@ -132,7 +132,25 @@ int main()
 
     printf("Kernel Stopped!\n");   
 
-    printf("Took %f milliseconds for %d seeds.\n", ms, totalThreads);
+    // calculate theoretical occupancy
+    int maxActiveBlocks;
+    cudaOccupancyMaxActiveBlocksPerMultiprocessor(&maxActiveBlocks,
+        testFunction, blockSize,
+        0);
+
+    int device;
+    cudaDeviceProp props;
+    cudaGetDevice(&device);
+    cudaGetDeviceProperties(&props, device);
+
+    float occupancy = (maxActiveBlocks * blockSize / props.warpSize) /
+        (float)(props.maxThreadsPerMultiProcessor /
+            props.warpSize);
+
+    printf("Launched blocks of size %d. Theoretical occupancy: %f\n",
+        blockSize, occupancy);
+    printf("Registers per block: %d.\n", props.regsPerBlock);
+    printf("Took %f milliseconds for %d seeds.\n", ms, gridSize * blockSize);
 
     c = cudaGetLastError();
     if (c != cudaSuccess) {
@@ -185,7 +203,7 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
 
     //printf("Thread %d reached end.\n", thread);
 
-    //outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
+    //outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);      
 }
 
 __device__ void dummy() {};
