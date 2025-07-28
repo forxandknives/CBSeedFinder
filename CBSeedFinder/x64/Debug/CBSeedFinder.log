@@ -873,15 +873,15 @@ C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(487): warning #177-D: variabl
     	float spacing = 8.0;
     	      ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(101): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(100): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
                            ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(121): warning #177-D: variable "tempBlockAmount" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(120): warning #177-D: variable "tempBlockAmount" was declared but never referenced
         uint32_t tempBlockAmount = 5;
                  ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(173): warning #20054-D: dynamic initialization is not supported for a function-scope static __shared__ variable within a __device__/__global__ function
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(175): warning #20054-D: dynamic initialization is not supported for a function-scope static __shared__ variable within a __device__/__global__ function
         __declspec(__shared__) RoomTemplates rts[roomTemplateAmount];
                                              ^
   
@@ -889,7 +889,7 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00017a4c_00000000-7_kernel.cudafe1.cpp
+  tmpxft_0001cdc8_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
@@ -991,17 +991,7 @@ C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49687): warning C4305: '=': trun
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49689): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49695): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49722): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(29): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(29): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(30): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(30): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(33): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(33): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(40): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(40): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(41): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
-  C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(41): note: consider using '%zu' in the format string
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(131): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(133): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
           with
           [
               _Rep=__int64

@@ -4,7 +4,7 @@
 #define HELPERS_CUH
 
 #include "cuda_runtime.h"
-
+#include "Random.cuh"
 #include "Constants.cuh"
 
 #include "stdio.h"

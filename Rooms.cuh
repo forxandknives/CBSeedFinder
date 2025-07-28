@@ -37,7 +37,7 @@ static struct Rooms {
 	int32_t obj;
 	float x, y, z;
 	int32_t angle;
-	RoomTemplates rt;
+	RoomTemplates* rt;
 
 	float dist;	
 
@@ -1651,7 +1651,7 @@ __device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCount
 	if (name != ROOMEMPTY) {
 		for (int32_t i = 0; i < roomTemplateAmount; i++) {			
 			if (rts[i].name == name) {
-				r.rt = rts[i];
+				r.rt = &rts[i];
 				
 				FillRoom(MapTemp, bb, rnd_state, &r, forest);
 
@@ -1686,7 +1686,7 @@ __device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCount
 			if (rts[i].zone[j] == zone && rts[i].shape == roomshape) {
 				t = t + rts[i].commonness;
 				if (RandomRoom > t - rts[i].commonness && RandomRoom <= t) {
-					r.rt = rts[i];
+					r.rt = &rts[i];
 					
 					FillRoom(MapTemp, bb, rnd_state, &r, forest);
 
@@ -1705,7 +1705,7 @@ __device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCount
 }
 
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
-	if (r->rt.disableOverlapCheck) return true;
+	if (r->rt->disableOverlapCheck) return true;
 
 	//We might have some problems with passing the rooms array by pointer.
 	//Want to make sure we pass by reference instead of making a new copy of entire rooms array.
@@ -1715,7 +1715,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 
 	bool isIntersecting = false;
 
-	if (r->rt.name == CHECKPOINT1 || r->rt.name == CHECKPOINT2 || r->rt.name == START) return true;
+	if (r->rt->name == CHECKPOINT1 || r->rt->name == CHECKPOINT2 || r->rt->name == START) return true;
 
 	for (int32_t i = 0; i < 324; i++) {
 		r2 = &rooms[i];
@@ -1723,7 +1723,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 		//-1 id means we are at the point of the array where there are no more rooms.
 		if (r2->id == -1) break;
 
-		if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
+		if (r2->id != r->id && !r2->rt->disableOverlapCheck) {
 			if (CheckRoomOverlap(r, r2)) {
 				isIntersecting = true;
 				break;
@@ -1738,7 +1738,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	int32_t x = r->x / 8.0;
 	int32_t y = r->y / 8.0;
 
-	if (r->rt.shape == ROOM2) {
+	if (r->rt->shape == ROOM2) {
 		r->angle += 180;
 		//CalculateRoomExtents(r);
 		//TEMPORARY
@@ -1748,7 +1748,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 			r2 = &rooms[i];
 			if (r2->id == -1) break; //Id should only be -1 after all other rooms.
 
-			if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
+			if (r2->id != r->id && !r2->rt->disableOverlapCheck) {
 				if (CheckRoomOverlap(r, r2)) {
 					isIntersecting = true;
 					r->angle = r->angle - 180;
@@ -1777,8 +1777,8 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 
 		if (r2->id == -1) break;
 
-		if (r2->id != r->id && !r2->rt.disableOverlapCheck) {
-			if (r->rt.shape == r2->rt.shape && r->zone == r2->zone && (r2->rt.name != CHECKPOINT1 && r2->rt.name != CHECKPOINT2 && r2->rt.name != START)) {
+		if (r2->id != r->id && !r2->rt->disableOverlapCheck) {
+			if (r->rt->shape == r2->rt->shape && r->zone == r2->zone && (r2->rt->name != CHECKPOINT1 && r2->rt->name != CHECKPOINT2 && r2->rt->name != START)) {
 				x = r->x / 8.0;
 				y = r->z / 8.0;
 				rot = r->angle;
@@ -1809,7 +1809,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 
 					if (r3->id == -1) break;
 
-					if (!r3->rt.disableOverlapCheck) {
+					if (!r3->rt->disableOverlapCheck) {
 						if (r3->id != r->id) {
 							if (CheckRoomOverlap(r, r3)) {
 								isIntersecting = true;
@@ -1864,7 +1864,7 @@ __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2) {
 }
 
 __device__ inline void CalculateRoomExtents(Rooms* r) {
-	if (r->rt.disableOverlapCheck) return;
+	if (r->rt->disableOverlapCheck) return;
 
 	static const float shrinkAmount = 0.05;
 
@@ -1872,13 +1872,13 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 	static float roomScale = 8.0 / 2048.0;
 
 	//First we scale.
-	r->rt.minX *= roomScale;
-	r->rt.minY *= roomScale;
-	r->rt.minZ *= roomScale;
+	r->rt->minX *= roomScale;
+	r->rt->minY *= roomScale;
+	r->rt->minZ *= roomScale;
 
-	r->rt.maxX *= roomScale;
-	r->rt.maxY *= roomScale;
-	r->rt.maxZ *= roomScale;
+	r->rt->maxX *= roomScale;
+	r->rt->maxY *= roomScale;
+	r->rt->maxZ *= roomScale;
 
 	//Then we rotate	
 	float rad = 0.0;
@@ -1894,21 +1894,21 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 		break;
 	}
 
-	r->rt.minX = r->rt.minX * cosf(rad) - r->rt.minZ * sinf(rad);
-	r->rt.minZ = r->rt.minX * sinf(rad) + r->rt.minZ * cosf(rad);
+	r->rt->minX = r->rt->minX * cosf(rad) - r->rt->minZ * sinf(rad);
+	r->rt->minZ = r->rt->minX * sinf(rad) + r->rt->minZ * cosf(rad);
 
-	r->rt.maxX = r->rt.maxX * cosf(rad) - r->rt.maxZ * sinf(rad);
-	r->rt.maxZ = r->rt.maxX * sinf(rad) + r->rt.maxZ * cosf(rad);
+	r->rt->maxX = r->rt->maxX * cosf(rad) - r->rt->maxZ * sinf(rad);
+	r->rt->maxZ = r->rt->maxX * sinf(rad) + r->rt->maxZ * cosf(rad);
 
 	//Back to blitz.
 
-	r->minX = r->rt.minX + shrinkAmount + r->x;
-	r->minY = r->rt.minY + shrinkAmount;
-	r->minZ = r->rt.minZ + shrinkAmount + r->z;
+	r->minX = r->rt->minX + shrinkAmount + r->x;
+	r->minY = r->rt->minY + shrinkAmount;
+	r->minZ = r->rt->minZ + shrinkAmount + r->z;
 
-	r->maxX = r->rt.maxX - shrinkAmount + r->x;
-	r->maxY = r->rt.maxY - shrinkAmount;
-	r->maxZ = r->rt.maxZ - shrinkAmount + r->z;
+	r->maxX = r->rt->maxX - shrinkAmount + r->x;
+	r->maxY = r->rt->maxY - shrinkAmount;
+	r->maxZ = r->rt->maxZ - shrinkAmount + r->z;
 
 	if (r->minX > r->maxX) {
 		float temp = r->maxX;
@@ -1937,7 +1937,7 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 
 __device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {
 	
-	RoomID name = r->rt.name;
+	RoomID name = r->rt->name;
 
 	switch (name) {
 	case ROOM860:
@@ -2658,7 +2658,7 @@ __device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state
 	}	
 
 	//32 becase that is MaxRoomLights
-	for (int32_t i = 0; i < min(32, r->rt.lights); i++) {
+	for (int32_t i = 0; i < min(32, r->rt->lights); i++) {
 		bb->bbRand(rnd_state, 1, 360);
 		bb->bbRand(rnd_state, 1, 10);
 	}
@@ -2666,12 +2666,12 @@ __device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state
 
 __device__ inline void GetRoomExtents(Rooms* r, float* e) {
 
-	if (r->rt.disableOverlapCheck) return;
+	if (r->rt->disableOverlapCheck) return;
 
 	int32_t xIndex = int((r->x / 8.0)) - 1;
 	int32_t zIndex = int((r->z / 8.0)) - 1;
 	int32_t angle = r->angle / 90;
-	int32_t startIndex = r->rt.index;	
+	int32_t startIndex = r->rt->index;	
 
 	//Bandaid fix for rooms generating in 8.0 or 0.0 positions.
 	if (xIndex < 0) xIndex = 0;

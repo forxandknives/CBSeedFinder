@@ -103,7 +103,7 @@ int main()
     int minGridSize;
     int blockSize;
 
-    int totalThreads = 65536;
+    int totalThreads = 524288;
 
     cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, testFunction, 0, totalThreads);
 
@@ -120,8 +120,11 @@ int main()
     uint32_t tempBlockAmount = 5;
 
     start = std::chrono::steady_clock::now();
-
-    testFunction <<<1, 32>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
+    //DEBUG
+    testFunction << <1, 32>> > (offset, cudaOutput, deviceExtents, deviceForestData);
+    
+    //RELEASE
+    //testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
 
     cudaDeviceSynchronize();
 
