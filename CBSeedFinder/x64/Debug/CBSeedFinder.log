@@ -8,7 +8,7 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(9): warning C4067: unexpected toke
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(11): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(10): warning #1000-D: a storage class may not be specified here
     static struct rnd_state {
     ^
@@ -436,7 +436,7 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(9): warning C4067: unexpected toke
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(11): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\forxa\Desktop\CBSeedFinder\Random.cuh(10): warning #1000-D: a storage class may not be specified here
     static struct rnd_state {
     ^
@@ -885,7 +885,7 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_0001db7c_00000000-7_kernel.cudafe1.cpp
+  tmpxft_000193fc_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'

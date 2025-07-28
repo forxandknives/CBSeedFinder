@@ -22,7 +22,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 
 	int32_t MapTemp[MapWidth + 1][MapHeight + 1] = { {0, 0} };
 	RoomID MapRoom[ROOM4 + 1][70] = { {RoomID::ROOMEMPTY, RoomID::ROOMEMPTY} };
-	int32_t roomIdCounter = 0;
+	uint8_t roomIdCounter = 0;
 
 	rnd_state rnd_state;
 

@@ -50,7 +50,7 @@ static struct Rooms {
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t room_type, uint8_t pos, uint8_t min_pos, uint8_t max_pos);
-__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name);
+__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name);
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
@@ -1634,9 +1634,9 @@ __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t 
 	}
 }
 
-__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, int32_t zone, int32_t roomshape, float x, float y, float z, RoomID name) {
+__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name) {
 
-	Rooms r = Rooms();
+	Rooms r;
 	//RoomTemplates* rt;
 
 	//The original game doesn't actually have a room id variable
@@ -1649,7 +1649,7 @@ __device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCount
 	r.z = z;
 
 	if (name != ROOMEMPTY) {
-		for (int32_t i = 0; i < roomTemplateAmount; i++) {			
+		for (uint8_t i = 0; i < roomTemplateAmount; i++) {			
 			if (rts[i].name == name) {
 				r.rt = &rts[i];
 				
@@ -1666,9 +1666,9 @@ __device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCount
 	}	
 
 	int32_t t = 0;
-	for (int32_t i = 0; i < roomTemplateAmount; i++) {
+	for (uint8_t i = 0; i < roomTemplateAmount; i++) {
 		//5 because that is the len of the rt.zone[] array;
-		for (int32_t j = 0; j <= 4; j++) {
+		for (uint8_t j = 0; j <= 4; j++) {
 			if (rts[i].zone[j] == zone) {
 				if (rts[i].shape == roomshape) {
 					t = t + rts[i].commonness;
@@ -1681,8 +1681,8 @@ __device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], int32_t& roomIdCount
 
 	int32_t RandomRoom = bb->bbRand(rnd_state, 1, t);
 	t = 0;
-	for (int32_t i = 0; i < roomTemplateAmount; i++) {
-		for (int32_t j = 0; j <= 4; j++) {
+	for (uint8_t i = 0; i < roomTemplateAmount; i++) {
+		for (uint8_t j = 0; j <= 4; j++) {
 			if (rts[i].zone[j] == zone && rts[i].shape == roomshape) {
 				t = t + rts[i].commonness;
 				if (RandomRoom > t - rts[i].commonness && RandomRoom <= t) {

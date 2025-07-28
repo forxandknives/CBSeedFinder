@@ -7,6 +7,7 @@
 #include "stdint.h";
 #include "stdio.h";
 #include "Random.cuh"
+#include "Constants.cuh"
 #include "cuda_runtime.h";
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest);
