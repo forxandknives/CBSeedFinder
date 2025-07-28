@@ -665,9 +665,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	//rooms array length to that number.
 	for (i = 0; i < 324; i++) {	
 		//If id is -1 that means we reached end of actual rooms in array.
-		if (rooms[i].id == -1) break;
-
-		Rooms* r = &rooms[i];
+		if (rooms[i].id == -1) break;		
 
 		//printf("BEFORE NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 		PreventRoomOverlap(&rooms[i], rooms, e);
