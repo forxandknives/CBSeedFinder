@@ -33,10 +33,10 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	int32_t i = 0, x2 = 0, y2 = 0;
 	int32_t width = 0, height = 0;
 
-	int32_t zone = 0;
+	uint8_t zone = 0;
 
 	RoomID MapName[MapWidth][MapHeight] = { {ROOMEMPTY, ROOMEMPTY} };
-	int32_t MapRoomID[ROOM4 + 1] = { 0 };
+	uint8_t MapRoomID[ROOM4 + 1] = { 0 };
 
 	x = floorf(float(MapWidth / 2));
 	y = MapHeight - 2;
@@ -45,8 +45,8 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 		MapTemp[x][i] = 1;		
 	}
 
-	int32_t tempheight = 0;
-	int32_t yhallways = 0;
+	uint8_t tempheight = 0;
+	uint8_t yhallways = 0;
 
 	do {		
 		width = bb.bbRand(&rnd_state, 10, 15);	
@@ -124,12 +124,12 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 
 	} while (y >= 2);			
 
-	int32_t ZoneAmount = 3;
-	int32_t Room1Amount[3] = { 0 };
-	int32_t Room2Amount[3] = { 0 };
-	int32_t Room2CAmount[3] = { 0 };
-	int32_t Room3Amount[3] = { 0 };
-	int32_t Room4Amount[3] = { 0 };
+	uint8_t ZoneAmount = 3;
+	uint8_t Room1Amount[3] = { 0 };
+	uint8_t Room2Amount[3] = { 0 };
+	uint8_t Room2CAmount[3] = { 0 };
+	uint8_t Room3Amount[3] = { 0 };
+	uint8_t Room4Amount[3] = { 0 };
 
 	//count the amount of rooms
 	//might be problems with adding 1 to end number
@@ -193,7 +193,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 								x2 = x;
 								y2 = y - 1;
 							}
-							int32_t placed = false;
+							bool placed = false;
 							if (MapTemp[x2][y2] > 1 && MapTemp[x2][y2] < 4) {
 								switch (MapTemp[x2][y2]) {
 								case 2:
@@ -231,7 +231,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 		}
 	}			
 
-	int32_t temp2;
+	uint8_t temp2;
 
 	//force more room4s and room2cs
 	for (i = 0; i <= 2; i++) {
@@ -410,7 +410,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	SetRoom(MapRoom, ROOM1123, ROOM2, floorf(0.7 * float(Room2Amount[0])), min_pos, max_pos);
 	SetRoom(MapRoom, ROOM2ELEVATOR, ROOM2, floorf(0.85 * float(Room2Amount[0])), min_pos, max_pos);
 
-	int32_t tempIndex = floorf(bb.bbRnd(&rnd_state, 0.2, 0.8) * float(Room3Amount[0]));
+	uint8_t tempIndex = floorf(bb.bbRnd(&rnd_state, 0.2, 0.8) * float(Room3Amount[0]));
 	MapRoom[ROOM3][tempIndex] = ROOM3STORAGE;
 
 	tempIndex = floorf(0.5 * float(Room2CAmount[0]));
@@ -484,12 +484,11 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	//-----------------------------------------------------------------------------------------
 	temp = 0;
 	//Rooms r;
-	float spacing = 8.0;
 
 	//we are going to attempt to use an array of Rooms to store the created rooms.
 	//Guessing that we never go past 324 rooms
 	Rooms rooms[MapHeight*MapWidth] = { NULL };
-	int32_t roomsIndex = 0; //we must increment this after creating each room;		
+	uint8_t roomsIndex = 0; //we must increment this after creating each room;		
 
 	for (y = MapHeight-1; y >= 1; y--) {
 		if (y < MapHeight / 3 + 1) {
@@ -664,7 +663,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	//In the future, if this program works, we can check the room amount of 
 	//every seed in the game, take the maximun number, and set the
 	//rooms array length to that number.
-	for (i = 0; i < 18*18; i++) {	
+	for (i = 0; i < 324; i++) {	
 		//If id is -1 that means we reached end of actual rooms in array.
 		if (rooms[i].id == -1) break;
 

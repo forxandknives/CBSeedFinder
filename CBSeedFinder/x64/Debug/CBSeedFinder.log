@@ -865,13 +865,9 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1942): warning #546-D: transfer of
     	switch (name) {
     	^
   
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(671): warning #177-D: variable "r" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(670): warning #177-D: variable "r" was declared but never referenced
     		Rooms* r = &rooms[i];
     		       ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\CreateSeed.cuh(487): warning #177-D: variable "spacing" was declared but never referenced
-    	float spacing = 8.0;
-    	      ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(100): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
@@ -889,7 +885,7 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_0001cdc8_00000000-7_kernel.cudafe1.cpp
+  tmpxft_00019728_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
