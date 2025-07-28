@@ -31,15 +31,11 @@ static struct RoomTemplates {
 typedef struct Rooms Rooms;
 static struct Rooms {
 	int32_t id = -1;
-	int32_t zone;
-	int32_t found;
+	int32_t zone = 0;;
 	
-	int32_t obj;
 	float x, y, z;
 	int32_t angle;
 	RoomTemplates* rt;
-
-	float dist;	
 
 	//a bunch of stuff that i might need
 
@@ -50,11 +46,11 @@ static struct Rooms {
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t room_type, uint8_t pos, uint8_t min_pos, uint8_t max_pos);
-__device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name);
+__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name);
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void CalculateRoomExtents(Rooms* r);
-__device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
+__device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
 __device__ inline void GetRoomExtents(Rooms* r, float* e);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
@@ -1634,9 +1630,9 @@ __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t 
 	}
 }
 
-__device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name) {
+__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name) {
 
-	Rooms r;
+	Rooms r = Rooms();
 	//RoomTemplates* rt;
 
 	//The original game doesn't actually have a room id variable
@@ -1935,7 +1931,7 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 	return;
 }
 
-__device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {	
+__device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {
 
 	switch (r->rt->name) {
 	case ROOM860:
