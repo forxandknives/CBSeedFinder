@@ -19,7 +19,7 @@ int main()
 {      
     cudaError_t c;      
 
-    int i = 0;
+    /*int i = 0;
 
     cudaDeviceProp devProp;
     cudaGetDeviceProperties(&devProp, i);
@@ -41,8 +41,7 @@ int main()
     printf("Texture alignment:             %lu\n", devProp.textureAlignment);
     printf("Concurrent copy and execution: %s\n", (devProp.deviceOverlap ? "Yes" : "No"));
     printf("Number of multiprocessors:     %d\n", devProp.multiProcessorCount);
-    printf("Kernel execution timeout:      %s\n", (devProp.kernelExecTimeoutEnabled ? "Yes" : "No"));
-
+    printf("Kernel execution timeout:      %s\n", (devProp.kernelExecTimeoutEnabled ? "Yes" : "No"));*/
 
     ////////////////////////////////////EXTENTS///////////////////////////////
     const int32_t extentSize = 48960;
@@ -122,7 +121,7 @@ int main()
 
     start = std::chrono::steady_clock::now();
 
-    testFunction <<<1600, 256>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
+    testFunction <<<1, 32>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
 
     cudaDeviceSynchronize();
 
@@ -168,7 +167,7 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
     //int block = blockIdx.x + blockIdx.y * gridDim.x;
     //int threadNumber = block * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;         
 
-    int32_t thread = offset + blockIdx.x * blockDim.x + threadIdx.x;
+    int32_t thread = blockIdx.x * blockDim.x + threadIdx.x;
        
     __shared__ RoomTemplates rts[roomTemplateAmount];
 
