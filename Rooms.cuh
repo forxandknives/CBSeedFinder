@@ -1935,11 +1935,9 @@ __device__ inline void CalculateRoomExtents(Rooms* r) {
 	return;
 }
 
-__device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {
-	
-	RoomID name = r->rt->name;
+__device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {	
 
-	switch (name) {
+	switch (r->rt->name) {
 	case ROOM860:
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, true, 0);
@@ -1958,7 +1956,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateDoor(bb, rnd_state, true, 0);
 		break;
 	case LOCKROOM2:
-		for (int32_t i = 0; i <= 5; i++) {
+		for (uint8_t i = 0; i <= 5; i++) {
 			bb->bbRand(rnd_state, 2, 3);
 			bb->bbRnd(rnd_state, -392, 520);
 			bb->bbRnd(rnd_state, 0, 0.001);
@@ -2025,8 +2023,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 		
-		int32_t x = int(floorf(r->x / 8.0));
-		int32_t y = int(floorf(r->z / 8.0)) - 1;
+		uint8_t x = uint8_t(floorf(r->x / 8.0));
+		uint8_t y = uint8_t(floorf(r->z / 8.0)) - 1;
 
 		if (MapTemp[x][y] == 0) {
 			CreateDoor(bb, rnd_state, false, 0);
@@ -2327,7 +2325,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
-		for (int32_t i = 0; i <= bb->bbRand(rnd_state, 0, 1); i++) {
+		for (uint8_t i = 0; i <= bb->bbRand(rnd_state, 0, 1); i++) {
 			CreateItem(bb, rnd_state);
 		}
 
@@ -2369,7 +2367,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
-		for (int32_t i = 0; i <= 14; i++) {
+		for (uint8_t i = 0; i <= 14; i++) {
 			bb->bbRand(rnd_state, 15, 16);
 			bb->bbRand(rnd_state, 1, 360);
 
@@ -2432,8 +2430,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		
 		bb->bbRnd(rnd_state, 0, 360);
 
-		for (int32_t x = 0; x <= 1; x++) {
-			for (int32_t z = 0; z <= 1; z++) {
+		for (uint8_t x = 0; x <= 1; x++) {
+			for (uint8_t z = 0; z <= 1; z++) {
 				bb->bbRand(rnd_state, 4, 6);
 				bb->bbRnd(rnd_state, -0.5, 0.5);
 				bb->bbRnd(rnd_state, 0.001, 0.0018);
@@ -2453,13 +2451,13 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 
-		for (int32_t z = 0; z <= 1; z++) {
+		for (uint8_t z = 0; z <= 1; z++) {
 			CreateDoor(bb, rnd_state, false, 0);
 			CreateDoor(bb, rnd_state, false, 0);
-			for (int32_t x = 0; x <= 2; x++) {
+			for (uint8_t x = 0; x <= 2; x++) {
 				CreateDoor(bb, rnd_state, false, 0);
 			}
-			for (int32_t x = 0; x <= 4; x++) {
+			for (uint8_t x = 0; x <= 4; x++) {
 				CreateDoor(bb, rnd_state, false, 0);
 			}
 		}
@@ -2484,11 +2482,11 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM1ARCHIVE:
-		for (int32_t xtemp = 0; xtemp <= 1; xtemp++) {
-			for (int32_t ytemp = 0; ytemp <= 2; ytemp++) {
-				for (int32_t ztemp = 0; ztemp <= 2; ztemp++) {
+		for (uint8_t xtemp = 0; xtemp <= 1; xtemp++) {
+			for (uint8_t ytemp = 0; ytemp <= 2; ytemp++) {
+				for (uint8_t ztemp = 0; ztemp <= 2; ztemp++) {
 
-					int32_t chance = bb->bbRand(rnd_state, -10, 100);
+					int8_t chance = bb->bbRand(rnd_state, -10, 100);
 
 					if (chance < 0) {
 						break;
@@ -2534,7 +2532,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		
 		bb->bbRnd(rnd_state, 0.8, 0.8);
 
-		for (int32_t i = 1; i <= 8; i++) {
+		for (uint8_t i = 1; i <= 8; i++) {
 			if (i < 6) {
 				bb->bbRnd(rnd_state, 0.5, 0.5);
 			}
@@ -2565,14 +2563,14 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 
 	case ROOM2GW:
 	case ROOM2GW_B:
-		if (name == ROOM2GW_B) {
+		if (r->rt->name == ROOM2GW_B) {
 			bb->bbRnd(rnd_state, 0, 360);
 		}
 
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 
-		if (name == ROOM2GW) {	
+		if (r->rt->name == ROOM2GW) {
 			//INCOMPLETE
 			//This might be wrong
 			bb->bbRand(rnd_state, 1, 2);
@@ -2658,7 +2656,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 	}	
 
 	//32 becase that is MaxRoomLights
-	for (int32_t i = 0; i < min(32, r->rt->lights); i++) {
+	for (uint8_t i = 0; i < min(32, r->rt->lights); i++) {
 		bb->bbRand(rnd_state, 1, 360);
 		bb->bbRand(rnd_state, 1, 10);
 	}
