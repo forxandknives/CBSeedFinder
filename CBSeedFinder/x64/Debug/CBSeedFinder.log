@@ -419,13 +419,13 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(32): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2656): warning #127-D: expected a statement
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2652): warning #127-D: expected a statement
     	}	
     	^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1940): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2026)
-              variable "y" (declared at line 2027)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1936): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2022)
+              variable "y" (declared at line 2023)
     	switch (r->rt->name) {
     	^
   
@@ -847,21 +847,21 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(32): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1705): warning #940-D: missing return statement at end of non-void function "CreateRoom"
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1701): warning #940-D: missing return statement at end of non-void function "CreateRoom"
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1774): warning #177-D: variable "temp2" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1770): warning #177-D: variable "temp2" was declared but never referenced
     	int32_t temp2, x2, y2, rot, rot2;	
     	        ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2656): warning #127-D: expected a statement
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2652): warning #127-D: expected a statement
     	}	
     	^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1940): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2026)
-              variable "y" (declared at line 2027)
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1936): warning #546-D: transfer of control bypasses initialization of:
+              variable "x" (declared at line 2022)
+              variable "y" (declared at line 2023)
     	switch (r->rt->name) {
     	^
   
@@ -885,7 +885,7 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_0001dac4_00000000-7_kernel.cudafe1.cpp
+  tmpxft_0001df78_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'

@@ -20,7 +20,7 @@ __device__ inline int32_t InitNewGame(int32_t thread, RoomTemplates* rts, float*
 
 __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e, uint8_t* forest) {
 
-	int32_t MapTemp[MapWidth + 1][MapHeight + 1] = { {0, 0} };
+	uint8_t MapTemp[MapWidth + 1][MapHeight + 1] = { {0, 0} };
 	RoomID MapRoom[ROOM4 + 1][70] = { {RoomID::ROOMEMPTY, RoomID::ROOMEMPTY} };
 	uint8_t roomIdCounter = 0;
 

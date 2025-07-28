@@ -46,11 +46,11 @@ static struct Rooms {
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt);
 __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t room_type, uint8_t pos, uint8_t min_pos, uint8_t max_pos);
-__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name);
+__device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name);
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
-__device__ inline void CalculateRoomExtents(Rooms* r);
-__device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
+//__device__ inline void CalculateRoomExtents(Rooms* r);
+__device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
 __device__ inline void GetRoomExtents(Rooms* r, float* e);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
@@ -1630,7 +1630,7 @@ __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t 
 	}
 }
 
-__device__ inline Rooms CreateRoom(int32_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name) {
+__device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name) {
 
 	Rooms r = Rooms();
 	//RoomTemplates* rt;
@@ -1859,79 +1859,79 @@ __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2) {
 	return true;
 }
 
-__device__ inline void CalculateRoomExtents(Rooms* r) {
-	if (r->rt->disableOverlapCheck) return;
+//__device__ inline void CalculateRoomExtents(Rooms* r) {
+//	if (r->rt->disableOverlapCheck) return;
+//
+//	static const float shrinkAmount = 0.05;
+//
+//	//We must convert TFormVector() in blitz to c++ code.
+//	static float roomScale = 8.0 / 2048.0;
+//
+//	//First we scale.
+//	r->rt->minX *= roomScale;
+//	r->rt->minY *= roomScale;
+//	r->rt->minZ *= roomScale;
+//
+//	r->rt->maxX *= roomScale;
+//	r->rt->maxY *= roomScale;
+//	r->rt->maxZ *= roomScale;
+//
+//	//Then we rotate	
+//	float rad = 0.0;
+//	switch (r->angle) {
+//	case 90:
+//		rad = 1.5708;
+//		break;
+//	case 180:
+//		rad = 3.14159;
+//		break;
+//	case 270:
+//		rad = 4.71239;
+//		break;
+//	}
+//
+//	r->rt->minX = r->rt->minX * cosf(rad) - r->rt->minZ * sinf(rad);
+//	r->rt->minZ = r->rt->minX * sinf(rad) + r->rt->minZ * cosf(rad);
+//
+//	r->rt->maxX = r->rt->maxX * cosf(rad) - r->rt->maxZ * sinf(rad);
+//	r->rt->maxZ = r->rt->maxX * sinf(rad) + r->rt->maxZ * cosf(rad);
+//
+//	//Back to blitz.
+//
+//	r->minX = r->rt->minX + shrinkAmount + r->x;
+//	r->minY = r->rt->minY + shrinkAmount;
+//	r->minZ = r->rt->minZ + shrinkAmount + r->z;
+//
+//	r->maxX = r->rt->maxX - shrinkAmount + r->x;
+//	r->maxY = r->rt->maxY - shrinkAmount;
+//	r->maxZ = r->rt->maxZ - shrinkAmount + r->z;
+//
+//	if (r->minX > r->maxX) {
+//		float temp = r->maxX;
+//		r->maxX = r->minX;
+//		r->minX = temp;
+//	}
+//
+//	if (r->minZ > r->maxZ) {
+//		float temp = r->maxZ;
+//		r->maxZ = r->minZ;
+//		r->minZ = temp;
+//	}
+//
+//	/*r->minX = rintf(r->minX * 1000000.0) / 1000000.0;
+//	r->minY = rintf(r->minY * 1000000.0) / 1000000.0;
+//	r->minX = rintf(r->minZ * 1000000.0) / 1000000.0;
+//
+//	r->maxX = rintf(r->maxX * 1000000.0) / 1000000.0;
+//	r->maxY = rintf(r->maxY * 1000000.0) / 1000000.0;
+//	r->maxZ = rintf(r->maxZ * 1000000.0) / 1000000.0;*/
+//
+//	//printf("NAME: %s MINX %f MINY %f MINZ %f MAXX %f MAXY %f MAXZ %f\n", RoomIDToName(r->rt.name), r->minX, r->minY, r->minZ, r->maxX, r->maxY, r->maxZ);
+//
+//	return;
+//}
 
-	static const float shrinkAmount = 0.05;
-
-	//We must convert TFormVector() in blitz to c++ code.
-	static float roomScale = 8.0 / 2048.0;
-
-	//First we scale.
-	r->rt->minX *= roomScale;
-	r->rt->minY *= roomScale;
-	r->rt->minZ *= roomScale;
-
-	r->rt->maxX *= roomScale;
-	r->rt->maxY *= roomScale;
-	r->rt->maxZ *= roomScale;
-
-	//Then we rotate	
-	float rad = 0.0;
-	switch (r->angle) {
-	case 90:
-		rad = 1.5708;
-		break;
-	case 180:
-		rad = 3.14159;
-		break;
-	case 270:
-		rad = 4.71239;
-		break;
-	}
-
-	r->rt->minX = r->rt->minX * cosf(rad) - r->rt->minZ * sinf(rad);
-	r->rt->minZ = r->rt->minX * sinf(rad) + r->rt->minZ * cosf(rad);
-
-	r->rt->maxX = r->rt->maxX * cosf(rad) - r->rt->maxZ * sinf(rad);
-	r->rt->maxZ = r->rt->maxX * sinf(rad) + r->rt->maxZ * cosf(rad);
-
-	//Back to blitz.
-
-	r->minX = r->rt->minX + shrinkAmount + r->x;
-	r->minY = r->rt->minY + shrinkAmount;
-	r->minZ = r->rt->minZ + shrinkAmount + r->z;
-
-	r->maxX = r->rt->maxX - shrinkAmount + r->x;
-	r->maxY = r->rt->maxY - shrinkAmount;
-	r->maxZ = r->rt->maxZ - shrinkAmount + r->z;
-
-	if (r->minX > r->maxX) {
-		float temp = r->maxX;
-		r->maxX = r->minX;
-		r->minX = temp;
-	}
-
-	if (r->minZ > r->maxZ) {
-		float temp = r->maxZ;
-		r->maxZ = r->minZ;
-		r->minZ = temp;
-	}
-
-	/*r->minX = rintf(r->minX * 1000000.0) / 1000000.0;
-	r->minY = rintf(r->minY * 1000000.0) / 1000000.0;
-	r->minX = rintf(r->minZ * 1000000.0) / 1000000.0;
-
-	r->maxX = rintf(r->maxX * 1000000.0) / 1000000.0;
-	r->maxY = rintf(r->maxY * 1000000.0) / 1000000.0;
-	r->maxZ = rintf(r->maxZ * 1000000.0) / 1000000.0;*/
-
-	//printf("NAME: %s MINX %f MINY %f MINZ %f MAXX %f MAXY %f MAXZ %f\n", RoomIDToName(r->rt.name), r->minX, r->minY, r->minZ, r->maxX, r->maxY, r->maxZ);
-
-	return;
-}
-
-__device__ inline void FillRoom(int32_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {
+__device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest) {
 
 	switch (r->rt->name) {
 	case ROOM860:
