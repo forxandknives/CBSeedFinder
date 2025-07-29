@@ -36,7 +36,7 @@ static struct Rooms {
 
 };	
 
-__device__ inline void CreateRoomTemplates(RoomTemplates* rt);
+__device__ inline void CreateRoomTemplates(RoomTemplates* rt, int32_t thread);
 __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t room_type, uint8_t pos, uint8_t min_pos, uint8_t max_pos);
 __device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name);
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
@@ -45,7 +45,7 @@ __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
 __device__ constexpr inline void GetRoomExtents(Rooms* r, float* e);
 
-__device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
+__device__ inline void CreateRoomTemplates(RoomTemplates* rt, int32_t thread) {
 
 	//All commonness is defined as max(min(commonness, 100), 0);
 	//Rooms with disableoverlapcheck = true do not have min and max extents.
@@ -54,1542 +54,1064 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	
 	//We start at 1 because room template 0 is just room ambience stuff.
 	int32_t counter = 1;
-
-	//LIGHT CONTAINMENT
-	//lockroom
-	rt[counter].id = counter;
-	rt[counter].name = LOCKROOM;//"lockroom";
-	rt[counter].shape = ROOM2C;
-	rt[counter].zone[0] = 1;
-	rt[counter].zone[1] = 3;
-	rt[counter].commonness = 30;
-	rt[counter].lights = 4;
-	//rt[counter].minX = -864.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 640.0;
-	//rt[counter].maxZ = 864.0;
-	rt[counter].index = 0; //lockroom
-	counter++;
-
-	//173
-	rt[counter].id = counter;
-	rt[counter].name = ROOM173;// "173";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 29;
-	//rt[counter].disableDecals = true;
-	//rt[counter].minX = -8705.0;
-	//rt[counter].minY = -768.0;
-	//rt[counter].minZ = -3808.0;
-	//rt[counter].maxX = 1792.0;
-	//rt[counter].maxY = 1016.0;
-	//rt[counter].maxZ = 1536.0;
-	counter++;
-
-	//start
-	rt[counter].id = counter;
-	rt[counter].name = START;// "start";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 9;
-	//rt[counter].disableDecals = true;
-	//rt[counter].minX = -672.0;
-	//rt[counter].minY = -28.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 5504.0;
-	//rt[counter].maxY = 1400.0;
-	//rt[counter].maxZ = 2848.0;
-	rt[counter].index = 1; //start
-	counter++;
-
-	//room1123
-	rt[counter].id = counter;
-	rt[counter].name = ROOM1123;//"room1123";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 20;
-	rt[counter].zone[0] = 1;
-	//rt[counter].disableDecals = true;
-	//rt[counter].minX = -928.0;
-	//rt[counter].minY = -0.000061035156;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 980.8511;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 2; //room1123
-	counter++;
-
-	//room1archive
-	rt[counter].id = counter;
-	rt[counter].name = ROOM1ARCHIVE;// "room1archive";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 80;
-	rt[counter].lights = 2;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -768.0;
-	//rt[counter].minY = -16.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 288.0;
-	//rt[counter].maxY = 600.23865;
-	//rt[counter].maxZ = 752.00006;
-	rt[counter].index = 3; //room1archive
-	counter++;
-
-	//room2storage
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2STORAGE;// "room2storage";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 10;
-	rt[counter].zone[0] = 1;
-	//rt[counter].disableDecals = true;
-	//rt[counter].minX = -1328.0001;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1328.0001;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 4; //room2storage
-	counter++;
-
-	//room3storage
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3STORAGE;// "room3storage";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 33;
-	rt[counter].zone[0] = 1;
-	rt[counter].disableOverlapCheck = true;
-	counter++;
-
-	//room2tesla_lcz
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2TESLA_LCZ;//"room2tesla_lcz";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 8;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -304.00012;
-	//rt[counter].minY = -64.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 304.0001;
-	//rt[counter].maxY = 714.83057;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 5; //room2tesla_lcz
-	counter++;
-
-	//endroom
-	rt[counter].id = counter;
-	rt[counter].name = ENDROOM;// "endroom";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 1;
-	rt[counter].zone[2] = 3;
-	//rt[counter].minX = -720.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 784.0;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1240.0;
-	rt[counter].index = 6; //endroom
-	counter++;
-
-	//room012
-	rt[counter].id = counter;
-	rt[counter].name = ROOM012;//"room012";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 1;
-	//rt[counter].disableDecals = true;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -800.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 816.00006;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 7; //room012
-	counter++;
-
-	//room205
-	rt[counter].id = counter;
-	rt[counter].name = ROOM205;//"room205";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 1;
-	//rt[counter].large = true;
-	//rt[counter].minX = -1792.0;
-	//rt[counter].minY = -160.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 800.0;
-	//rt[counter].maxY = 1184.0;
-	//rt[counter].maxZ = 864.0;
-	rt[counter].index = 8; //room205
-	counter++;
-
-	//room2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2ID;//"room2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 45;
-	rt[counter].lights = 2;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 304.0001;
-	//rt[counter].maxY = 726.83057;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 9; //room2
-	counter++;
-
-	//room2_2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2_2;// "room2_2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 40;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -800.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 304.0001;
-	//rt[counter].maxY = 726.83057;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 10; //room2_2
-	counter++;
-
-	//room2_3
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2_3;// "room2_3";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 35;
-	rt[counter].lights = 0;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -416.00003;
-	//rt[counter].minY = -20.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 416.0;
-	//rt[counter].maxY = 596.23865;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 11; //room2_3
-	counter++;
-
-	//room2_4
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2_4;// "room2_4";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 35;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 772.0;
-	//rt[counter].maxY = 706.86816;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 12; //room2_4
-	counter++;
-
-	//room2_5
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2_5;// "room2_5";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 35;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 320.0;
-	//rt[counter].maxY = 386.86813;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 13; //room2_5
-	counter++;
-
-	//room2c
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2CID;// "room2c";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 30;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -320.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 726.83057;
-	//rt[counter].maxZ = 320.0;
-	rt[counter].index = 14; //room2c
-	counter++;
-
-	//room2c2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2C2;// "room2c2";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 30;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -320.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 800.8681;
-	//rt[counter].maxZ = 1023.99994;
-	rt[counter].index = 15; //room2c2
-	counter++;
-
-	//room2closets
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2CLOSETS;// "room2closets";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 1;
-	//rt[counter].disableDecals = true;
-	//rt[counter].large = true;
-	//rt[counter].minX = -1972.0;
-	//rt[counter].minY = -416.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 816.0;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 16; //room2closets
-	counter++;
-
-	//room2elevator
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2ELEVATOR;// "room2elevator";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 20;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -304.00006;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1056.0002;
-	//rt[counter].maxY = 854.83057;
-	//rt[counter].maxZ = 1024.0002;
-	rt[counter].index = 17; //room2elevator
-	counter++;
-
-	//room2doors
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2DOORS;// "room2doors";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 30;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 256.0;
-	//rt[counter].maxY = 640.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 18; //room2doors
-	counter++;
-
-	//room2scps
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2SCPS;// "room2scps";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -816.0001;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 816.0002;
-	//rt[counter].maxY = 714.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 19; //room2scps
-	counter++;
-
-	//room860
-	rt[counter].id = counter;
-	rt[counter].name = ROOM860;// "room860";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 4;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1280.0;
-	//rt[counter].maxY = 726.83057;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 20; //room860
-	counter++;
-
-	//room2testroom2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2TESTROOM2;// "room2testroom2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0002;
-	//rt[counter].minY = -48.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 352.0;
-	//rt[counter].maxY = 640.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 21; //room2testroom2
-	counter++;
-
-	//room3
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3ID;// "room3";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 854.83057;
-	//rt[counter].maxZ = 1023.99994;
-	rt[counter].index = 22; //room3
-	counter++;
-
-	//room3_2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3_2;// "room3_2";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 854.83057;
-	//rt[counter].maxZ = 448.0001;
-	rt[counter].index = 23; //room3_2
-	counter++;
-
-	//room4
-	rt[counter].id = counter;
-	rt[counter].name = ROOM4ID;// "room4";
-	rt[counter].shape = ROOM4;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 850.45544;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 24; //room4
-	counter++;
-
-	//room4_2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM4_2;// "room4_2";
-	rt[counter].shape = ROOM4;
-	rt[counter].commonness = 80;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -0.0000038146973;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 784.8511;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 25; //room4_2
-	counter++;
-
-	//roompj
-	rt[counter].id = counter;
-	rt[counter].name = ROOMPJ;// "roompj";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 8;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -0.56270504;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 960.0;
-	//rt[counter].maxZ = 1280.0;
-	rt[counter].index = 26; //roompj
-	counter++;
-
-	//914
-	rt[counter].id = counter;
-	rt[counter].name = ROOM914;// "914";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 9;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0001;
-	//rt[counter].minY = -0.56270504;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0001;
-	//rt[counter].maxY = 816.0;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 27; //914
-	counter++;
-
-	//room2gw
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2GW;// "room2gw";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 10;
-	rt[counter].lights = 2;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -544.0;
-	//rt[counter].minY = -18.0;
-	//rt[counter].minZ = -1035.9998;
-	//rt[counter].maxX = 544.0;
-	//rt[counter].maxY = 575.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 28; //room2gw
-	counter++;
-
-	//room2gw_b
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2GW_B;// "room2gw_b";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 2;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -482.00003;
-	//rt[counter].minY = -18.0;
-	//rt[counter].minZ = -1034.0;
-	//rt[counter].maxX = 485.0;
-	//rt[counter].maxY = 575.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 29; //room2gw_b
-	counter++;
-
-	//room1162
-	rt[counter].id = counter;
-	rt[counter].name = ROOM1162;// "room1162";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -320.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1027.8019;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 752.8511;
-	//rt[counter].maxZ = 320.00006;
-	rt[counter].index = 30; //room1162
-	counter++;
-
-	//room2scps2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2SCPS2;// "room2scps2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -9.599998;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1264.0;
-	//rt[counter].maxY = 706.8681;
-	//rt[counter].maxZ = 1026.3;
-	rt[counter].index = 31; //room2scps2
-	counter++;
-
-	//room2sl
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2SL;// "room2sl";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 7;
-	rt[counter].zone[0] = 1;
-	//rt[counter].large = true;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -64.0;
-	//rt[counter].minZ = -1024.0001;
-	//rt[counter].maxX = 1792.0;
-	//rt[counter].maxY = 960.0;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 32; //room2sl
-	counter++;
-
-	//lockroom3
-	rt[counter].id = counter;
-	rt[counter].name = LOCKROOM3;// "lockroom3";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 15;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -832.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1030.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 384.0;
-	//rt[counter].maxZ = 864.0;
-	rt[counter].index = 33; //lockroom3
-	counter++;
-
-	//room4info
-	rt[counter].id = counter;
-	rt[counter].name = ROOM4INFO;// "room4info";
-	rt[counter].shape = ROOM4;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -20.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 596.23865;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 34; //room4info
-	counter++;
-
-	//room3_3
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3_3;// "room3_3";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 20;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -24.0;
-	//rt[counter].minZ = -1024.0682;
-	//rt[counter].maxX = 1024.8181;
-	//rt[counter].maxY = 596.23865;
-	//rt[counter].maxZ = 416.00003;
-	rt[counter].index = 35; //room3_3
-	counter++;
-
-	//checkpoint1
-	rt[counter].id = counter;
-	rt[counter].name = CHECKPOINT1;// "checkpoint1";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 2;
-	//rt[counter].minX = -1104.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0001;
-	//rt[counter].maxX = 1102.0;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 36; //checkpoint1
-	counter++;
-
-	//HEAVY CONTAINMENT
-
-	//008
-	rt[counter].id = counter;
-	rt[counter].name = ROOM008;// "008";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -608.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 784.0;
-	//rt[counter].maxY = 1152.0;
-	//rt[counter].maxZ = 832.0;
-	rt[counter].index = 37; //008
-	counter++;
-
-	//room035
-	rt[counter].id = counter;
-	rt[counter].name = ROOM035;// "room035";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -736.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1248.0;
-	//rt[counter].maxY = 498.45538;
-	//rt[counter].maxZ = 912.0;
-	rt[counter].index = 38; //room035
-	counter++;
-
-	//room049
-	rt[counter].id = counter;
-	rt[counter].name = ROOM049;// "room049";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 26;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	rt[counter].disableOverlapCheck = true;
-	counter++;
-
-	//room106;
-	rt[counter].id = counter;
-	rt[counter].name = ROOM106;// "room106";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 14;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	//rt[counter].large = true;
-	//rt[counter].minX = -1304.0;
-	//rt[counter].minY = -1296.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 2256.0;
-	//rt[counter].maxY = 1687.9999;
-	//rt[counter].maxZ = 3120.0;
-	rt[counter].index = 39; //room106
-	counter++;
-
-	//rom513
-	rt[counter].id = counter;
-	rt[counter].name = ROOM513;// "room513";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -1.0000322;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 470.83054;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 40; //room513
-	counter++;
-
-	//coffin
-	rt[counter].id = counter;
-	rt[counter].name = COFFIN;// "coffin";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 9;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 1;
-	//rt[counter].minX = -960.0;
-	//rt[counter].minY = -1537.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 464.0;
-	//rt[counter].maxY = 704.0;
-	//rt[counter].maxZ = 2560.0;
-	rt[counter].index = 41; //coffin
-	counter++;
-
-	//room966
-	rt[counter].id = counter;
-	rt[counter].name = ROOM966;// "room966";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	rt[counter].disableOverlapCheck = true;
-	counter++;
-
-	//endroom2
-	rt[counter].id = counter;
-	rt[counter].name = ENDROOM2;// "endroom2";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -480.00003;
-	//rt[counter].minY = -0.56270504;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 464.0;
-	//rt[counter].maxY = 1056.0;
-	//rt[counter].maxZ = 376.0;
-	rt[counter].index = 42; //endroom2
-	counter++;
-
-	//testroom
-	rt[counter].id = counter;
-	rt[counter].name = TESTROOM;// "testroom";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 23;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -1281.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 800.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 43; //testroom
-	counter++;
-
-	//tunnel
-	rt[counter].id = counter;
-	rt[counter].name = TUNNEL;// "tunnel";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -288.0;
-	//rt[counter].minY = -0.9999924;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 288.0;
-	//rt[counter].maxY = 449.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 44; //tunnel
-	counter++;
-
-	//tunnel2
-	rt[counter].id = counter;
-	rt[counter].name = TUNNEL2;// "tunnel2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 70;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -336.0;
-	//rt[counter].minY = -0.9492798;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 528.0;
-	//rt[counter].maxY = 696.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 45; //tunnel2
-	counter++;
-
-	//room2ctunnel
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2CTUNNEL;// "room2ctunnel";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 40;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -384.0;
-	//rt[counter].minY = -0.0000076293945;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 448.00003;
-	//rt[counter].maxZ = 402.46378;
-	rt[counter].index = 46; //room2ctunnel
-	counter++;
-
-	//room2nuke
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2NUKE;// "room2nuke";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 14;
-	rt[counter].zone[0] = 2;
-	//rt[counter].large = true;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1808.0;
-	//rt[counter].maxY = 2016.0;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 47; //room2nuke
-	counter++;
-
-	//room2pipes
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2PIPES;// "room2pipes";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 50;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -312.09503;
-	//rt[counter].minY = -449.0;
-	//rt[counter].minZ = -1026.0;
-	//rt[counter].maxX = 256.0;
-	//rt[counter].maxY = 1024.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 48; //room2pipes
-	counter++;
-
-	//room2pit
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2PIT;// "room2pit";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 75;
-	rt[counter].lights = 6;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -1024.0001;
-	//rt[counter].minY = -448.0;
-	//rt[counter].minZ = -1024.0001;
-	//rt[counter].maxX = 768.00006;
-	//rt[counter].maxY = 448.0;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 49; //room2pit
-	counter++;
-
-	//room3pit
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3PIT;// "room3pit";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 12;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -960.99994;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 385.0;
-	//rt[counter].maxZ = 352.0;
-	rt[counter].index = 50; //room3pit
-	counter++;
-
-	//room4pit
-	rt[counter].id = counter;
-	rt[counter].name = ROOM4PIT;// "room4pit";
-	rt[counter].shape = ROOM4;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 16;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -960.99994;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 385.0;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 51; //room4pit
-	counter++;
-
-	//room2servers
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2SERVERS;// "room2servers";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 2;
-	//rt[counter].large = true;
-	//rt[counter].minX = -1664.0;
-	//rt[counter].minY = -0.021850586;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 224.00012;
-	//rt[counter].maxY = 385.00006;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 52; //room2servers
-	counter++;
-
-	//room2shaft
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2SHAFT;// "room2shaft";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	//rt[counter].disableDecals = true;
-	//rt[counter].minX = -256.0;
-	//rt[counter].minY = -1504.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 2016.0;
-	//rt[counter].maxY = 1775.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 53; //room2shaft
-	counter++;
-
-	//room2tunnel
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2TUNNEL;// "room2tunnel";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 4;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -880.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 880.0;
-	//rt[counter].maxY = 512.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 54; //room2tunnel
-	counter++;
-
-	//room3tunnel
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3TUNNEL;// "room3tunnel";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -0.0000076293945;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 758.83057;
-	//rt[counter].maxZ = 416.00003;
-	rt[counter].index = 55; //room3tunnel
-	counter++;
-
-	//room4tunnels
-	rt[counter].id = counter;
-	rt[counter].name = ROOM4TUNNELS;// "room4tunnels";
-	rt[counter].shape = ROOM4;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -64.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 738.8681;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 56; //room4tunnels
-	counter++;
-
-	//room2tesla_hcz
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2TESLA_HCZ;// "room2tesla_hcz";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 10;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -64.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 304.00003;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 57; //room2tesla_hcz
-	counter++;
-
-	//room3z2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3Z2;// "room3z2";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 3;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1024.0002;
-	//rt[counter].maxX = 1024.0002;
-	//rt[counter].maxY = 416.00003;
-	//rt[counter].maxZ = 255.99985;
-	rt[counter].index = 58; //room3z2
-	counter++;
-
-	//room2cpit
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2CPIT;// "room2cpit";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 10;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -568.0001;
-	//rt[counter].minY = -960.99994;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 874.8627;
-	//rt[counter].maxZ = 960.0;
-	rt[counter].index = 59; //room2cpit
-	counter++;
-
-	//room2pipes2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2PIPES2;// "room2pipes2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 70;
-	rt[counter].lights = 6;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 2;
-	//rt[counter].minX = -256.0;
-	//rt[counter].minY = -448.0;
-	//rt[counter].minZ = -1026.0;
-	//rt[counter].maxX = 671.5;
-	//rt[counter].maxY = 788.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 60; //room2pipes2
-	counter++;
-
-	//checkpoint2
-	rt[counter].id = counter;
-	rt[counter].name = CHECKPOINT2;// "checkpoint2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 2;
-	//rt[counter].minX = -1102.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0002;
-	//rt[counter].maxX = 1104.0;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1026.0;
-	rt[counter].index = 61; //checkpoint2
-	counter++;
-
-	//ENTRANCE ZONE
-
-	//room079 yea he's in the entrance zone mhm
-	rt[counter].id = counter;
-	rt[counter].name = ROOM079;// "room079";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 3;
-	//rt[counter].large = true;
-	//rt[counter].minX = -416.00003;
-	//rt[counter].minY = -705.0;
-	//rt[counter].minZ = -1055.9999;
-	//rt[counter].maxX = 2240.0;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 2048.0;
-	rt[counter].index = 62; //room079
-	counter++;
-
-	//lockroom2
-	rt[counter].id = counter;
-	rt[counter].name = LOCKROOM2;// "lockroom2";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -864.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 434.83054;
-	//rt[counter].maxZ = 864.0;
-	rt[counter].index = 63; //lockroom2
-	counter++;
-
-	//exit1
-	rt[counter].id = counter;
-	rt[counter].name = EXIT1;// "exit1";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 15;
-	rt[counter].zone[0] = 3;
-	rt[counter].disableOverlapCheck = true;
-	counter++;
-
-	//gateaentrance
-	rt[counter].id = counter;
-	rt[counter].name = GATEAENTRANCE;// "gateaentrance";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -720.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -1136.0;
-	//rt[counter].maxX = 1360.0;
-	//rt[counter].maxY = 1328.0;
-	//rt[counter].maxZ = 1240.0;
-	rt[counter].index = 64; //gateaentrance
-	counter++;
-
-	//gatea
-	rt[counter].id = counter;
-	rt[counter].name = GATEA;// "gatea";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 12;
-	rt[counter].disableOverlapCheck = true;
-	counter++;
-
-	//medibay
-	rt[counter].id = counter;
-	rt[counter].name = MEDIBAY;// "medibay";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1024.0002;
-	//rt[counter].minY = -1.8437233;
-	//rt[counter].minZ = -1025.0;
-	//rt[counter].maxX = 288.0;
-	//rt[counter].maxY = 386.86813;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 65; //medibay
-	counter++;
-
-	//room2z3
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2Z3;// "room2z3";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 75;
-	rt[counter].lights = 0;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -256.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 256.0;
-	//rt[counter].maxY = 438.83054;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 66; //room2z3
-	counter++;
-
-	//room2cafeteria
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2CAFETERIA;// "room2cafeteria";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 7;
-	rt[counter].zone[0] = 3;
-	//rt[counter].large = true;
-	//TEMPORARY
-	//rt[counter].disableOverlapCheck = true;
-	//rt[counter].minX = -1792.0;
-	//rt[counter].minY = -416.0;
-	//rt[counter].minZ = -1056.0;
-	//rt[counter].maxX = 1952.0;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 67; //room2cafeteria
-	counter++;
-
-	//room2cz3
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2CZ3;// "room2cz3";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -576.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 438.83054;
-	//rt[counter].maxZ = 576.0;
-	rt[counter].index = 68; //room2cz3
-	counter++;
-
-	//room2ccont
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2CCONT;// "room2ccont";
-	rt[counter].shape = ROOM2C;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 9;
-	rt[counter].zone[0] = 3;
-	//rt[counter].large = true;
-	//rt[counter].minX = -2272.0;
-	//rt[counter].minY = -64.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 1344.0;
-	//rt[counter].maxZ = 1824.0;
-	rt[counter].index = 69; //room2ccont
-	counter++;
-
-	//room2offices
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2OFFICES;// "room2offices";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 30;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -608.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 422.45544;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 70; //room2offices
-	counter++;
-
-	//room2offices2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2OFFICES2;// "room2offices2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 20;
-	rt[counter].lights = 6;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -192.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 288.0;
-	//rt[counter].maxY = 386.86813;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 71; //room2offices2
-	counter++;
-
-	//room2offices3
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2OFFICES3;// "room2offices3";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 20;
-	rt[counter].lights = 6;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1600.0002;
-	//rt[counter].minY = -0.000029060417;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 768.0;
-	//rt[counter].maxY = 832.0;
-	//rt[counter].maxZ = 1024.0002;
-	rt[counter].index = 72; //room2offices3
-	counter++;
-
-	//room2offices4
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2OFFICES4;// "room2offices4";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1568.0;
-	//rt[counter].minY = -416.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 596.0;
-	//rt[counter].maxY = 708.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 73; //room2offices4
-	counter++;
-
-	//room2poffices
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2POFFICES;// "room2poffices";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -512.0;
-	//rt[counter].minY = -0.000030517578;
-	//rt[counter].minZ = -1024.0001;
-	//rt[counter].maxX = 976.0001;
-	//rt[counter].maxY = 438.83057;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 74; //room2poffices
-	counter++;
-
-	//room2poffices2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2POFFICES2;// "room2poffices2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1184.0;
-	//rt[counter].minY = -1.4324226;
-	//rt[counter].minZ = -1024.0002;
-	//rt[counter].maxX = 1216.0;
-	//rt[counter].maxY = 438.83057;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 75; //room2poffices2
-	counter++;
-
-	//room2sroom
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2SROOM;// "room2sroom";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -0.000030517578;
-	//rt[counter].minZ = -1024.0001;
-	//rt[counter].maxX = 2304.0;
-	//rt[counter].maxY = 640.0;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 76; //room2sroom
-	counter++;
-
-	//room2toilets
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2TOILETS;// "room2toilets";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 30;
-	rt[counter].lights = 5;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -320.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1568.0;
-	//rt[counter].maxY = 386.86813;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 77; //room2toilets
-	counter++;
-
-	//room2tesla
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2TESLA;// "room2tesla";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 8;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -304.00012;
-	//rt[counter].minY = -64.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 304.0001;
-	//rt[counter].maxY = 722.45544;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 78; //room2tesla
-	counter++;
-
-	//room3servers
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3SERVERS;// "room3servers";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -1536.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 385.00006;
-	//rt[counter].maxZ = 1032.0;
-	rt[counter].index = 79; //room3servers
-	counter++;
-
-	//room3servers2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3SERVERS2;// "room3servers2";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 6;
-	//rt[counter].disableDecals = true;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -1536.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 385.00006;
-	//rt[counter].maxZ = 1032.0;
-	rt[counter].index = 80; //room3servers2
-	counter++;
-
-	//room3z3
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3Z3;// "room3z3";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 1;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = 0.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 438.83054;
-	//rt[counter].maxZ = 576.0;
-	rt[counter].index = 81; //room3z3
-	counter++;
-
-	//room4z3
-	rt[counter].id = counter;
-	rt[counter].name = ROOM4Z3;// "room4z3";
-	rt[counter].shape = ROOM4;
-	rt[counter].commonness = 100;
-	rt[counter].lights = 2;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 1440.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 82; //room4z3
-	counter++;
-
-	//room1lifts
-	rt[counter].id = counter;
-	rt[counter].name = ROOM1LIFTS;// "room1lifts";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 1;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -464.0;
-	//rt[counter].minY = -36.01808;
-	//rt[counter].minZ = -1024.0001;
-	//rt[counter].maxX = 448.0;
-	//rt[counter].maxY = 466.85107;
-	//rt[counter].maxZ = 105.69403;
-	rt[counter].index = 83; //room1lifts
-	counter++;
-
-	//room3gw
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3GW;// "room3gw";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 10;
-	rt[counter].lights = 1;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -18.0;
-	//rt[counter].minZ = -1031.0;
-	//rt[counter].maxX = 1038.9995;
-	//rt[counter].maxY = 535.0;
-	//rt[counter].maxZ = 547.5521;
-	rt[counter].index = 84; //room3gw
-	counter++;
-
-	//room2servers2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2SERVERS2;// "room2servers2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 4;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1081.5002;
-	//rt[counter].minY = -800.02185;
-	//rt[counter].minZ = -1048.9976;
-	//rt[counter].maxX = 816.00006;
-	//rt[counter].maxY = 464.85107;
-	//rt[counter].maxZ = 1024.0001;
-	rt[counter].index = 85; //room2servers2
-	counter++;
-
-	//room3offices
-	rt[counter].id = counter;
-	rt[counter].name = ROOM3OFFICES;// "room3offices";
-	rt[counter].shape = ROOM3;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 1;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -1024.0;
-	//rt[counter].minY = -0.0000076293945;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 1024.0;
-	//rt[counter].maxY = 464.85107;
-	//rt[counter].maxZ = 1036.0;
-	rt[counter].index = 86; //room3offices
-	counter++;
-
-	//room2z3_2
-	rt[counter].id = counter;
-	rt[counter].name = ROOM2Z3_2;// "room2z3_2";
-	rt[counter].shape = ROOM2;
-	rt[counter].commonness = 25;
-	rt[counter].lights = 0;
-	rt[counter].zone[0] = 3;
-	//rt[counter].minX = -304.0;
-	//rt[counter].minY = -1.0;
-	//rt[counter].minZ = -1024.0;
-	//rt[counter].maxX = 304.00018;
-	//rt[counter].maxY = 416.0;
-	//rt[counter].maxZ = 1024.0;
-	rt[counter].index = 87; //room2z3_2
-	counter++;
-
-	//pocketdimension
-	rt[counter].id = counter;
-	rt[counter].name = POCKETDIMENSION;// "pocketdimension";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 1;
-	//rt[counter].minX = -512.0;
-	//rt[counter].minY = -32.0;
-	//rt[counter].minZ = -512.0;
-	//rt[counter].maxX = 512.0;
-	//rt[counter].maxY = 1024.0;
-	//rt[counter].maxZ = 512.0;
-	rt[counter].index = 88; //pocketdimension
-	counter++;
-
-	//dimension1499
-	rt[counter].id = counter;
-	rt[counter].name = DIMENSION1499;// "dimension1499";
-	rt[counter].shape = ROOM1;
-	rt[counter].commonness = 0;
-	rt[counter].lights = 0;
-	//rt[counter].disableDecals = true;
-	//rt[counter].minX = -7509.0;
-	//rt[counter].minY = -672.0001;
-	//rt[counter].minZ = -4207.308;
-	//rt[counter].maxX = 7509.2817;
-	//rt[counter].maxY = 8928.0;
-	//rt[counter].maxZ = 4207.0;
-	rt[counter].index = 89; //dimension1499
+	
+	switch (thread) {
+	case 1:
+		//LIGHT CONTAINMENT
+		//lockroom
+		rt[thread].id = thread;
+		rt[thread].name = LOCKROOM;//"lockroom";
+		rt[thread].shape = ROOM2C;
+		rt[thread].zone[0] = 1;
+		rt[thread].zone[1] = 3;
+		rt[thread].commonness = 30;
+		rt[thread].lights = 4;		
+		rt[thread].index = 0; //lockroom
+		break;
+
+	case 2:
+		//173
+		rt[thread].id = thread;
+		rt[thread].name = ROOM173;// "173";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 29;
+		break;
+		
+	case 3:
+		//start
+		rt[thread].id = thread;
+		rt[thread].name = START;// "start";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 9;
+		rt[thread].index = 1; //start
+		break;
+
+	case 4:
+		//room1123
+		rt[thread].id = thread;
+		rt[thread].name = ROOM1123;//"room1123";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 20;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 2; //room1123
+		break;
+
+	case 5:
+		//room1archive
+		rt[thread].id = thread;
+		rt[thread].name = ROOM1ARCHIVE;// "room1archive";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 80;
+		rt[thread].lights = 2;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 3; //room1archive
+		break;
+
+	case 6:
+		//room2storage
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2STORAGE;// "room2storage";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 10;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 4; //room2storage
+		break;
+
+	case 7:
+		//room3storage
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3STORAGE;// "room3storage";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 33;
+		rt[thread].zone[0] = 1;
+		rt[thread].disableOverlapCheck = true;
+		break;
+
+	case 8:
+		//room2tesla_lcz
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2TESLA_LCZ;//"room2tesla_lcz";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 8;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 5; //room2tesla_lcz
+		break;
+
+	case 9:
+		//endroom
+		rt[thread].id = thread;
+		rt[thread].name = ENDROOM;// "endroom";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 1;
+		rt[thread].zone[2] = 3;
+		rt[thread].index = 6; //endroom
+		break;
+
+	case 10:
+		//room012
+		rt[thread].id = thread;
+		rt[thread].name = ROOM012;//"room012";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 1;		
+		rt[thread].index = 7; //room012
+		break;
+
+	case 11:
+		//room205
+		rt[thread].id = thread;
+		rt[thread].name = ROOM205;//"room205";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 8; //room205
+		break;
+
+	case 12:
+		//room2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2ID;//"room2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 45;
+		rt[thread].lights = 2;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 9; //room2
+		break;
+
+	case 13:
+		//room2_2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2_2;// "room2_2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 40;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 10; //room2_2
+		break;
+
+	case 14:
+		//room2_3
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2_3;// "room2_3";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 35;
+		rt[thread].lights = 0;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 11; //room2_3
+		break;
+
+	case 15:
+		//room2_4
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2_4;// "room2_4";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 35;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 12; //room2_4
+		break;
+
+	case 16:
+		//room2_5
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2_5;// "room2_5";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 35;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 1;		
+		rt[thread].index = 13; //room2_5
+		break;
+
+	case 17:
+		//room2c
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2CID;// "room2c";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 30;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 14; //room2c
+		break;
+
+	case 18:
+		//room2c2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2C2;// "room2c2";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 30;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 15; //room2c2
+		break;
+
+	case 19:
+		//room2closets
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2CLOSETS;// "room2closets";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 16; //room2closets
+		break;
+
+	case 20:
+		//room2elevator
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2ELEVATOR;// "room2elevator";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 20;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 17; //room2elevator
+		break;
+
+	case 21:
+		//room2doors
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2DOORS;// "room2doors";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 30;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 18; //room2doors
+		break;
+
+	case 22:
+		//room2scps
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2SCPS;// "room2scps";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 19; //room2scps
+		break;
+
+	case 23:
+		//room860
+		rt[thread].id = thread;
+		rt[thread].name = ROOM860;// "room860";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 4;
+		rt[thread].index = 20; //room860
+		break;
+
+	case 24:
+		//room2testroom2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2TESTROOM2;// "room2testroom2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 21; //room2testroom2
+		break;
+
+	case 25:
+		//room3
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3ID;// "room3";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 22; //room3
+		break;
+
+	case 26:
+		//room3_2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3_2;// "room3_2";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 23; //room3_2
+		break;
+
+	case 27:
+		//room4
+		rt[thread].id = thread;
+		rt[thread].name = ROOM4ID;// "room4";
+		rt[thread].shape = ROOM4;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 24; //room4
+		break;
+
+	case 28:
+		//room4_2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM4_2;// "room4_2";
+		rt[thread].shape = ROOM4;
+		rt[thread].commonness = 80;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 25; //room4_2
+		break;
+
+	case 29:
+		//roompj
+		rt[thread].id = thread;
+		rt[thread].name = ROOMPJ;// "roompj";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 8;		
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 26; //roompj
+		break;
+
+	case 30:
+		//914
+		rt[thread].id = thread;
+		rt[thread].name = ROOM914;// "914";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 9;		
+		rt[thread].zone[0] = 1;		
+		rt[thread].index = 27; //914
+		break;
+
+	case 31:
+		//room2gw
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2GW;// "room2gw";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 10;
+		rt[thread].lights = 2;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 28; //room2gw
+		break;
+
+	case 32:
+		//room2gw_b
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2GW_B;// "room2gw_b";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 2;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 29; //room2gw_b
+		break;
+
+	case 33:
+		//room1162
+		rt[thread].id = thread;
+		rt[thread].name = ROOM1162;// "room1162";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 30; //room1162
+		break;
+
+	case 34:
+		//room2scps2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2SCPS2;// "room2scps2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 31; //room2scps2
+		break;
+
+	case 35:
+		//room2sl
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2SL;// "room2sl";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 7;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 32; //room2sl
+		break;
+
+	case 36:
+		//lockroom3
+		rt[thread].id = thread;
+		rt[thread].name = LOCKROOM3;// "lockroom3";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 15;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 33; //lockroom3
+		break;
+
+	case 37:
+		//room4info
+		rt[thread].id = thread;
+		rt[thread].name = ROOM4INFO;// "room4info";
+		rt[thread].shape = ROOM4;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 34; //room4info
+		break;
+
+	case 38:
+		//room3_3
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3_3;// "room3_3";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 20;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 35; //room3_3
+		break;
+
+	case 39:
+		//checkpoint1
+		rt[thread].id = thread;
+		rt[thread].name = CHECKPOINT1;// "checkpoint1";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 2;
+		rt[thread].index = 36; //checkpoint1
+		break;
+
+	case 40:
+		//HEAVY CONTAINMENT
+
+		//008
+		rt[thread].id = thread;
+		rt[thread].name = ROOM008;// "008";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;		
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 37; //008
+		break;
+
+	case 41:
+		//room035
+		rt[thread].id = thread;
+		rt[thread].name = ROOM035;// "room035";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 38; //room035
+		break;
+
+	case 42:
+		//room049
+		rt[thread].id = thread;
+		rt[thread].name = ROOM049;// "room049";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 26;		
+		rt[thread].zone[0] = 2;
+		rt[thread].disableOverlapCheck = true;
+		break;
+
+	case 43:
+		//room106;
+		rt[thread].id = thread;
+		rt[thread].name = ROOM106;// "room106";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 14;	
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 39; //room106
+		break;
+
+	case 44:
+		//rom513
+		rt[thread].id = thread;
+		rt[thread].name = ROOM513;// "room513";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 40; //room513
+		break;
+
+	case 45:
+		//coffin
+		rt[thread].id = thread;
+		rt[thread].name = COFFIN;// "coffin";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 9;		
+		rt[thread].zone[0] = 1;
+		rt[thread].index = 41; //coffin
+		break;
+
+	case 46:
+		//room966
+		rt[thread].id = thread;
+		rt[thread].name = ROOM966;// "room966";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].disableOverlapCheck = true;
+		break;
+
+	case 47:
+		//endroom2
+		rt[thread].id = thread;
+		rt[thread].name = ENDROOM2;// "endroom2";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 42; //endroom2
+		break;
+
+	case 48:
+		//testroom
+		rt[thread].id = thread;
+		rt[thread].name = TESTROOM;// "testroom";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 23;		
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 43; //testroom
+		break;
+
+	case 49:
+		//tunnel
+		rt[thread].id = thread;
+		rt[thread].name = TUNNEL;// "tunnel";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 44; //tunnel
+		break;
+
+	case 50:
+		//tunnel2
+		rt[thread].id = thread;
+		rt[thread].name = TUNNEL2;// "tunnel2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 70;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 45; //tunnel2
+		break;
+
+	case 51:
+		//room2ctunnel
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2CTUNNEL;// "room2ctunnel";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 40;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 46; //room2ctunnel
+		break;
+
+	case 52:
+		//room2nuke
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2NUKE;// "room2nuke";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 14;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 47; //room2nuke
+		break;
+
+	case 53:
+		//room2pipes
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2PIPES;// "room2pipes";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 50;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 48; //room2pipes
+		break;
+		
+	case 54:
+		//room2pit
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2PIT;// "room2pit";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 75;
+		rt[thread].lights = 6;	
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 49; //room2pit
+		break;
+
+	case 55:
+		//room3pit
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3PIT;// "room3pit";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 12;		
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 50; //room3pit
+		break;
+
+	case 56:
+		//room4pit
+		rt[thread].id = thread;
+		rt[thread].name = ROOM4PIT;// "room4pit";
+		rt[thread].shape = ROOM4;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 16;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 51; //room4pit
+		break;
+
+	case 57:
+		//room2servers
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2SERVERS;// "room2servers";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 52; //room2servers
+		break;
+
+	case 58:
+		//room2shaft
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2SHAFT;// "room2shaft";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].index = 53; //room2shaft
+		break;
+
+	case 59:
+		//room2tunnel
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2TUNNEL;// "room2tunnel";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 54; //room2tunnel
+		break;
+
+	case 60:
+		//room3tunnel
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3TUNNEL;// "room3tunnel";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 55; //room3tunnel
+		break;
+
+	case 61:
+		//room4tunnels
+		rt[thread].id = thread;
+		rt[thread].name = ROOM4TUNNELS;// "room4tunnels";
+		rt[thread].shape = ROOM4;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 56; //room4tunnels
+		break;
+
+	case 62:
+		//room2tesla_hcz
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2TESLA_HCZ;// "room2tesla_hcz";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 10;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 57; //room2tesla_hcz
+		break;
+
+	case 63:
+		//room3z2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3Z2;// "room3z2";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 3;
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 58; //room3z2
+		break;
+
+	case 64:
+		//room2cpit
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2CPIT;// "room2cpit";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 10;		
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 59; //room2cpit
+		break;
+
+	case 65:
+		//room2pipes2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2PIPES2;// "room2pipes2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 70;
+		rt[thread].lights = 6;		
+		rt[thread].zone[0] = 2;
+		rt[thread].index = 60; //room2pipes2
+		break;
+
+	case 66:
+		//checkpoint2
+		rt[thread].id = thread;
+		rt[thread].name = CHECKPOINT2;// "checkpoint2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 2;
+		rt[thread].index = 61; //checkpoint2
+		break;
+
+	case 67:
+		//ENTRANCE ZONE
+
+		//room079 yea he's in the entrance zone mhm
+		rt[thread].id = thread;
+		rt[thread].name = ROOM079;// "room079";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;		
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 62; //room079
+		break;
+
+	case 68:
+		//lockroom2
+		rt[thread].id = thread;
+		rt[thread].name = LOCKROOM2;// "lockroom2";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 63; //lockroom2
+		break;
+
+	case 69:
+		//exit1
+		rt[thread].id = thread;
+		rt[thread].name = EXIT1;// "exit1";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 15;
+		rt[thread].zone[0] = 3;
+		rt[thread].disableOverlapCheck = true;
+		break;
+
+	case 70:
+		//gateaentrance
+		rt[thread].id = thread;
+		rt[thread].name = GATEAENTRANCE;// "gateaentrance";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 64; //gateaentrance
+		break;
+
+	case 71:
+		//gatea
+		rt[thread].id = thread;
+		rt[thread].name = GATEA;// "gatea";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 12;
+		rt[thread].disableOverlapCheck = true;
+		break;
+
+	case 72:
+		//medibay
+		rt[thread].id = thread;
+		rt[thread].name = MEDIBAY;// "medibay";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 65; //medibay
+		break;
+
+	case 73:
+		//room2z3
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2Z3;// "room2z3";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 75;
+		rt[thread].lights = 0;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 66; //room2z3
+		break;
+
+	case 74:
+		//room2cafeteria
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2CAFETERIA;// "room2cafeteria";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 7;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 67; //room2cafeteria
+		break;
+
+	case 75:
+		//room2cz3
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2CZ3;// "room2cz3";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 68; //room2cz3
+		break;
+
+	case 76:
+		//room2ccont
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2CCONT;// "room2ccont";
+		rt[thread].shape = ROOM2C;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 9;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 69; //room2ccont
+		break;
+
+	case 77:
+		//room2offices
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2OFFICES;// "room2offices";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 30;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 70; //room2offices
+		break;
+
+	case 78:
+		//room2offices2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2OFFICES2;// "room2offices2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 20;
+		rt[thread].lights = 6;		
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 71; //room2offices2
+		break;
+
+	case 79:
+		//room2offices3
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2OFFICES3;// "room2offices3";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 20;
+		rt[thread].lights = 6;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 72; //room2offices3
+		break;
+
+	case 80:
+		//room2offices4
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2OFFICES4;// "room2offices4";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 73; //room2offices4
+		break;
+
+	case 81:
+		//room2poffices
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2POFFICES;// "room2poffices";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 74; //room2poffices
+		break;
+
+	case 82:
+		//room2poffices2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2POFFICES2;// "room2poffices2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 75; //room2poffices2
+		break;
+
+	case 83:
+		//room2sroom
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2SROOM;// "room2sroom";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 76; //room2sroom
+		break;
+
+	case 84:
+		//room2toilets
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2TOILETS;// "room2toilets";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 30;
+		rt[thread].lights = 5;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 77; //room2toilets
+		break;
+
+	case 85:
+		//room2tesla
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2TESLA;// "room2tesla";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 8;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 78; //room2tesla
+		break;
+
+	case 86:
+		//room3servers
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3SERVERS;// "room3servers";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;		
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 79; //room3servers
+		break;
+
+	case 87:
+		//room3servers2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3SERVERS2;// "room3servers2";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 6;		
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 80; //room3servers2
+		break;
+
+	case 88:
+		//room3z3
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3Z3;// "room3z3";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 1;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 81; //room3z3
+		break;
+
+	case 89:
+		//room4z3
+		rt[thread].id = thread;
+		rt[thread].name = ROOM4Z3;// "room4z3";
+		rt[thread].shape = ROOM4;
+		rt[thread].commonness = 100;
+		rt[thread].lights = 2;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 82; //room4z3
+		break;
+
+	case 90:
+		//room1lifts
+		rt[thread].id = thread;
+		rt[thread].name = ROOM1LIFTS;// "room1lifts";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 1;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 83; //room1lifts
+		break;
+
+	case 91:
+		//room3gw
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3GW;// "room3gw";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 10;
+		rt[thread].lights = 1;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 84; //room3gw
+		break;
+
+	case 92:
+		//room2servers2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2SERVERS2;// "room2servers2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 4;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 85; //room2servers2
+		break;
+
+	case 93:
+		//room3offices
+		rt[thread].id = thread;
+		rt[thread].name = ROOM3OFFICES;// "room3offices";
+		rt[thread].shape = ROOM3;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 1;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 86; //room3offices
+		break;
+
+	case 94:
+		//room2z3_2
+		rt[thread].id = thread;
+		rt[thread].name = ROOM2Z3_2;// "room2z3_2";
+		rt[thread].shape = ROOM2;
+		rt[thread].commonness = 25;
+		rt[thread].lights = 0;
+		rt[thread].zone[0] = 3;
+		rt[thread].index = 87; //room2z3_2
+		break;
+
+	case 95:
+		//pocketdimension
+		rt[thread].id = thread;
+		rt[thread].name = POCKETDIMENSION;// "pocketdimension";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 1;
+		rt[thread].index = 88; //pocketdimension
+		break;
+
+	case 96:
+		//dimension1499
+		rt[thread].id = thread;
+		rt[thread].name = DIMENSION1499;// "dimension1499";
+		rt[thread].shape = ROOM1;
+		rt[thread].commonness = 0;
+		rt[thread].lights = 0;	
+		rt[thread].index = 89; //dimension1499
+		break;
+	default:
+		//printf("Cannot set room template for thread: %d.\n", thread);
+		break;
+	}
+	
 }
 
 __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t room_type, uint8_t pos, uint8_t min_pos, uint8_t max_pos) {

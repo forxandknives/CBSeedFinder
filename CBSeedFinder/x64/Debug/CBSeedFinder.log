@@ -419,14 +419,8 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(25): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2644): warning #127-D: expected a statement
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2175): warning #127-D: expected a statement
     	}	
-    	^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1928): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2014)
-              variable "y" (declared at line 2015)
-    	switch (r->rt->name) {
     	^
   
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
@@ -847,18 +841,16 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(25): warning #1000-D: a storage cl
     static struct Rooms {
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1691): warning #940-D: missing return statement at end of non-void function "CreateRoom"
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(56): warning #177-D: variable "counter" was declared but never referenced
+    	int32_t counter = 1;
+    	        ^
+  
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1213): warning #940-D: missing return statement at end of non-void function "CreateRoom"
     }
     ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2644): warning #127-D: expected a statement
+C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2175): warning #127-D: expected a statement
     	}	
-    	^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(1928): warning #546-D: transfer of control bypasses initialization of:
-              variable "x" (declared at line 2014)
-              variable "y" (declared at line 2015)
-    	switch (r->rt->name) {
     	^
   
 C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(100): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
@@ -877,7 +869,7 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00006758_00000000-7_kernel.cudafe1.cpp
+  tmpxft_00006e48_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
@@ -984,6 +976,4 @@ C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(133): warning C4244: 'initializing
           [
               _Rep=__int64
           ]
-     Creating library C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.lib and object C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exp
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe

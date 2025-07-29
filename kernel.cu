@@ -121,10 +121,10 @@ int main()
 
     start = std::chrono::steady_clock::now();
     //DEBUG
-    testFunction << <1, 32>> > (offset, cudaOutput, deviceExtents, deviceForestData);
+    //testFunction << <1, 128>> > (offset, cudaOutput, deviceExtents, deviceForestData);
     
     //RELEASE
-    //testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
+    testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
 
     cudaDeviceSynchronize();
 
@@ -175,8 +175,8 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
     __shared__ RoomTemplates rts[roomTemplateAmount];
 
     //we want the first thread of each block to spawn the room templates;
-    if (threadIdx.x == 0) {
-        CreateRoomTemplates(rts);         
+    if (threadIdx.x < roomTemplateAmount-1) {
+        CreateRoomTemplates(rts, threadIdx.x+1);    
     }       
 
     __syncthreads();
