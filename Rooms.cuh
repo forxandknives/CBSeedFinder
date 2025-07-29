@@ -1944,6 +1944,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateDoor(bb, rnd_state, true, 0);
 		break;
 	case LOCKROOM2:
+#pragma unroll
 		for (uint8_t i = 0; i <= 5; i++) {
 			bb->bbRand(rnd_state, 2, 3);
 			bb->bbRnd(rnd_state, -392, 520);
@@ -2010,11 +2011,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 	case CHECKPOINT2:
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, false, 0);
-		
-		uint8_t x = uint8_t(floorf(r->x / 8.0));
-		uint8_t y = uint8_t(floorf(r->z / 8.0)) - 1;
 
-		if (MapTemp[x][y] == 0) {
+		if (MapTemp[uint8_t(floorf(r->x / 8.0))][uint8_t(floorf(r->z / 8.0)) - 1] == 0) {
 			CreateDoor(bb, rnd_state, false, 0);
 		}
 		break;
@@ -2313,6 +2311,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
+#pragma unroll
 		for (uint8_t i = 0; i <= bb->bbRand(rnd_state, 0, 1); i++) {
 			CreateItem(bb, rnd_state);
 		}
@@ -2355,6 +2354,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
+#pragma unroll
 		for (uint8_t i = 0; i <= 14; i++) {
 			bb->bbRand(rnd_state, 15, 16);
 			bb->bbRand(rnd_state, 1, 360);
@@ -2418,7 +2418,9 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		
 		bb->bbRnd(rnd_state, 0, 360);
 
+#pragma unroll
 		for (uint8_t x = 0; x <= 1; x++) {
+#pragma unroll
 			for (uint8_t z = 0; z <= 1; z++) {
 				bb->bbRand(rnd_state, 4, 6);
 				bb->bbRnd(rnd_state, -0.5, 0.5);
@@ -2439,12 +2441,15 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateDoor(bb, rnd_state, false, 0);
 		CreateDoor(bb, rnd_state, false, 0);
 
+#pragma unroll
 		for (uint8_t z = 0; z <= 1; z++) {
 			CreateDoor(bb, rnd_state, false, 0);
 			CreateDoor(bb, rnd_state, false, 0);
+#pragma unroll
 			for (uint8_t x = 0; x <= 2; x++) {
 				CreateDoor(bb, rnd_state, false, 0);
 			}
+#pragma unroll
 			for (uint8_t x = 0; x <= 4; x++) {
 				CreateDoor(bb, rnd_state, false, 0);
 			}
@@ -2470,8 +2475,11 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM1ARCHIVE:
+#pragma unroll
 		for (uint8_t xtemp = 0; xtemp <= 1; xtemp++) {
+#pragma unroll
 			for (uint8_t ytemp = 0; ytemp <= 2; ytemp++) {
+#pragma unroll
 				for (uint8_t ztemp = 0; ztemp <= 2; ztemp++) {
 
 					int8_t chance = bb->bbRand(rnd_state, -10, 100);
@@ -2520,6 +2528,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		
 		bb->bbRnd(rnd_state, 0.8, 0.8);
 
+#pragma unroll
 		for (uint8_t i = 1; i <= 8; i++) {
 			if (i < 6) {
 				bb->bbRnd(rnd_state, 0.5, 0.5);
@@ -2644,6 +2653,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 	}	
 
 	//32 becase that is MaxRoomLights
+#pragma unroll
 	for (uint8_t i = 0; i < min(32, r->rt->lights); i++) {
 		bb->bbRand(rnd_state, 1, 360);
 		bb->bbRand(rnd_state, 1, 10);
