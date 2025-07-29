@@ -1708,7 +1708,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 
 	if (r->rt->name == CHECKPOINT1 || r->rt->name == CHECKPOINT2 || r->rt->name == START) return true;
 
-	for (int32_t i = 0; i < 324; i++) {
+	for (int16_t i = 0; i < 324; i++) {
 		r2 = &rooms[i];
 
 		//-1 id means we are at the point of the array where there are no more rooms.
@@ -1735,7 +1735,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 		//TEMPORARY
 		GetRoomExtents(r, e);
 
-		for (int32_t i = 0; i < 18 * 18; i++) {
+		for (int16_t i = 0; i < 324; i++) {
 			r2 = &rooms[i];
 			if (r2->id == -1) break; //Id should only be -1 after all other rooms.
 
@@ -1763,7 +1763,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	//Room is either not a ROOM2 or the ROOM2 is still intersecting, now trying to swap the room with another of the same type
 	isIntersecting = true;
 	int32_t temp2, x2, y2, rot, rot2;	
-	for (int32_t i = 0; i < 18 * 18; i++) {
+	for (int16_t i = 0; i < 324; i++) {
 		r2 = &rooms[i];
 
 		if (r2->id == -1) break;
@@ -1795,7 +1795,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 				GetRoomExtents(r2, e);
 
 				//make sure neither room overlaps with anything after the swap
-				for (int32_t j = 0; j < 18 * 18; j++) {
+				for (int16_t j = 0; j < 324; j++) {
 					r3 = &rooms[j];
 
 					if (r3->id == -1) break;
