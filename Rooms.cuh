@@ -11,30 +11,25 @@
 
 typedef struct RoomTemplates RoomTemplates;
 static struct RoomTemplates {
-	int32_t obj;
-	int32_t id = -1;
-    int32_t index = 0;
-	//dont need objPath i think
-	int32_t zone[5] = { 0 };
-	int32_t shape;
+	int8_t id = -1;
+    uint8_t index = 0;	
+	uint8_t zone[5] = { 0 };
+	uint8_t shape;
 	RoomID name = ROOMEMPTY;
-	int32_t commonness;
-	bool large;
-	int32_t lights;
+	uint8_t commonness;
+	uint8_t lights;
 	bool disableOverlapCheck = true;
-	bool disableDecals;
 };
 
 typedef struct Rooms Rooms;
 static struct Rooms {
-	int32_t id = -1;
-	int32_t zone = 0;;
+	int16_t id = -1;
+	uint8_t zone = 0;
 	
 	float x, y, z;
-	int32_t angle;
-	RoomTemplates* rt;
 
-	//a bunch of stuff that i might need
+	int16_t angle;
+	RoomTemplates* rt;
 
 	float minX, minY, minZ;
 	float maxX, maxY, maxZ;
@@ -84,7 +79,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 29;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	//rt[counter].minX = -8705.0;
 	//rt[counter].minY = -768.0;
 	//rt[counter].minZ = -3808.0;
@@ -99,7 +94,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 9;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	//rt[counter].minX = -672.0;
 	//rt[counter].minY = -28.0;
 	//rt[counter].minZ = -1024.0;
@@ -116,7 +111,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 20;
 	rt[counter].zone[0] = 1;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	//rt[counter].minX = -928.0;
 	//rt[counter].minY = -0.000061035156;
 	//rt[counter].minZ = -1024.0;
@@ -149,7 +144,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 10;
 	rt[counter].zone[0] = 1;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	//rt[counter].minX = -1328.0001;
 	//rt[counter].minY = -1.0;
 	//rt[counter].minZ = -1024.0;
@@ -209,7 +204,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 4;
 	rt[counter].zone[0] = 1;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	//rt[counter].minX = -1024.0;
 	//rt[counter].minY = -800.0;
 	//rt[counter].minZ = -1024.0;
@@ -226,7 +221,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 5;
 	rt[counter].zone[0] = 1;
-	rt[counter].large = true;
+	//rt[counter].large = true;
 	//rt[counter].minX = -1792.0;
 	//rt[counter].minY = -160.0;
 	//rt[counter].minZ = -1024.0;
@@ -355,8 +350,8 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 6;
 	rt[counter].zone[0] = 1;
-	rt[counter].disableDecals = true;
-	rt[counter].large = true;
+	//rt[counter].disableDecals = true;
+	//rt[counter].large = true;
 	//rt[counter].minX = -1972.0;
 	//rt[counter].minY = -416.0;
 	//rt[counter].minZ = -1024.0;
@@ -515,7 +510,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 8;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 1;
 	//rt[counter].minX = -1024.0;
 	//rt[counter].minY = -0.56270504;
@@ -532,7 +527,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 9;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 1;
 	//rt[counter].minX = -1024.0001;
 	//rt[counter].minY = -0.56270504;
@@ -614,7 +609,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 7;
 	rt[counter].zone[0] = 1;
-	rt[counter].large = true;
+	//rt[counter].large = true;
 	//rt[counter].minX = -304.0;
 	//rt[counter].minY = -64.0;
 	//rt[counter].minZ = -1024.0001;
@@ -695,7 +690,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 5;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	//rt[counter].minX = -608.0;
 	//rt[counter].minY = -32.0;
@@ -728,7 +723,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 26;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	rt[counter].disableOverlapCheck = true;
 	counter++;
@@ -739,9 +734,9 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 14;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
-	rt[counter].large = true;
+	//rt[counter].large = true;
 	//rt[counter].minX = -1304.0;
 	//rt[counter].minY = -1296.0;
 	//rt[counter].minZ = -1024.0;
@@ -773,7 +768,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 9;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 1;
 	//rt[counter].minX = -960.0;
 	//rt[counter].minY = -1537.0;
@@ -815,7 +810,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 23;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	//rt[counter].minX = -1024.0;
 	//rt[counter].minY = -1281.0;
@@ -881,7 +876,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 14;
 	rt[counter].zone[0] = 2;
-	rt[counter].large = true;
+	//rt[counter].large = true;
 	//rt[counter].minX = -1024.0;
 	//rt[counter].minY = -32.0;
 	//rt[counter].minZ = -1024.0;
@@ -913,7 +908,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 75;
 	rt[counter].lights = 6;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	//rt[counter].minX = -1024.0001;
 	//rt[counter].minY = -448.0;
@@ -930,7 +925,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 100;
 	rt[counter].lights = 12;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	//rt[counter].minX = -1024.0;
 	//rt[counter].minY = -960.99994;
@@ -964,7 +959,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 5;
 	rt[counter].zone[0] = 2;
-	rt[counter].large = true;
+	//rt[counter].large = true;
 	//rt[counter].minX = -1664.0;
 	//rt[counter].minY = -0.021850586;
 	//rt[counter].minZ = -1024.0;
@@ -980,7 +975,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 5;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	//rt[counter].minX = -256.0;
 	//rt[counter].minY = -1504.0;
 	//rt[counter].minZ = -1024.0;
@@ -996,7 +991,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 4;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	//rt[counter].minX = -880.0;
 	//rt[counter].minY = -32.0;
@@ -1077,7 +1072,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2C;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 10;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	//rt[counter].minX = -568.0001;
 	//rt[counter].minY = -960.99994;
@@ -1094,7 +1089,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 70;
 	rt[counter].lights = 6;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 2;
 	//rt[counter].minX = -256.0;
 	//rt[counter].minY = -448.0;
@@ -1128,9 +1123,9 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 6;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 3;
-	rt[counter].large = true;
+	//rt[counter].large = true;
 	//rt[counter].minX = -416.00003;
 	//rt[counter].minY = -705.0;
 	//rt[counter].minZ = -1055.9999;
@@ -1230,7 +1225,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 7;
 	rt[counter].zone[0] = 3;
-	rt[counter].large = true;
+	//rt[counter].large = true;
 	//TEMPORARY
 	//rt[counter].disableOverlapCheck = true;
 	//rt[counter].minX = -1792.0;
@@ -1265,7 +1260,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].commonness = 0;
 	rt[counter].lights = 9;
 	rt[counter].zone[0] = 3;
-	rt[counter].large = true;
+	//rt[counter].large = true;
 	//rt[counter].minX = -2272.0;
 	//rt[counter].minY = -64.0;
 	//rt[counter].minZ = -1024.0;
@@ -1297,7 +1292,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM2;
 	rt[counter].commonness = 20;
 	rt[counter].lights = 6;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 3;
 	//rt[counter].minX = -1024.0;
 	//rt[counter].minY = -192.0;
@@ -1426,7 +1421,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 6;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 3;
 	//rt[counter].minX = -1024.0;
 	//rt[counter].minY = -1536.0;
@@ -1443,7 +1438,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM3;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 6;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	rt[counter].zone[0] = 3;
 	//rt[counter].minX = -1024.0;
 	//rt[counter].minY = -1536.0;
@@ -1587,7 +1582,7 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 	rt[counter].shape = ROOM1;
 	rt[counter].commonness = 0;
 	rt[counter].lights = 0;
-	rt[counter].disableDecals = true;
+	//rt[counter].disableDecals = true;
 	//rt[counter].minX = -7509.0;
 	//rt[counter].minY = -672.0001;
 	//rt[counter].minZ = -4207.308;

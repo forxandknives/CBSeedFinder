@@ -329,6 +329,7 @@ __device__ inline uint8_t GetForestData(uint8_t* f, int32_t tileType, int32_t in
 	return f[endIndex];
 }
 
+//I think we can make this a constexpr.
 __host__ void PopulateForestData(uint8_t* f) {	
 
 	//This just gonna be a uint8_t array of values from the forest images.		
