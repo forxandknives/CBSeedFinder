@@ -121,10 +121,10 @@ int main()
 
     start = std::chrono::steady_clock::now();
     //DEBUG
-    //testFunction << <1, 32>> > (offset, cudaOutput, deviceExtents, deviceForestData);
+    testFunction << <1, 32>> > (offset, cudaOutput, deviceExtents, deviceForestData);
     
     //RELEASE
-    testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
+    //testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
 
     cudaDeviceSynchronize();
 

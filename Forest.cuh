@@ -113,9 +113,9 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 		tempy = newy;
 		if (Chance(bb, rnd_state, branchChance)) {
 			branchType = -1;
-			int32_t cobbleChance = 0;
+			//int32_t cobbleChance = 0;
 
-			if (Chance(bb, rnd_state, cobbleChance)) {
+			if (Chance(bb, rnd_state, 0)) {
 				branchType = -2;
 			}
 
