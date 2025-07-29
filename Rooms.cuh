@@ -48,7 +48,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 //__device__ inline void CalculateRoomExtents(Rooms* r);
 __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state* rnd_state, Rooms* r, uint8_t* forest);
-__device__ inline void GetRoomExtents(Rooms* r, float* e);
+__device__ constexpr inline void GetRoomExtents(Rooms* r, float* e);
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt) {
 
@@ -2653,12 +2653,12 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 	}
 }
 
-__device__ inline void GetRoomExtents(Rooms* r, float* e) {
+__device__ constexpr inline void GetRoomExtents(Rooms* r, float* e) {
 
 	if (r->rt->disableOverlapCheck) return;
 
-	int32_t xIndex = int((r->x / 8.0)) - 1;
-	int32_t zIndex = int((r->z / 8.0)) - 1;
+	int32_t xIndex = uint32_t((r->x / 8.0)) - 1;
+	int32_t zIndex = uint32_t((r->z / 8.0)) - 1;
 	int32_t angle = r->angle / 90;
 	int32_t startIndex = r->rt->index;	
 
