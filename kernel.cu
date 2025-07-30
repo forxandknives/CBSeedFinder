@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <chrono>
+#include <vector>
 
 __device__ void dummy();
 
@@ -113,8 +114,15 @@ int main()
     printf("GRIDSIZE: %d\n", gridSize);
     printf("BLOCKSIZE: %d\n", blockSize);
 
-    for (int32_t i = 0; i < 10; i++) {
-        std::chrono::steady_clock::time_point start, end;
+    std::vector<double> times;
+
+    std::chrono::steady_clock::time_point start, end, start2, end2;
+
+    int32_t kernels = 20;
+
+    start2 = std::chrono::steady_clock::now();
+
+    for (int32_t i = 0; i < kernels; i++) {
 
         //printf("Launching Kernel!\n");       
 
@@ -133,8 +141,26 @@ int main()
 
         //printf("Kernel Stopped!\n");
 
+        times.push_back(ms);
+
         printf("Run %d took %f milliseconds.\n", i, ms);
     }
+
+    end2 = std::chrono::steady_clock::now();
+
+    double ms = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - start2).count();
+
+    printf("Total Runtme: %f milliseconds.\n", ms);
+
+    double total = 0.0;
+    for (double t : times) {
+        total += t;
+    }
+    total /= kernels;  
+    printf("Average RunTime: %f\n", total);
+
+    printf("Generated %d seeds.\n", (gridSize* blockSize)* kernels);
+
 
     c = cudaGetLastError();
     if (c != cudaSuccess) {

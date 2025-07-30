@@ -21,6 +21,7 @@ __host__ void PopulateForestData(uint8_t* f, int32_t thread);
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest) {
 
+	
 	const int32_t gridSize = 10;
 	//int32_t deviationChance = 40;
 	//int32_t returnChance = 27;
