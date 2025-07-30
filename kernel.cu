@@ -113,19 +113,17 @@ int main()
     printf("GRIDSIZE: %d\n", gridSize);
     printf("BLOCKSIZE: %d\n", blockSize);
 
-    for (int32_t i = 0; i < 1; i++) {
+    for (int32_t i = 0; i < 10; i++) {
         std::chrono::steady_clock::time_point start, end;
 
-        //printf("Launching Kernel!\n");
-
-        uint32_t tempBlockAmount = 5;
+        //printf("Launching Kernel!\n");       
 
         start = std::chrono::steady_clock::now();
         //DEBUG
-        testFunction << <1, 256>> > (offset, cudaOutput, deviceExtents);
+        //testFunction << <1, 256>> > (offset, cudaOutput, deviceExtents);
 
         //RELEASE
-        //testFunction << <gridSize, blockSize >> > (offset, cudaOutput, deviceExtents);
+        testFunction << <gridSize, blockSize >> > (offset, cudaOutput, deviceExtents);
 
         cudaDeviceSynchronize();
 
