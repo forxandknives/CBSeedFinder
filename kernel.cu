@@ -64,7 +64,7 @@ int main()
     ////////////////////////////////////EXTENTS///////////////////////////////
 
     ////////////////////////////////////FOREST///////////////////////////////
-    int32_t totalForestDataSize = 3380;
+    /*int32_t totalForestDataSize = 3380;
     uint8_t* forestData = (uint8_t*)malloc(totalForestDataSize * sizeof(uint8_t));
 
     PopulateForestData(forestData);
@@ -80,7 +80,7 @@ int main()
     if (c != cudaSuccess) {
         printf("Failed to copy forest data to gpu!\n");
         exit(1);
-    }
+    }*/
     ////////////////////////////////////FOREST///////////////////////////////
 
     const int arraySize = 1;
@@ -124,7 +124,7 @@ int main()
     //testFunction << <1, 128>> > (offset, cudaOutput, deviceExtents, deviceForestData);
     
     //RELEASE
-    testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents, deviceForestData);    
+    testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents);    
 
     cudaDeviceSynchronize();
 
@@ -166,7 +166,7 @@ int main()
 
 }
 
-__global__ void testFunction(int32_t offset, int* outputArray, float* extents, uint8_t* forest) {
+__global__ void testFunction(int32_t offset, int* outputArray, float* extents) {
     //int block = blockIdx.x + blockIdx.y * gridDim.x;
     //int threadNumber = block * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;         
 
@@ -174,18 +174,27 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents, u
        
     __shared__ RoomTemplates rts[roomTemplateAmount];
 
-    //we want the first thread of each block to spawn the room templates;
-    if (threadIdx.x < roomTemplateAmount-1) {
+    //We will make 65 threads input 52 uint8's into array.
+    __shared__ uint8_t forest[3380];
+
+    //Each thread creates one RoomTemplate.
+    if (threadIdx.x < 96) {
         CreateRoomTemplates(rts, threadIdx.x+1);    
     }       
 
+
+    if (threadIdx.x > 95 && threadIdx.x < 161) {       
+        PopulateForestData(forest, uint16_t(threadIdx.x - 65));
+    }
     __syncthreads();
 
     //if (thread == 0 || thread == 2147483647) return;
 
     InitNewGame(thread, rts, extents, forest);
 
-    //printf("Thread %d reached end.\n", thread);
+    //TODO
+    //Pass roomCounter to PreventRoomOverlap so we can skip the id == -1 check.
+
 
     //outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
 }

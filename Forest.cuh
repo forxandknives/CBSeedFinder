@@ -17,7 +17,7 @@ __device__ inline bool TurnIfDeviatingBool(int32_t maxDeviationDistance, int32_t
 __device__ inline int32_t MoveForward(int32_t dir, int32_t pathx, int32_t pathy, int32_t rv);
 __device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, int32_t prob);
 __device__ inline uint8_t GetForestData(uint8_t* f, int32_t tile_type, int32_t index);
-__host__ void PopulateForestData(uint8_t* f);
+__host__ void PopulateForestData(uint8_t* f, uint16_t thread);
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest) {
 
@@ -330,7 +330,7 @@ __device__ inline uint8_t GetForestData(uint8_t* f, int32_t tileType, int32_t in
 }
 
 //I think we can make this a constexpr.
-__host__ void PopulateForestData(uint8_t* f) {	
+__host__ void PopulateForestData(uint8_t* f, uint16_t thread) {	
 
 	//This just gonna be a uint8_t array of values from the forest images.		
 

@@ -45,85 +45,87 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 		MapTemp[x][i] = 1;		
 	}
 
-	uint8_t tempheight = 0;
-	uint8_t yhallways = 0;
+	{
+		//This scope is so we can just remove the varaibles we no longer use after this block.
+		uint8_t tempheight = 0;
+		uint8_t yhallways = 0;
 
-	do {		
-		width = bb.bbRand(&rnd_state, 10, 15);	
+		do {
+			width = bb.bbRand(&rnd_state, 10, 15);
 
-		if (x > MapWidth * 0.6) {
-			width = -width;
-		}
-		else if (x > MapWidth * 0.4) {
-			x = x - (width / 2);
-		}
-
-		if (x + width > MapWidth - 3) {
-			width = MapWidth - 3 - x;
-		}
-		else if (x + width < 2) {
-			width = -x + 2;
-		}
-
-		x = min(x, x + width);
-		width = abs((int32_t)width);
-
-		for (i = x; i <= x + width; i++) {
-			MapTemp[min(i, MapWidth)][y] = 1;			
-		}
-
-		height = bb.bbRand(&rnd_state, 3, 4);
-		
-		if (y - height < 1) {
-			height = y - 1;
-		}
-
-		yhallways = bb.bbRand(&rnd_state, 4, 5);		
-
-		if (GetZone(y - height) != GetZone(y - height + 1)) {
-			height = height - 1;
-		}
-
-		for (i = 1; i <= yhallways; i++) {
-			x2 = max(min(bb.bbRand(&rnd_state, x, x + width - 1), MapWidth - 2), 2);
-
-			while (MapTemp[x2][y - 1] || MapTemp[x2 - 1][y - 1] || MapTemp[x2 + 1][y - 1]) {
-				x2++;
+			if (x > MapWidth * 0.6) {
+				width = -width;
+			}
+			else if (x > MapWidth * 0.4) {
+				x = x - (width / 2);
 			}
 
-			if (x2 < x + width) {
-				if (i == 1) {
-					tempheight = height;				
-					if (bb.bbRand(&rnd_state, 1, 2) == 1) {						
-						x2 = x;
-					}
-					else {
-						x2 = x + width;
-					}
-				}
-				else {
-					tempheight = bb.bbRand(&rnd_state, 1, height);
+			if (x + width > MapWidth - 3) {
+				width = MapWidth - 3 - x;
+			}
+			else if (x + width < 2) {
+				width = -x + 2;
+			}
+
+			x = min(x, x + width);
+			width = abs((int32_t)width);
+
+			for (i = x; i <= x + width; i++) {
+				MapTemp[min(i, MapWidth)][y] = 1;
+			}
+
+			height = bb.bbRand(&rnd_state, 3, 4);
+
+			if (y - height < 1) {
+				height = y - 1;
+			}
+
+			yhallways = bb.bbRand(&rnd_state, 4, 5);
+
+			if (GetZone(y - height) != GetZone(y - height + 1)) {
+				height = height - 1;
+			}
+
+			for (i = 1; i <= yhallways; i++) {
+				x2 = max(min(bb.bbRand(&rnd_state, x, x + width - 1), MapWidth - 2), 2);
+
+				while (MapTemp[x2][y - 1] || MapTemp[x2 - 1][y - 1] || MapTemp[x2 + 1][y - 1]) {
+					x2++;
 				}
 
-				for (y2 = y - tempheight; y2 <= y; y2++) {
-					if (GetZone(y2) != GetZone(y2 + 1)) {
-						MapTemp[x2][y2] = 255;
+				if (x2 < x + width) {
+					if (i == 1) {
+						tempheight = height;
+						if (bb.bbRand(&rnd_state, 1, 2) == 1) {
+							x2 = x;
+						}
+						else {
+							x2 = x + width;
+						}
 					}
 					else {
-						MapTemp[x2][y2] = 1;
+						tempheight = bb.bbRand(&rnd_state, 1, height);
 					}
-				}
 
-				if (tempheight == height) {
-					temp = x2;
+					for (y2 = y - tempheight; y2 <= y; y2++) {
+						if (GetZone(y2) != GetZone(y2 + 1)) {
+							MapTemp[x2][y2] = 255;
+						}
+						else {
+							MapTemp[x2][y2] = 1;
+						}
+					}
+
+					if (tempheight == height) {
+						temp = x2;
+					}
 				}
 			}
-		}
-		x = temp;
-		y = y - height;				
+			x = temp;
+			y = y - height;
 
-	} while (y >= 2);			
-
+		} while (y >= 2);
+	}
 	uint8_t ZoneAmount = 3;
 	uint8_t Room1Amount[3] = { 0 };
 	uint8_t Room2Amount[3] = { 0 };
@@ -486,8 +488,8 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	//Rooms r;
 
 	//we are going to attempt to use an array of Rooms to store the created rooms.
-	//Guessing that we never go past 324 rooms
-	Rooms rooms[MapHeight*MapWidth] = { NULL };
+	//Guessing that we never generate more than 150 rooms.
+	Rooms rooms[150] = { NULL };
 	uint8_t roomsIndex = 0; //we must increment this after creating each room;		
 
 	for (y = MapHeight-1; y >= 1; y--) {
@@ -663,9 +665,9 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	//In the future, if this program works, we can check the room amount of 
 	//every seed in the game, take the maximun number, and set the
 	//rooms array length to that number.
-	for (i = 0; i < 324; i++) {	
+	for (i = 0; i < 150; i++) {	
 		//If id is -1 that means we reached end of actual rooms in array.
-		if (rooms[i].id == -1) break;		
+		if (rooms[i].id == -1) break;				
 
 		//printf("BEFORE NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
 		PreventRoomOverlap(&rooms[i], rooms, e);
@@ -673,15 +675,17 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	}
 
 	/*if (thread == 27) {	
-		for (int32_t i = 0; i < 324; i++) {
-			if (rooms[i].id == -1) break;	
+		for (int16_t i = 0; i < roomIdCounter; i++) {			
 
 			Rooms* r = &rooms[i];
 
 			printf("NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt->name), r->angle, int(r->x), int(r->z));
 		}
-		printf("RND_STATE: %d\n", rnd_state.rnd_state);
-	}*/
+		printf("RND_STATE: %d\n", rnd_state.rnd_state);	
+	}
+
+	printf("ROOMS: %d\n", roomIdCounter);*/
+
 
 
 	/*for (y = 0; y <= MapHeight; y++) {

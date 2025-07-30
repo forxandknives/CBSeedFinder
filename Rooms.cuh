@@ -1226,7 +1226,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	if (r->rt->name == CHECKPOINT1 || r->rt->name == CHECKPOINT2 || r->rt->name == START) return true;
 
 #pragma unroll
-	for (int16_t i = 0; i < 324; i++) {
+	for (int16_t i = 0; i < 150; i++) {
 		r2 = &rooms[i];
 
 		//-1 id means we are at the point of the array where there are no more rooms.
