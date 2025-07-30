@@ -13,11 +13,11 @@
 
 __device__ void dummy();
 
-__global__ void testFunction(int32_t offset, int* outputArray, float* extents, uint8_t* forest);
+__global__ void testFunction(int32_t offset, int* outputArray, float* extents);
 
 int main()
-{      
-    cudaError_t c;      
+{
+    cudaError_t c;
 
     /*int i = 0;
 
@@ -45,9 +45,9 @@ int main()
 
     ////////////////////////////////////EXTENTS///////////////////////////////
     const int32_t extentSize = 48960;
-    float* hostExtents = (float*)malloc(extentSize * sizeof(float));   
+    float* hostExtents = (float*)malloc(extentSize * sizeof(float));
 
-    PopulateRoomExtents(hostExtents);   
+    PopulateRoomExtents(hostExtents);
 
     float* deviceExtents;
     c = cudaMalloc((void**)&deviceExtents, extentSize * sizeof(float));
@@ -95,7 +95,7 @@ int main()
 
     int32_t offset = 0;
 
-    constexpr uint64_t TOTAL_SEEDS = 2147483648;    
+    constexpr uint64_t TOTAL_SEEDS = 2147483648;
     constexpr uint32_t THREADS_PER_BLOCK = 1024;
     constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
 
@@ -113,28 +113,30 @@ int main()
     printf("GRIDSIZE: %d\n", gridSize);
     printf("BLOCKSIZE: %d\n", blockSize);
 
-    std::chrono::steady_clock::time_point start, end;
+    for (int32_t i = 0; i < 10; i++) {
+        std::chrono::steady_clock::time_point start, end;
 
-    printf("Launching Kernel!\n");
+        //printf("Launching Kernel!\n");
 
-    uint32_t tempBlockAmount = 5;
+        uint32_t tempBlockAmount = 5;
 
-    start = std::chrono::steady_clock::now();
-    //DEBUG
-    //testFunction << <1, 128>> > (offset, cudaOutput, deviceExtents, deviceForestData);
-    
-    //RELEASE
-    testFunction <<<gridSize, blockSize>>> (offset, cudaOutput, deviceExtents);    
+        start = std::chrono::steady_clock::now();
+        //DEBUG
+        //testFunction << <1, 256>> > (offset, cudaOutput, deviceExtents);
 
-    cudaDeviceSynchronize();
+        //RELEASE
+        testFunction << <gridSize, blockSize >> > (offset, cudaOutput, deviceExtents);
 
-    end = std::chrono::steady_clock::now();
+        cudaDeviceSynchronize();
 
-    double ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        end = std::chrono::steady_clock::now();
 
-    printf("Kernel Stopped!\n");   
+        double ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
-    printf("Took %f milliseconds for %d seeds.\n", ms, totalThreads);
+        //printf("Kernel Stopped!\n");
+
+        printf("Run %d took %f milliseconds.\n", i, ms);
+    }
 
     c = cudaGetLastError();
     if (c != cudaSuccess) {
@@ -182,9 +184,9 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents) {
         CreateRoomTemplates(rts, threadIdx.x+1);    
     }       
 
-
-    if (threadIdx.x > 95 && threadIdx.x < 161) {       
-        PopulateForestData(forest, uint16_t(threadIdx.x - 65));
+    //Have 65 threads input forest data into shared memory.
+    if (threadIdx.x > 95 && threadIdx.x < 162) {       
+        PopulateForestData(forest, uint16_t(threadIdx.x - 96));       
     }
     __syncthreads();
 

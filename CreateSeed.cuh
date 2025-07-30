@@ -682,9 +682,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 			printf("NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt->name), r->angle, int(r->x), int(r->z));
 		}
 		printf("RND_STATE: %d\n", rnd_state.rnd_state);	
-	}
-
-	printf("ROOMS: %d\n", roomIdCounter);*/
+	}*/
 
 
 

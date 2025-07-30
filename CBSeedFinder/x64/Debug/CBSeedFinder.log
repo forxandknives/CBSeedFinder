@@ -833,6 +833,10 @@ C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(232): warning #2464-D: conversio
     		return "EMPTY ROOM";
     		       ^
   
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(332): warning #20039-D: a __host__ function("PopulateForestData") redeclared with __device__, hence treated as a __host__ __device__ function
+    __declspec(__device__) void PopulateForestData(uint8_t* f, uint16_t thread) {	
+                                ^
+  
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(13): warning #1000-D: a storage class may not be specified here
     static struct RoomTemplates {
     ^
@@ -869,7 +873,7 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00004e84_00000000-7_kernel.cudafe1.cpp
+  tmpxft_00000b44_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
@@ -976,4 +980,6 @@ C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(133): warning C4244: 'initializing
           [
               _Rep=__int64
           ]
+     Creating library C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.lib and object C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe
