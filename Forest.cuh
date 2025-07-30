@@ -12,8 +12,8 @@
 #include "cuda_runtime.h";
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest);
-__device__ inline int32_t TurnIfDeviating(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir);
-__device__ inline bool TurnIfDeviatingBool(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir);
+__device__ inline int32_t TurnIfDeviating(int8_t maxDeviationDistance, int32_t pathx, int8_t center, int32_t dir);
+__device__ inline bool TurnIfDeviatingBool(int8_t maxDeviationDistance, int32_t pathx, int8_t center, int32_t dir);
 __device__ inline int32_t MoveForward(int32_t dir, int32_t pathx, int32_t pathy, int32_t rv);
 __device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, int32_t prob);
 __device__ constexpr inline uint8_t GetForestData(uint8_t* f, int32_t tile_type, int32_t index);
@@ -21,17 +21,17 @@ __host__ void PopulateForestData(uint8_t* f, uint16_t thread);
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest) {
 
-	uint8_t const gridSize = 10;
-	int32_t deviationChance = 40;
-	int32_t returnChance = 27;
-	int32_t branchChance = 65;
-	int32_t maxDeviationDistance = 3;
-	int32_t center = 5;
-	int32_t branchMaxLife = 4;
-	int32_t branchDieChance = 18;
+	const uint8_t gridSize = 10;
+	//int32_t deviationChance = 40;
+	//int32_t returnChance = 27;
+	//int32_t branchChance = 65;
+	const int8_t maxDeviationDistance = 3;
+	const int8_t center = 5;
+	const uint8_t branchMaxLife = 4;
+	const uint8_t branchDieChance = 18;
 
-	int32_t door1pos, door2pos;
-	int32_t i, j;
+	uint8_t door1pos, door2pos;
+	uint8_t i, j;
 	door1pos = bb->bbRand(rnd_state, 3, 7);
 	door2pos = bb->bbRand(rnd_state, 3, 7);
 
@@ -40,8 +40,8 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 	grid[door1pos] = 3;
 	grid[(gridSize - 1) * gridSize + door2pos] = 3;
 
-	int32_t pathx = door2pos;
-	int32_t pathy = 1;
+	uint8_t pathx = door2pos;
+	uint8_t pathy = 1;
 	int32_t dir = 1;
 
 	grid[((gridSize - 1 - pathy) * gridSize) + pathx] = 1;
@@ -50,8 +50,8 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 
 	while (pathy < gridSize - 4) {
 
-		if (dir == 1) {
-			if (Chance(bb, rnd_state, deviationChance)) {
+		if (dir == 1) { //40 is deviation chance.
+			if (Chance(bb, rnd_state, 40)) {
 				dir = 2 * bb->bbRand(rnd_state, 0, 1);
 				dir = TurnIfDeviating(maxDeviationDistance, pathx, center, dir);
 
@@ -68,8 +68,8 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 			dir = TurnIfDeviating(maxDeviationDistance, pathx, center, dir);
 
 			deviated = TurnIfDeviatingBool(maxDeviationDistance, pathx, center, dir);
-
-			if (deviated || Chance(bb, rnd_state, returnChance)) {
+			//                            27 is returnChance.
+			if (deviated || Chance(bb, rnd_state, 27)) {
 				dir = 1;
 			}
 
@@ -110,8 +110,8 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 	newy = -3;
 	while (newy < gridSize - 6) {
 		newy += 4;
-		tempy = newy;
-		if (Chance(bb, rnd_state, branchChance)) {
+		tempy = newy; //65 is branchChance.
+		if (Chance(bb, rnd_state, 65)) {
 			branchType = -1;
 			//int32_t cobbleChance = 0;
 
@@ -276,20 +276,16 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 
 }
 
-__device__ inline int32_t TurnIfDeviating(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir) {
-	int32_t currDeviation = center - pathx;
-	
-	if ((dir == 0 && currDeviation >= maxDeviationDistance) || (dir == 2 && currDeviation <= -maxDeviationDistance)) {
+__device__ inline int32_t TurnIfDeviating(int8_t maxDeviationDistance, int32_t pathx, int8_t center, int32_t dir) {	
+	if ((dir == 0 && (center - pathx) >= maxDeviationDistance) || (dir == 2 && (center-pathx) <= -maxDeviationDistance)) {
 		dir = (dir + 2) % 4;
 	}
 
 	return dir;
 }
 
-__device__ inline bool TurnIfDeviatingBool(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir) {
-	int32_t currDeviation = center - pathx;
-
-	return (dir == 0 && currDeviation >= maxDeviationDistance) || (dir == 2 && currDeviation <= -maxDeviationDistance);
+__device__ inline bool TurnIfDeviatingBool(int8_t maxDeviationDistance, int32_t pathx, int8_t center, int32_t dir) {
+	return (dir == 0 && (center - pathx) >= maxDeviationDistance) || (dir == 2 && (center-pathx) <= -maxDeviationDistance);
 }
 
 __device__ inline int32_t MoveForward(int32_t dir, int32_t pathx, int32_t pathy, int32_t rv) {
