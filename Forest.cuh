@@ -16,7 +16,7 @@ __device__ inline int32_t TurnIfDeviating(int32_t maxDeviationDistance, int32_t 
 __device__ inline bool TurnIfDeviatingBool(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir);
 __device__ inline int32_t MoveForward(int32_t dir, int32_t pathx, int32_t pathy, int32_t rv);
 __device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, int32_t prob);
-__device__ inline uint8_t GetForestData(uint8_t* f, int32_t tile_type, int32_t index);
+__device__ constexpr inline uint8_t GetForestData(uint8_t* f, int32_t tile_type, int32_t index);
 __host__ void PopulateForestData(uint8_t* f, uint16_t thread);
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest) {
@@ -314,19 +314,17 @@ __device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, int32_t prob) 
 	return bb->bbRand(rnd_state, 0, 100) <= prob;
 }
 
-__device__ inline uint8_t GetForestData(uint8_t* f, int32_t tileType, int32_t index) {
+__device__ constexpr inline uint8_t GetForestData(uint8_t* f, int32_t tileType, int32_t index) {
 	//This is how many values we read from the forest images, per image.
 	//There are 5 of these images, so 3380 values total.
-	const static int32_t dataPerImage = 676;
 
 	//Do this so the index is synced with the array.
 	tileType--;
 
-	int32_t startIndex = tileType * dataPerImage;
+	//676 because that is the amount of values per image.
+	index += tileType * 676;
 
-	int32_t endIndex = startIndex + index;
-
-	return f[endIndex];
+	return f[index];
 }
 
 __device__ void PopulateForestData(uint8_t* f, uint16_t thread) {	
