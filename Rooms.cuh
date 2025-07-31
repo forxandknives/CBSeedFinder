@@ -11,24 +11,24 @@
 
 typedef struct RoomTemplates RoomTemplates;
 static struct RoomTemplates {
-	int8_t id = -1;
-    uint8_t index = 0;	
-	uint8_t zone[5] = { 0 };
-	uint8_t shape;
+	int32_t id = -1;
+	int32_t index = 0;
+	int32_t zone[5] = { 0 };
+	int32_t shape;
 	RoomID name = ROOMEMPTY;
-	uint8_t commonness;
-	uint8_t lights;
+	int32_t commonness;
+	int32_t lights;
 	bool disableOverlapCheck = true;
 };
 
 typedef struct Rooms Rooms;
 static struct Rooms {
-	int16_t id = -1;
-	uint8_t zone = 0;
+	int32_t id = -1;
+	int32_t zone = 0;
 	
 	float x, y, z;
 
-	int16_t angle;
+	int32_t angle;
 	RoomTemplates* rt;
 
 	float minX, minY, minZ;
@@ -51,9 +51,6 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt, int32_t thread) {
 	//Rooms with disableoverlapcheck = true do not have min and max extents.
 	//The name variable is not a string but instead an enum for the ID of the room the roomtemplate represents.
 	//This is so we do no have to do char stuff.
-	
-	//We start at 1 because room template 0 is just room ambience stuff.
-	int32_t counter = 1;
 	
 	switch (thread) {
 	case 1:

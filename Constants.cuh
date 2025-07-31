@@ -107,17 +107,17 @@ __device__ __constant__ enum RoomID : uint8_t {
 	DIMENSION1499 = 96,
 };
 
-__device__ __constant__ const static uint8_t ROOM1  = 1;
-__device__ __constant__ const static uint8_t ROOM2  = 2;
-__device__ __constant__ const static uint8_t ROOM2C = 3;
-__device__ __constant__ const static uint8_t ROOM3  = 4;
-__device__ __constant__ const static uint8_t ROOM4  = 5;
+__device__ __constant__ const static int32_t ROOM1  = 1;
+__device__ __constant__ const static int32_t ROOM2  = 2;
+__device__ __constant__ const static int32_t ROOM2C = 3;
+__device__ __constant__ const static int32_t ROOM3  = 4;
+__device__ __constant__ const static int32_t ROOM4  = 5;
 
-__device__ __constant__ const uint8_t MapHeight = 18;
-__device__ __constant__ const uint8_t MapWidth  = 18;
+__device__ __constant__ const int32_t MapHeight = 18;
+__device__ __constant__ const int32_t MapWidth  = 18;
 
-__device__ __constant__ const static uint8_t ZONEAMOUNT = 3;
+__device__ __constant__ const static int32_t ZONEAMOUNT = 3;
 
-__device__ __constant__ const uint8_t roomTemplateAmount = 97;
+__device__ __constant__ const int32_t roomTemplateAmount = 97;
 
 #endif

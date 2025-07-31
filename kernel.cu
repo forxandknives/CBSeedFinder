@@ -210,7 +210,7 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents) {
 
     //Have 65 threads input forest data into shared memory.
     if (threadIdx.x > 95 && threadIdx.x < 162) {       
-        PopulateForestData(forest, uint16_t(threadIdx.x - 96));       
+        PopulateForestData(forest, threadIdx.x - 96);       
     }
     __syncthreads();
 
