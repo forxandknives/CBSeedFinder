@@ -12,38 +12,38 @@
 #include "cuda_runtime.h";
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest);
-__device__ inline int8_t TurnIfDeviating(int8_t maxDeviationDistance, int8_t pathx, int8_t center, int8_t dir);
-__device__ inline bool TurnIfDeviatingBool(int8_t maxDeviationDistance, int8_t pathx, int8_t center, int8_t dir);
-__device__ inline int8_t MoveForward(int8_t dir, int8_t pathx, int8_t pathy, int8_t rv);
-__device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, uint8_t prob);
-__device__ constexpr inline uint8_t GetForestData(uint8_t* f, int8_t tile_type, uint16_t index);
+__device__ inline int32_t TurnIfDeviating(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir);
+__device__ inline bool TurnIfDeviatingBool(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir);
+__device__ inline int32_t MoveForward(int32_t dir, int32_t pathx, int32_t pathy, int32_t rv);
+__device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, int32_t prob);
+__device__ constexpr inline uint8_t GetForestData(uint8_t* f, int32_t tile_type, int32_t index);
 __host__ void PopulateForestData(uint8_t* f, int32_t thread);
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest) {
 
 	
-	const uint8_t gridSize = 10;
+	const int32_t gridSize = 10;
 	//int32_t deviationChance = 40;
 	//int32_t returnChance = 27;
 	//int32_t branchChance = 65;
-	const int8_t maxDeviationDistance = 3;
-	const int8_t center = 5;
-	const uint8_t branchMaxLife = 4;
-	const uint8_t branchDieChance = 18;
+	const int32_t maxDeviationDistance = 3;
+	const int32_t center = 5;
+	const int32_t branchMaxLife = 4;
+	const int32_t branchDieChance = 18;
 
-	uint8_t door1pos, door2pos;
-	uint8_t i, j;
+	int32_t door1pos, door2pos;
+	int32_t i, j;
 	door1pos = bb->bbRand(rnd_state, 3, 7);
 	door2pos = bb->bbRand(rnd_state, 3, 7);
 
-	int8_t grid[gridSize * gridSize + 1] = { 0 };
+	int32_t grid[gridSize * gridSize + 1] = { 0 };
 
 	grid[door1pos] = 3;
 	grid[(gridSize - 1) * gridSize + door2pos] = 3;
 
-	uint8_t pathx = door2pos;
-	uint8_t pathy = 1;
-	int8_t dir = 1;
+	int32_t pathx = door2pos;
+	int32_t pathy = 1;
+	int32_t dir = 1;
 
 	grid[((gridSize - 1 - pathy) * gridSize) + pathx] = 1;
 
@@ -105,8 +105,8 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 		}
 	}
 
-	int8_t newy, tempy, newx;
-	int8_t branchType, branchPos;
+	int32_t newy, tempy, newx;
+	int32_t branchType, branchPos;
 		
 	newy = -3;
 	while (newy < gridSize - 6) {
@@ -122,8 +122,8 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 
 			branchPos = 2 * bb->bbRand(rnd_state, 0, 1);
 
-			int8_t leftMost = gridSize;
-			int8_t rightMost = 0;
+			int32_t leftMost = gridSize;
+			int32_t rightMost = 0;
 			for (i = 0; i <= gridSize; i++) {
 				if (grid[((gridSize - 1 - newy) * gridSize) + i] == 1) {
 					if (i < leftMost) {
@@ -173,7 +173,7 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 					tempy++;
 				}
 
-				int8_t n = ((gridSize - 1 - tempy + 1) * gridSize) + newx;
+				int32_t n = ((gridSize - 1 - tempy + 1) * gridSize) + newx;
 				if (n < gridSize - 1) {
 					if (tempy != 0 && grid[n] == 1) {
 						break;
@@ -206,10 +206,10 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 	}
 
 	bool itemPlaced[4] = { false };
-	for (uint8_t tx = 1; tx <= gridSize - 1; tx++) {
-		for (uint8_t ty = 1; ty <= gridSize - 1; ty++) {
+	for (int32_t tx = 1; tx <= gridSize - 1; tx++) {
+		for (int32_t ty = 1; ty <= gridSize - 1; ty++) {
 			if (grid[ty * gridSize + tx] == 1) {
-				int8_t tileType = 0;
+				int32_t tileType = 0;
 				bool hasHorConnection = false;
 				bool hasVertConnection = false;
 				if (tx + 1 < gridSize) {
@@ -242,13 +242,13 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 						CreateItem(bb, rnd_state);					
 					}
 
-					uint16_t amount = 676;
+					int32_t amount = 676;
 					#pragma unroll
-					for (uint16_t index = 0; index < amount; index++) {
-						uint8_t red = GetForestData(forest, tileType, index);
+					for (int32_t index = 0; index < amount; index++) {
+						int32_t red = GetForestData(forest, tileType, index);
 
 						if (red > bb->bbRand(rnd_state, 100, 260)) {
-							uint8_t roll = bb->bbRand(rnd_state, 0, 7);
+							int32_t roll = bb->bbRand(rnd_state, 0, 7);
 
 							if (roll < 7) {
 								bb->bbRnd(rnd_state, 0.25, 0.4);
@@ -279,7 +279,7 @@ __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t
 
 }
 
-__device__ inline int8_t TurnIfDeviating(int8_t maxDeviationDistance, int8_t pathx, int8_t center, int8_t dir) {
+__device__ inline int32_t TurnIfDeviating(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir) {
 	if ((dir == 0 && (center - pathx) >= maxDeviationDistance) || (dir == 2 && (center-pathx) <= -maxDeviationDistance)) {
 		dir = (dir + 2) % 4;
 	}
@@ -287,11 +287,11 @@ __device__ inline int8_t TurnIfDeviating(int8_t maxDeviationDistance, int8_t pat
 	return dir;
 }
 
-__device__ inline bool TurnIfDeviatingBool(int8_t maxDeviationDistance, int8_t pathx, int8_t center, int8_t dir) {
+__device__ inline bool TurnIfDeviatingBool(int32_t maxDeviationDistance, int32_t pathx, int32_t center, int32_t dir) {
 	return (dir == 0 && (center - pathx) >= maxDeviationDistance) || (dir == 2 && (center-pathx) <= -maxDeviationDistance);
 }
 
-__device__ inline int8_t MoveForward(int8_t dir, int8_t pathx, int8_t pathy, int8_t rv) {
+__device__ inline int32_t MoveForward(int32_t dir, int32_t pathx, int32_t pathy, int32_t rv) {
 	if (dir == 1) {
 		if (rv == 0) {
 			return pathx;
@@ -309,11 +309,11 @@ __device__ inline int8_t MoveForward(int8_t dir, int8_t pathx, int8_t pathy, int
 	}
 }
 
-__device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, uint8_t prob) {
+__device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, int32_t prob) {
 	return bb->bbRand(rnd_state, 0, 100) <= prob;
 }
 
-__device__ constexpr inline uint8_t GetForestData(uint8_t* f, int8_t tileType, uint16_t index) {
+__device__ constexpr inline uint8_t GetForestData(uint8_t* f, int32_t tileType, int32_t index) {
 	//This is how many values we read from the forest images, per image.
 	//There are 5 of these images, so 3380 values total.
 
