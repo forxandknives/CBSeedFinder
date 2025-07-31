@@ -7,7 +7,7 @@
 #include "cuda_runtime.h"
 
 //Each room gets a number so we dont need it's name since chars no good in cuda.
-__device__ __constant__ enum RoomID : uint8_t {
+__device__ __constant__ const static enum RoomID : uint8_t {
 	ROOMEMPTY = 0,
 	LOCKROOM = 1,
 	ROOM173 = 2,
@@ -113,11 +113,11 @@ __device__ __constant__ const static uint8_t ROOM2C = 3;
 __device__ __constant__ const static uint8_t ROOM3  = 4;
 __device__ __constant__ const static uint8_t ROOM4  = 5;
 
-__device__ __constant__ const uint8_t MapHeight = 18;
-__device__ __constant__ const uint8_t MapWidth  = 18;
+__device__ __constant__ const static uint8_t MapHeight = 18;
+__device__ __constant__ const static uint8_t MapWidth  = 18;
 
 __device__ __constant__ const static uint8_t ZONEAMOUNT = 3;
 
-__device__ __constant__ const uint8_t roomTemplateAmount = 97;
+__device__ __constant__ const static uint8_t roomTemplateAmount = 97;
 
 #endif

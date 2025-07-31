@@ -10,16 +10,15 @@
 #include "stdio.h"
 
 __device__ inline uint8_t GetZone(const uint8_t y);
-__device__ inline void CreateDoor(bbRandom* bb, rnd_state* rnd_state, bool open, int32_t big);
+__device__ inline void CreateDoor(bbRandom* bb, rnd_state* rnd_state);
 __device__ inline void CreateItem(bbRandom* bb, rnd_state* rnd_state);
 __host__ __device__ inline char* RoomIDToName(RoomID r);
 
 __device__ inline uint8_t GetZone(const uint8_t y) {
-	uint8_t zone = uint8_t(min(floorf((float(MapWidth - y) / MapWidth * ZONEAMOUNT)), float(ZONEAMOUNT - 1)));
-	return zone;
+	return uint8_t(min(floorf((float(MapWidth - y) / MapWidth * ZONEAMOUNT)), float(ZONEAMOUNT - 1)));
 }
 
-__device__ inline void CreateDoor(bbRandom* bb, rnd_state* rnd_state, bool open, int32_t big) {
+__device__ inline void CreateDoor(bbRandom* bb, rnd_state* rnd_state) {
 	//if (open && !big && bb->bbRand(rnd_state, 1, 8)) {
 	//	//do nothing because yea
 	//}

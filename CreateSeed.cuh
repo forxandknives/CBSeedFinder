@@ -137,7 +137,7 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	//might be problems with adding 1 to end number
 	//or reducing starting number by 1.
 	for (y = 1; y <= MapHeight - 1; y++) {
-		uint32_t zone = GetZone(y);
+		uint8_t zone = GetZone(y);
 		for (x = 1; x <= MapWidth - 1; x++) {
 			if (MapTemp[x][y] > 0) {
 				temp = min(MapTemp[x + 1][y], 1) + min(MapTemp[x - 1][y], 1);
@@ -387,8 +387,8 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	MaxRooms = max(MaxRooms, Room4Amount[0] + Room4Amount[1] + Room4Amount[2] + 1);
 
 	//zone 1 --------------------------------------------------------------------------------------
-	int32_t min_pos = 1;
-	int32_t max_pos = Room1Amount[0] - 1;
+	uint8_t min_pos = 1;
+	uint8_t max_pos = Room1Amount[0] - 1;
 
 	MapRoom[ROOM1][0] = START;
 	SetRoom(MapRoom, ROOMPJ, ROOM1, floorf(0.1 * float(Room1Amount[0])), min_pos, max_pos);

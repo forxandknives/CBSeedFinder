@@ -116,17 +116,18 @@ int main()
     printf("GRIDSIZE: %d\n", gridSize);
     printf("BLOCKSIZE: %d\n", blockSize);
 
-    std::vector<double> times;
+    int32_t kernels = 20;
+
+    std::vector<double> times(kernels);
+
+    printf("Launching Kernels!\n");       
 
     std::chrono::steady_clock::time_point start, end, start2, end2;
 
-    int32_t kernels = 20;
-
     start2 = std::chrono::steady_clock::now();
 
+    #pragma unroll
     for (int32_t i = 0; i < kernels; i++) {
-
-        //printf("Launching Kernel!\n");       
 
         start = std::chrono::steady_clock::now();
 
@@ -164,7 +165,7 @@ int main()
     total /= kernels;  
     printf("Average RunTime: %f\n", total);
 
-    printf("Generated %d seeds.\n", (gridSize* blockSize)* kernels);
+    printf("Generated %d seeds.\n", (gridSize * blockSize) * kernels);
 
 
     c = cudaGetLastError();

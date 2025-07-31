@@ -52,9 +52,6 @@ __device__ inline void CreateRoomTemplates(RoomTemplates* rt, int32_t thread) {
 	//The name variable is not a string but instead an enum for the ID of the room the roomtemplate represents.
 	//This is so we do no have to do char stuff.
 	
-	//We start at 1 because room template 0 is just room ambience stuff.
-	int32_t counter = 1;
-	
 	switch (thread) {
 	case 1:
 		//LIGHT CONTAINMENT
@@ -1226,7 +1223,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	if (r->rt->name == CHECKPOINT1 || r->rt->name == CHECKPOINT2 || r->rt->name == START) return true;
 
 #pragma unroll
-	for (int16_t i = 0; i < 150; i++) {
+	for (uint8_t i = 0; i < 150; i++) {
 		r2 = &rooms[i];
 
 		//-1 id means we are at the point of the array where there are no more rooms.
@@ -1253,7 +1250,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 		//TEMPORARY
 		GetRoomExtents(r, e);
 
-		for (int16_t i = 0; i < 324; i++) {
+		for (uint8_t i = 0; i < 150; i++) {
 			r2 = &rooms[i];
 			if (r2->id == -1) break; //Id should only be -1 after all other rooms.
 
@@ -1282,7 +1279,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	isIntersecting = true;
 	uint8_t x2 = 0, y2 = 0;
 	int16_t rot = 0, rot2 = 0;	
-	for (int16_t i = 0; i < 324; i++) {
+	for (uint8_t i = 0; i < 150; i++) {
 		r2 = &rooms[i];
 
 		if (r2->id == -1) break;
@@ -1314,7 +1311,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 				GetRoomExtents(r2, e);
 
 				//make sure neither room overlaps with anything after the swap
-				for (int16_t j = 0; j < 324; j++) {
+				for (uint8_t j = 0; j < 150; j++) {
 					r3 = &rooms[j];
 
 					if (r3->id == -1) break;
@@ -1449,11 +1446,11 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 
 	switch (r->rt->name) {
 	case ROOM860:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		GenForestGrid(bb, rnd_state, forest);
 
@@ -1462,8 +1459,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case LOCKROOM:
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 	case LOCKROOM2:
 #pragma unroll
@@ -1491,51 +1488,51 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		}
 		break;
 	case GATEA:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		//INCOMPLETE
 		//This might be wrong. We'll see when we test FillRoom();
-		CreateDoor(bb, rnd_state, false, 3);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case GATEAENTRANCE:
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case EXIT1:
-		CreateDoor(bb, rnd_state, false, 1);
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, false, 3);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOMPJ:
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
-		CreateDoor(bb, rnd_state, true, 1);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM079:
-		CreateDoor(bb, rnd_state, false, 1);
-		CreateDoor(bb, rnd_state, false, 1);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		bb->bbRnd(rnd_state, 0, 360);
 		break;
 
 	case CHECKPOINT1:
 	case CHECKPOINT2:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		if (MapTemp[uint8_t(floorf(r->x / 8.0))][uint8_t(floorf(r->z / 8.0)) - 1] == 0) {
-			CreateDoor(bb, rnd_state, false, 0);
+			CreateDoor(bb, rnd_state);
 		}
 		break;
 
@@ -1543,8 +1540,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2TESTROOM2:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1557,12 +1554,12 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2STORAGE:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1571,7 +1568,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2SROOM:
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1581,8 +1578,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2SHAFT:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1594,9 +1591,9 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2POFFICES:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1606,8 +1603,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2POFFICES2:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		bb->bbRnd(rnd_state, 0, 360);
 		bb->bbRnd(rnd_state, 0, 360);
@@ -1619,7 +1616,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2ELEVATOR:
-		CreateDoor(bb, rnd_state, false, 3);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM2CAFETERIA:
@@ -1631,10 +1628,10 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2NUKE:
-		CreateDoor(bb, rnd_state, false, false);
-		CreateDoor(bb, rnd_state, false, false);
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, false, 3);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1644,9 +1641,9 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2TUNNEL:
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		bb->bbRnd(rnd_state, 0, 360);
 
@@ -1657,19 +1654,19 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM008:
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 		break;
 
 	case ROOM035:
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1679,7 +1676,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM513:
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1687,17 +1684,17 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM966:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		break;
 
 	case ROOM3STORAGE:
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, false, 3);
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, false, 3);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		bb->bbRand(rnd_state, 1, 3);
 
@@ -1706,29 +1703,29 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 
 		bb->bbRnd(rnd_state, 0, 360);
 
-		CreateDoor(bb, rnd_state, false, 2);
-		CreateDoor(bb, rnd_state, false, 2);
-		CreateDoor(bb, rnd_state, false, 2);
-		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM049:
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, false, 3);
-		CreateDoor(bb, rnd_state, true, 3);
-		CreateDoor(bb, rnd_state, false, 3);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
-		CreateDoor(bb, rnd_state, true, 1);
-		CreateDoor(bb, rnd_state, false, 2);
-		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM2ID:
@@ -1736,8 +1733,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM012:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1755,10 +1752,10 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2SERVERS:
-		CreateDoor(bb, rnd_state, false, 2);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM3SERVERS:
@@ -1781,8 +1778,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case TESTROOM:
-		CreateDoor(bb, rnd_state, false, 2);
-		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		break;
@@ -1803,7 +1800,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM2OFFICES:
@@ -1847,28 +1844,28 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 			CreateItem(bb, rnd_state);
 		}
 
-		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case START:
-		CreateDoor(bb, rnd_state, true, 1);	
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);	
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		bb->bbRand(rnd_state, 1, 360);
 		bb->bbRand(rnd_state, 1, 360); 
 		break;
 
 	case ROOM2SCPS:
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1891,22 +1888,22 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM205:
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ENDROOM:
-		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	//This one might not actually be a room.
 	//It is originally called endroomc.
 	case ENDROOM2:
-		//CreateDoor(bb, rnd_state, false, 2);
+		//CreateDoor(bb, rnd_state);
 		break;
 
 	case COFFIN:
-		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1919,14 +1916,14 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2DOORS:
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM914:
-		CreateDoor(bb, rnd_state, false, 1);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -1934,7 +1931,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM173:
-		CreateDoor(bb, rnd_state, false, 1);
+		CreateDoor(bb, rnd_state);
 
 		bb->bbRand(rnd_state, 4, 5);
 		
@@ -1954,26 +1951,26 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 			}
 		}
 
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, true, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 #pragma unroll
 		for (uint8_t z = 0; z <= 1; z++) {
-			CreateDoor(bb, rnd_state, false, 0);
-			CreateDoor(bb, rnd_state, false, 0);
+			CreateDoor(bb, rnd_state);
+			CreateDoor(bb, rnd_state);
 #pragma unroll
 			for (uint8_t x = 0; x <= 2; x++) {
-				CreateDoor(bb, rnd_state, false, 0);
+				CreateDoor(bb, rnd_state);
 			}
 #pragma unroll
 			for (uint8_t x = 0; x <= 4; x++) {
-				CreateDoor(bb, rnd_state, false, 0);
+				CreateDoor(bb, rnd_state);
 			}
 		}
 
@@ -1981,7 +1978,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2CCONT:
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		break;
@@ -1991,9 +1988,9 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM1ARCHIVE:
@@ -2026,7 +2023,7 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 			}
 		}
 
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	//case ROOM2TEST1074 <--- not a room
@@ -2037,16 +2034,16 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case POCKETDIMENSION:
 		CreateItem(bb, rnd_state);
 
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		
 		bb->bbRnd(rnd_state, 0.8, 0.8);
 
@@ -2071,9 +2068,9 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM2SERVERS2:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 
@@ -2086,8 +2083,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 			bb->bbRnd(rnd_state, 0, 360);
 		}
 
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 
 		if (r->rt->name == ROOM2GW) {
 			//INCOMPLETE
@@ -2097,22 +2094,22 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM3GW:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM1162:
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		break;
 
 	case ROOM2SCPS2:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 	
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
@@ -2121,19 +2118,19 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case ROOM3OFFICES:
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM2OFFICES4:
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		break;
 
 	case ROOM2SL:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM2_4:
@@ -2144,8 +2141,8 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		break;
 
 	case LOCKROOM3:
-		CreateDoor(bb, rnd_state, false, 0);
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case MEDIBAY:
@@ -2153,11 +2150,11 @@ __device__ inline void FillRoom(uint8_t MapTemp[19][19], bbRandom* bb, rnd_state
 		CreateItem(bb, rnd_state);
 		CreateItem(bb, rnd_state);
 
-		CreateDoor(bb, rnd_state, false, 0);
+		CreateDoor(bb, rnd_state);
 		break;
 
 	case ROOM2CPIT:
-		CreateDoor(bb, rnd_state, false, 2);
+		CreateDoor(bb, rnd_state);
 
 		CreateItem(bb, rnd_state);
 		break;

@@ -17,7 +17,7 @@ __device__ inline bool TurnIfDeviatingBool(int32_t maxDeviationDistance, int32_t
 __device__ inline int32_t MoveForward(int32_t dir, int32_t pathx, int32_t pathy, int32_t rv);
 __device__ inline bool Chance(bbRandom* bb, rnd_state* rnd_state, int32_t prob);
 __device__ constexpr inline uint8_t GetForestData(uint8_t* f, int32_t tile_type, int32_t index);
-__host__ void PopulateForestData(uint8_t* f, int32_t thread);
+__device__ void PopulateForestData(uint8_t* f, int32_t thread);
 
 __device__ inline void GenForestGrid(bbRandom* bb, rnd_state* rnd_state, uint8_t* forest) {
 
