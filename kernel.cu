@@ -104,11 +104,13 @@ int main()
     int minGridSize;
     int blockSize;
 
-    int totalThreads = 524288;
+    int32_t totalThreads = 524288;
 
     cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, testFunction, 0, totalThreads);
 
     gridSize = (totalThreads + blockSize - 1) / blockSize;
+
+    int actualNumberOfThreads = gridSize * blockSize;
 
     printf("MINGRIDSIZE: %d\n", minGridSize);
     printf("GRIDSIZE: %d\n", gridSize);
@@ -127,6 +129,9 @@ int main()
         //printf("Launching Kernel!\n");       
 
         start = std::chrono::steady_clock::now();
+
+        offset = i * actualNumberOfThreads;
+
         //DEBUG
         //testFunction << <1, 256>> > (offset, cudaOutput, deviceExtents);
 
@@ -196,8 +201,8 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents) {
     //int block = blockIdx.x + blockIdx.y * gridDim.x;
     //int threadNumber = block * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;         
 
-    int32_t thread = blockIdx.x * blockDim.x + threadIdx.x;
-       
+    int32_t thread = offset + blockIdx.x * blockDim.x + threadIdx.x;    
+
     __shared__ RoomTemplates rts[roomTemplateAmount];
 
     //We will make 65 threads input 52 uint8's into array.
@@ -216,11 +221,7 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents) {
 
     //if (thread == 0 || thread == 2147483647) return;
 
-    InitNewGame(thread, rts, extents, forest);
-
-    //TODO
-    //Pass roomCounter to PreventRoomOverlap so we can skip the id == -1 check.
-
+    InitNewGame(thread, rts, extents, forest);   
 
     //outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
 }
