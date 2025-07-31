@@ -833,8 +833,8 @@ C:\Users\forxa\Desktop\CBSeedFinder\Helpers.cuh(232): warning #2464-D: conversio
     		return "EMPTY ROOM";
     		       ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(328): warning #20039-D: a __host__ function("PopulateForestData") redeclared with __device__, hence treated as a __host__ __device__ function
-    __declspec(__device__) void PopulateForestData(uint8_t* f, uint16_t thread) {	
+C:\Users\forxa\Desktop\CBSeedFinder\Forest.cuh(329): warning #20039-D: a __host__ function("PopulateForestData") redeclared with __device__, hence treated as a __host__ __device__ function
+    __declspec(__device__) void PopulateForestData(uint8_t* f, int32_t thread) {
                                 ^
   
 C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(13): warning #1000-D: a storage class may not be specified here
@@ -857,15 +857,11 @@ C:\Users\forxa\Desktop\CBSeedFinder\Rooms.cuh(2175): warning #127-D: expected a 
     	}	
     	^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(121): warning #177-D: variable "tempBlockAmount" was declared but never referenced
-            uint32_t tempBlockAmount = 5;
-                     ^
-  
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(100): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(101): warning #177-D: variable "BLOCKS_PER_RUN" was declared but never referenced
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
                            ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(177): warning #20054-D: dynamic initialization is not supported for a function-scope static __shared__ variable within a __device__/__global__ function
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(201): warning #20054-D: dynamic initialization is not supported for a function-scope static __shared__ variable within a __device__/__global__ function
         __declspec(__shared__) RoomTemplates rts[roomTemplateAmount];
                                              ^
   
@@ -873,7 +869,7 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_00007c1c_00000000-7_kernel.cudafe1.cpp
+  tmpxft_00009b2c_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
@@ -975,7 +971,12 @@ C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49687): warning C4305: '=': trun
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49689): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49695): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49722): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(134): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(140): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(151): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
           with
           [
               _Rep=__int64
