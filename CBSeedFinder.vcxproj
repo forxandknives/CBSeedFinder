@@ -82,7 +82,7 @@
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
-      <AdditionalOptions>-Xptxas=“-v” -maxrregcount=40 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-Xptxas=“-v” -lineinfo %(AdditionalOptions)</AdditionalOptions>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

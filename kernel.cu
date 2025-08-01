@@ -116,7 +116,7 @@ int main()
     printf("GRIDSIZE: %d\n", gridSize);
     printf("BLOCKSIZE: %d\n", blockSize);
 
-    int32_t kernels = 20;
+    int32_t kernels = 1;
 
     std::vector<double> times(kernels);
 
