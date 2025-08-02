@@ -26,19 +26,19 @@ static struct Rooms {
 	int16_t id = -1;
 	uint8_t zone = 0;
 	
-	float x, y, z;
+	float x, /*y, */z;
 
 	int16_t angle;
 	RoomTemplates* rt;
 
-	float minX, minY, minZ;
-	float maxX, maxY, maxZ;
+	float minX, minZ;
+	float maxX, maxZ;
 
 };	
 
 __device__ inline void CreateRoomTemplates(RoomTemplates* rt, int32_t thread);
 __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t room_type, uint8_t pos, uint8_t min_pos, uint8_t max_pos);
-__device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name);
+__device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_sate, uint8_t zone, uint8_t roomshape, float x, /*float y, */float z, RoomID name);
 __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e);
 __device__ inline bool CheckRoomOverlap(Rooms* r, Rooms* r2);
 //__device__ inline void CalculateRoomExtents(Rooms* r);
@@ -1139,7 +1139,7 @@ __device__ inline bool SetRoom(RoomID MapRoom[6][70], RoomID room_name, uint8_t 
 	}
 }
 
-__device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, uint8_t zone, uint8_t roomshape, float x, float y, float z, RoomID name) {
+__device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCounter, uint8_t* forest, float* e, RoomTemplates* rts, bbRandom* bb, rnd_state* rnd_state, uint8_t zone, uint8_t roomshape, float x, /*float y, */float z, RoomID name) {
 
 	Rooms r = Rooms();
 	//RoomTemplates* rt;
@@ -1150,7 +1150,7 @@ __device__ inline Rooms CreateRoom(uint8_t MapTemp[19][19], uint8_t& roomIdCount
 	r.zone = zone;
 
 	r.x = x;
-	r.y = y;
+	//r.y = y;
 	r.z = z;
 
 	if (name != ROOMEMPTY) {
@@ -1242,7 +1242,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 	isIntersecting = false;
 
 	uint8_t x = uint8_t(r->x / 8.0);
-	uint8_t y = uint8_t(r->y / 8.0);
+	uint8_t y = uint8_t(r->z / 8.0);
 
 	if (r->rt->shape == ROOM2) {
 		r->angle += 180;

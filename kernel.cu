@@ -116,7 +116,7 @@ int main()
     printf("GRIDSIZE: %d\n", gridSize);
     printf("BLOCKSIZE: %d\n", blockSize);
 
-    int32_t kernels = 20;
+    int32_t kernels = 1;
 
     std::vector<double> times(kernels);
 
@@ -222,7 +222,8 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents) {
 
     //if (thread == 0 || thread == 2147483647) return;
 
-    InitNewGame(thread, rts, extents, forest);   
+    //InitNewGame(thread, rts, extents, forest);   
+    CreateMap(thread, rts, extents, forest);
 
     //outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
 }

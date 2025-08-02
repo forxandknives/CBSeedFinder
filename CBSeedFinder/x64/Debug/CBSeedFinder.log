@@ -869,7 +869,7 @@ C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(101): warning #177-D: variable "BL
         constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
                            ^
   
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(208): warning #20054-D: dynamic initialization is not supported for a function-scope static __shared__ variable within a __device__/__global__ function
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(207): warning #20054-D: dynamic initialization is not supported for a function-scope static __shared__ variable within a __device__/__global__ function
         __declspec(__shared__) RoomTemplates rts[roomTemplateAmount];
                                              ^
   
@@ -877,7 +877,7 @@ CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-
 CUDACOMPILE : nvcc warning : Support for offline compilation for architectures prior to '<compute/sm/lto>_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   kernel.cu
-  tmpxft_000070e4_00000000-7_kernel.cudafe1.cpp
+  tmpxft_0000c6e8_00000000-7_kernel.cudafe1.cpp
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49217): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49229): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49231): warning C4305: '=': truncation from 'double' to 'float'
@@ -979,16 +979,14 @@ C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49687): warning C4305: '=': trun
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49689): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49695): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\forxa\Desktop\CBSeedFinder\Extents.cuh(49722): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(147): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(146): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
           with
           [
               _Rep=__int64
           ]
-C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(158): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+C:\Users\forxa\Desktop\CBSeedFinder\kernel.cu(157): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
           with
           [
               _Rep=__int64
           ]
-     Creating library C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.lib and object C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exp
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CBSeedFinder.vcxproj -> C:\Users\forxa\Desktop\CBSeedFinder\x64\Debug\CBSeedFinder.exe
