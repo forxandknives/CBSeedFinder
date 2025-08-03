@@ -1277,7 +1277,7 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 
 	//Room is either not a ROOM2 or the ROOM2 is still intersecting, now trying to swap the room with another of the same type
 	isIntersecting = true;
-	uint8_t x2 = 0, y2 = 0;
+	float x2 = 0, y2 = 0;
 	int16_t rot = 0, rot2 = 0;	
 	for (uint8_t i = 0; i < 150; i++) {
 		r2 = &rooms[i];
@@ -1286,25 +1286,25 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 
 		if (r2->id != r->id && !r2->rt->disableOverlapCheck) {
 			if (r->rt->shape == r2->rt->shape && r->zone == r2->zone && (r2->rt->name != CHECKPOINT1 && r2->rt->name != CHECKPOINT2 && r2->rt->name != START)) {
-				x = uint8_t(r->x / 8.0);
-				y = uint8_t(r->z / 8.0);
+				x = r->x / 8.0;
+				y = r->z / 8.0;
 				rot = r->angle;
 
-				x2 = uint8_t(r2->x / 8.0);
-				y2 = uint8_t(r2->z / 8.0);
+				x2 = r2->x / 8.0;
+				y2 = r2->z / 8.0;
 				rot2 = r2->angle;
 
 				isIntersecting = false;
 
-				r->x = float(x2) * 8.0;
-				r->z = float(y2) * 8.0;
+				r->x = x2 * 8.0;
+				r->z = y2 * 8.0;
 				r->angle = rot2;
 				//CalculateRoomExtents(r);
 				//TEMPORARY
 				GetRoomExtents(r, e);
 
-				r2->x = float(x) * 8.0;
-				r2->z = float(y) * 8.0;
+				r2->x = x * 8.0;
+				r2->z = y * 8.0;
 				r2->angle = rot;
 				//CalculateRoomExtents(r2);
 				//TEMPORARY
@@ -1334,15 +1334,15 @@ __device__ inline bool PreventRoomOverlap(Rooms* r, Rooms* rooms, float* e) {
 				}
 				//Either the original room or the "reposition" room is intersecting, reset the position of each room to their original one
 				if (isIntersecting) {
-					r->x = float(x) * 8.0;
-					r->z = float(y) * 8.0;
+					r->x = x * 8.0;
+					r->z = y * 8.0;
 					r->angle = rot;
 					//CalculateRoomExtents(r);
 					//TEMPORARY
 					GetRoomExtents(r, e);
 
-					r2->x = float(x2) * 8.0;
-					r2->z = float(y2) * 8.0;
+					r2->x = x2 * 8.0;
+					r2->z = y2 * 8.0;
 					r2->angle = rot2;
 					//CalculateRoomExtents(r2);
 					//TEMPORARY

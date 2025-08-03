@@ -14,7 +14,7 @@
 
 __device__ void dummy();
 
-__global__ void testFunction(int32_t offset, int* outputArray, float* extents);
+__global__ void testFunction(uint32_t offset, int* outputArray, float* extents);
 
 int main()
 {
@@ -96,31 +96,30 @@ int main()
 
     int32_t offset = 0;
 
-    constexpr uint64_t TOTAL_SEEDS = 2147483648;
-    constexpr uint32_t THREADS_PER_BLOCK = 1024;
-    constexpr uint32_t BLOCKS_PER_RUN = TOTAL_SEEDS / THREADS_PER_BLOCK;
 
-    int gridSize;
-    int minGridSize;
-    int blockSize;
+    int32_t gridSize;
+    int32_t minGridSize;
+    int32_t blockSize;
 
-    int32_t totalThreads = 524288;
+    //int32_t totalThreads = 524288;
+    constexpr int32_t totalThreads = 1048576*2;
 
     cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, testFunction, 0, totalThreads);
 
     gridSize = (totalThreads + blockSize - 1) / blockSize;
 
-    int actualNumberOfThreads = gridSize * blockSize;
+    uint32_t actualNumberOfThreads = gridSize * blockSize;
 
     printf("MINGRIDSIZE: %d\n", minGridSize);
     printf("GRIDSIZE: %d\n", gridSize);
     printf("BLOCKSIZE: %d\n", blockSize);
 
-    int32_t kernels = 1;
+    int32_t kernels = 51;
+    int32_t kernels2 = ceilf(2147483648 / actualNumberOfThreads);   
 
     std::vector<double> times(kernels);
 
-    printf("Launching Kernels!\n");       
+    printf("Launching %d Kernels with %d Threads Per Kernel!\n", kernels, actualNumberOfThreads);       
 
     std::chrono::steady_clock::time_point start, end, start2, end2;
 
@@ -133,8 +132,11 @@ int main()
 
         offset = i * actualNumberOfThreads;
 
+        //printf("i: %d OFFSET: %d\n", i, offset);
+
         //DEBUG
         //testFunction << <1, 256>> > (offset, cudaOutput, deviceExtents);
+        //testFunction << <1, 256 >> > (203909504, cudaOutput, deviceExtents);
 
         //RELEASE
         testFunction << <gridSize, blockSize >> > (offset, cudaOutput, deviceExtents);
@@ -198,11 +200,13 @@ int main()
 
 }
 
-__global__ void testFunction(int32_t offset, int* outputArray, float* extents) {
+__global__ void testFunction(uint32_t offset, int* outputArray, float* extents) {
     //int block = blockIdx.x + blockIdx.y * gridDim.x;
     //int threadNumber = block * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;         
 
-    int32_t thread = offset + blockIdx.x * blockDim.x + threadIdx.x;    
+    //TEMPORARY
+    uint32_t thread = offset + threadIdx.x;
+    //uint32_t thread = offset + blockIdx.x * blockDim.x + threadIdx.x;    
 
     __shared__ RoomTemplates rts[roomTemplateAmount];
 
@@ -220,10 +224,13 @@ __global__ void testFunction(int32_t offset, int* outputArray, float* extents) {
     }
     __syncthreads();
 
-    //if (thread == 0 || thread == 2147483647) return;
+    //Thread 0 is the same as thread 1.
+    //Thread 2147483647 is broken and will infinite loop.
+    //Anything above thread 2147483647 is useless.
+    if (thread == 0 || thread > 2147483646) return;
 
     //InitNewGame(thread, rts, extents, forest);   
-    CreateMap(thread, rts, extents, forest);
+    CreateMap(thread, rts, extents, forest);        
 
     //outputArray[threadIdx.x] = InitNewGame(thread, rts, extents, forest);   
 }

@@ -656,41 +656,28 @@ __device__ inline int32_t CreateMap(int32_t thread, RoomTemplates* rts, float* e
 	//dont need bc intro never on
 
 	rooms[roomsIndex++] = CreateRoom(MapTemp, roomIdCounter, forest, e, rts, &bb, &rnd_state, 0, ROOM1, 8, 0, DIMENSION1499);
-	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;
+	MapRoomID[ROOM1] = MapRoomID[ROOM1] + 1;	
 
-	//EVERYTHING UP TO THIS POINT HAS BEEN VERIFIED TO MATCH
-	//THE ORIGINAL GAME 1:1.	
-
-	//18*18 because that is length of rooms array
+	//15 because that is length of rooms array that we guessed.
 	//In the future, if this program works, we can check the room amount of 
 	//every seed in the game, take the maximun number, and set the
 	//rooms array length to that number.
 	for (i = 0; i < 150; i++) {	
 		//If id is -1 that means we reached end of actual rooms in array.
 		if (rooms[i].id == -1) break;				
-
-		//printf("BEFORE NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
-		PreventRoomOverlap(&rooms[i], rooms, e);
-		//printf("AFTER  NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt.name), r->angle, int(r->x), int(r->z));
+		
+		PreventRoomOverlap(&rooms[i], rooms, e);	
 	}
 
-	/*if (thread == 27) {	
+	/*if (thread == 203909524) {
 		for (int16_t i = 0; i < roomIdCounter; i++) {			
 
 			Rooms* r = &rooms[i];
 
 			printf("NAME: %s ANGLE: %d X: %d Z: %d\n", RoomIDToName(r->rt->name), r->angle, int(r->x), int(r->z));
 		}
-		printf("RND_STATE: %d\n", rnd_state.rnd_state);	
+		printf("RND_STATE: %d\n", rnd_state);	
 	}*/
-
-
-
-	/*for (y = 0; y <= MapHeight; y++) {
-		for (x = 0; x <= MapWidth; x++) {
-			MapTemp[x][y] = min(MapTemp[x][y], 1);
-		}
-	}	*/
 
 	return thread;
 
